@@ -1,0 +1,9 @@
+.weather-info {
+    width: fit-content;
+    min-width: 150px;
+    height: fit-content;
+    min-height: 200px;
+    position: absolute;
+    top: 25%;
+    right: 39%;
+}

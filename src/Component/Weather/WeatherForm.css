@@ -1,0 +1,13 @@
+.weather-form {
+    position: absolute;
+    right: 100px;
+    top: 40px;
+}
+.button-icon.button-icon-search-icon{
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    top: 48%;
+    left: 102%;
+
+}

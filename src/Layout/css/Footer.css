@@ -1,0 +1,20 @@
+.footer {
+    width: calc(100vw - var(--sidebar-width));
+    height: auto;
+    min-height: 10vh;
+    position: absolute;
+    bottom: 0;
+    background-color: red;
+    display: flex;
+}
+
+.left-footer {
+    flex: 2;
+}
+
+.right-footer {
+    flex: 1;
+    text-align: end;
+    padding-right: 12px;
+    color: white;
+}

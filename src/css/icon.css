@@ -1,0 +1,39 @@
+.button-icon.btn.btn-primary {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    padding: 2px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-up-form .button-icon-close-form, .login-form .button-icon-close-form, .todo-form .button-icon-close-form {
+    width: fit-content !important;
+    height: fit-content !important;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: red;
+}
+
+.button-icon-home-icon {
+    width: 60px;
+    height: 60px;
+}
+
+.button-icon-search-icon {
+    color: blue !important;
+}
+
+.button-icon-search-icon:active {
+    color: white !important;
+}
+
+.button-icon-sidebar-collapse, .button-icon-sidebar-expand{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}

@@ -1,0 +1,17 @@
+.home {
+    width: 100%;
+    height: auto;
+    display: flex;
+    /* justify-content: center; */
+}
+
+.left-sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+}
+
+.content {
+    width: calc(100vw - var(--sidebar-width));
+    height: 100vh;
+    position: relative;
+}

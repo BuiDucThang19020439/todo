@@ -1,0 +1,19 @@
+.todo-list {
+    width: calc(100vw - var(--sidebar-width));
+    height: 80vh;
+    position: absolute;
+    top: 10vh;
+}
+
+.button-add-todo-item {
+    position: absolute;
+    right: 50px;
+}
+
+.table {
+    margin: 5px;
+    border: 1px solid grey;
+    border-radius: 4px;
+    position: absolute;
+    top: 50px;
+}

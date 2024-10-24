@@ -1,0 +1,28 @@
+.tooltip {
+  position: relative;
+}
+
+.tooltip .tooltip-text {
+  display: none;
+  width: fit-content;
+  min-width: 80px;
+  background-color: #cccccc;
+  color: #000000;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  position: absolute;
+  z-index: 2;
+  top: 100%;
+  right: 0%;
+  margin-left: -60px;
+}
+
+.tooltip:hover .tooltip-text {
+  display: block !important;
+}
+
+th:hover .tooltip-text {
+  display: block !important;
+}
