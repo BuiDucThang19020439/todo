@@ -10,6 +10,7 @@ import { useState } from "react";
  * Hàm showLoginForm nhận từ Home.js
  */
 function LoginForm({ showLoginForm }) {
+
   /**
    * state validate dùng để validate dữ liệu
    */
@@ -33,8 +34,26 @@ function LoginForm({ showLoginForm }) {
       event.preventDefault();
       event.stopPropagation();
     }
+    checkLogin();
     setValidate(true);
+    console.log(accountId + ' '+ accountPassword);
   };
+    
+  const checkLogin = () => {
+    let userList = JSON.parse(localStorage.getItem("user")) || [];
+    let arrLength = userList.length;
+    for (let i = 0; i < arrLength; i++) {
+      if(userList[i].userId === accountId && userList[i].password === accountPassword) {
+        console.log('login thanh cong');      
+        return true
+      } else {
+        console.log('login that bai');
+        
+        return false;
+      }
+    }
+  }
+
   return (
     <div className="background">
       <Form

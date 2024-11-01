@@ -1,3 +1,5 @@
+
+
 .todo-list {
     width: calc(100vw - var(--sidebar-width));
     height: 80vh;
@@ -8,12 +10,47 @@
 .button-add-todo-item {
     position: absolute;
     right: 50px;
+    top: 5px;
 }
 
-.table {
-    margin: 5px;
+table {
+    width: calc(100vw - var(--sidebar-width));
+    height: auto;
     border: 1px solid grey;
     border-radius: 4px;
     position: absolute;
-    top: 50px;
+    top: 55px;
+    box-sizing: border-box;
+}
+
+thead tr th{
+    background-color: grey !important;
+}
+
+table .table-order {
+    width: 2vw;
+}
+
+table .table-title {
+    width: 10vw;
+}
+
+table .table-content {
+    width: calc(100vw - var(--sidebar-width) - (2vw + 10vw + 15vw + 20vw + 7vw));
+}
+
+table .table-deadline {
+    width: 15vw;
+}
+
+table .table-importance {
+    width: 20vw;
+}
+
+.table-modify {
+    width: 7vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    column-gap: 5px;
 }

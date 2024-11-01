@@ -1,6 +1,7 @@
 import "../css/MainContent.css";
 import WeatherForm from "../../Component/Weather/WeatherForm";
 import WeatherInfo from "../../Component/Weather/WeatherInfo";
+import ToastMsg from "../../Component/Toast/ToastMsg";
 import { useState } from "react";
 
 function MainContent() {
@@ -65,6 +66,9 @@ function MainContent() {
         description={weatherState.description}
         error={weatherState.error}
       ></WeatherInfo>
+
+    {/* <ToastMsg variant='success' title='Thành Công' msg='hiện thành công'></ToastMsg> */}
+
     </div>
   );
 }

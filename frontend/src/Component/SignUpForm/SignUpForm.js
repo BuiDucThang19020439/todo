@@ -10,17 +10,30 @@ import Button from "react-bootstrap/Button";
 function SignUpForm({ showSignUpForm }) {
   const [validated, setValidate] = useState(false);
   const [accountId, setAccountId] = useState("");
-  setAccountId = (event) => {
-    setAccountId(event);
-  }
   const [accountPassword, setAccountPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
   const [accountName, setAccountName] = useState("");
   const [accountEmail, setAccountEmail] = useState("");
   const [accountPhoneNumber, setAccountPhoneNumber] = useState("");
 
+  let userList = JSON.parse(localStorage.getItem("user")) || [];
+
   const handleSignUpForm = (event) => {
     const form = event.currentTarget;
+    let arrLength = userList.length + 1;
+    userList = [
+      ...userList,
+      {
+        id: arrLength,
+        userId: accountId,
+        username: accountName,
+        password: accountPassword,
+        phone: accountPhoneNumber,
+        email: accountEmail,
+      },
+    ];
+    localStorage.setItem('user', JSON.stringify(userList));
+
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();

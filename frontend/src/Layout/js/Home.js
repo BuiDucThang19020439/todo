@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { Routes, Route } from "react-router";
 import "../css/Home.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
@@ -7,8 +9,7 @@ import LoginForm from "../../Component/LoginForm/LoginForm";
 import SignUpForm from "../../Component/SignUpForm/SignUpForm";
 import TodoList from "../../TodoList/TodoList";
 import TodoForm from "../../Component/TodoForm/TodoForm";
-import { useState } from "react";
-import { Routes, Route } from "react-router";
+import ToastMsg from '../../Component/Toast/ToastMsg';
 
 function Home() {
   /**
@@ -29,6 +30,9 @@ function Home() {
     setSignUpForm(!isSignUpForm);
   }
 
+  /**
+   * isAddTodoItem dùng để ẩn hiện trang thêm việc tại trang todo list
+   */
   const [isAddTodoItem, setIsAddTodoItem] = useState(false);
   function showAddTodoItem() {
     setIsAddTodoItem(!isAddTodoItem);
@@ -43,20 +47,20 @@ function Home() {
         <Header
           showLoginForm={showLoginForm}
           showSignUpForm={showSignUpForm}
-        ></Header>
+        >
+        </Header>
 
         <Routes>
           <Route path="/" element={<MainContent ></MainContent>} />
           <Route path="/TodoList" element={<TodoList showAddTodoItem={showAddTodoItem}></TodoList>} />
         </Routes>
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
       </div>
       {isLoginForm && <LoginForm showLoginForm={showLoginForm}></LoginForm>}
       {isSignUpForm && (
         <SignUpForm showSignUpForm={showSignUpForm}></SignUpForm>
       )}
       {isAddTodoItem && <TodoForm showAddTodoItem={showAddTodoItem}></TodoForm>}
-
     </div>
   );
 }

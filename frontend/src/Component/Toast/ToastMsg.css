@@ -1,0 +1,7 @@
+.toast-container{
+    width: 300px;
+    height: 100px;
+    position: absolute;
+    bottom: 0%;
+    right: 0px;
+}

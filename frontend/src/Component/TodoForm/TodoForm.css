@@ -9,7 +9,7 @@
 }
 
 .todo-form {
-    width: 500px;
+    width: 600px;
     height: 400px;
     background-color: #fff;
     background-image: url('https://img.freepik.com/free-photo/white-particle-lines-futuristic-gradient-background_53876-102621.jpg?t=st=1728531959~exp=1728532559~hmac=7198885cf849fd4066c5448ba70eb18e7e0741b636808f5f2d7fb9112a907884');
@@ -24,12 +24,28 @@
     border: 2px solid rgba(255,255,255,0.1);
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
     padding: 30px 35px;
+    column-gap: 10px;
 }
 
-.form-group {
+.form-group.col {
     text-align: left;
+    width: 100%;
+    height: 20vh;
+}
+
+.form-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .add-item-drop-down {
     margin-top: 10px;
+}
+
+.button-submit-todo-item {
+    width: 50px;
+    position: absolute;
+    left: 45%;
+    bottom: 5%;
 }
