@@ -1,25 +1,30 @@
 import "./ToastMsg.css";
 import { Toast, ToastContainer } from "react-bootstrap";
-import { useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import {hideToastMessage, showToastMessage } from '../../reducer/toastSlice';
 
-function ToastMsg({ variant, title, msg }) {
-  const [showToast, setShowToast] = useState(true);
+function ToastMsg() {
+  const toastAttr = useSelector((state) => {
+    return state.handleToastMessage
+  });
+  
+  const dispatch = useDispatch();
   return (
       <ToastContainer
         className="p-3 toast-container"
-        style={{zIndex: 1}}
+        style={{zIndex: 3}}
       >
         <Toast
-          bg={variant}
-          onClose={() => setShowToast(false)}
-          show={showToast}
-          delay={13200}
+          bg={toastAttr.variant}
+          onClose={() => dispatch(hideToastMessage())}
+          show={toastAttr.show}
+          delay={3200}
           autohide
         >
           <Toast.Header>
-            <strong className="me-auto">{title}</strong>
+            <strong className="me-auto">{toastAttr.title}</strong>
           </Toast.Header>
-          <Toast.Body>{msg}</Toast.Body>
+          <Toast.Body>{toastAttr.message}</Toast.Body>
         </Toast>
       </ToastContainer>
   );

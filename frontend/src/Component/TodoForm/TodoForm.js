@@ -1,6 +1,8 @@
 import "./TodoForm.css";
 import "../../css/icon.css";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { showToastMessage } from "../../reducer/toastSlice";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -9,6 +11,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 
 function TodoForm({ showAddTodoItem }) {
+  const dispatch = useDispatch();
   const [validated, setValidated] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -41,6 +44,14 @@ function TodoForm({ showAddTodoItem }) {
     ];
     localStorage.setItem("task_list", JSON.stringify(taskList));
     showAddTodoItem();
+    dispatch(
+      showToastMessage({
+        show: true,
+        title: "Thành Công",
+        message: "Thêm thành công nhiệm vụ",
+        variant: "success",
+      })
+    );
   };
 
   return (

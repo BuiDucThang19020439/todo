@@ -5,12 +5,14 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import InputGroup from "react-bootstrap/InputGroup";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { showToastMessage } from "../../reducer/toastSlice";
 
 /**
  * Hàm showLoginForm nhận từ Home.js
  */
 function LoginForm({ showLoginForm }) {
-
+  const dispatch = useDispatch();
   /**
    * state validate dùng để validate dữ liệu
    */
@@ -31,8 +33,8 @@ function LoginForm({ showLoginForm }) {
   const handleSubmitLoginForm = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
+      event.preventDefault();
     }
     checkLogin();
     setValidate(true);
@@ -44,11 +46,25 @@ function LoginForm({ showLoginForm }) {
     let arrLength = userList.length;
     for (let i = 0; i < arrLength; i++) {
       if(userList[i].userId === accountId && userList[i].password === accountPassword) {
-        console.log('login thanh cong');      
+        console.log('login thanh cong');
+        dispatch(
+          showToastMessage({
+            show: true,
+            title: "Thành Công",
+            message: "Bạn đã đăng nhập. Chào mừng đến với ứng dụng!",
+            variant: "success",
+          })
+        );      
         return true
       } else {
-        console.log('login that bai');
-        
+        dispatch(
+          showToastMessage({
+            show: true,
+            title: "Thành Công",
+            message: "Đăng nhập thất bại",
+            variant: "danger",
+          })
+        );      
         return false;
       }
     }

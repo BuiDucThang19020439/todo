@@ -3,10 +3,19 @@ import "../css/icon.css";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { showToastMessage } from "../reducer/toastSlice";
+import ToastMsg from "../Component/Toast/ToastMsg";
 
 function TodoList({ showAddTodoItem }) {
+    const dispatch = useDispatch();
+    // isUpdate dùng để xét có cập nhật bảng hay không
     const [isUpdate, setIsUpdate] = useState(true);
+
+    // taskList là danh sách các hàng lấy từ localStorage
     const [taskList, setTaskList] = useState([]);
+
+    // rowList: chuyển dữ liệu tasklist thành html để hiện ra giao diện
     const rowList = taskList.map((task) => {
       return (<tr key={task.id}>
           <td className="table-order">{task.id}</td>
@@ -25,9 +34,7 @@ function TodoList({ showAddTodoItem }) {
       </tr>)
   });
 
-
-    useEffect(() => {
-          // setTaskList(arr);  
+    useEffect(() => { 
           if(isUpdate === true) {
             updateTable();
           };
@@ -37,17 +44,31 @@ function TodoList({ showAddTodoItem }) {
     }, [isUpdate]);
     
     
-
+    /**
+     * hàm updateTable dùng để cập nhật bảng, gán chuỗi json đã parse cho tasklist
+     */
     function updateTable() {
       const arr = JSON.parse(localStorage.getItem("task_list"));
       setTaskList(arr);
     }
     
+    /**
+     * itemId: id lấy từ hàng
+     * hàm deleteItem xóa 1 hàng theo id cho trc
+     */
     function deleteItem(itemId) {
       setIsUpdate(false)
       const newArr = taskList.filter((task) => task.id !== itemId);
       setTaskList(newArr);
       localStorage.setItem("task_list", JSON.stringify(newArr));
+      dispatch(
+        showToastMessage({
+          show: true,
+          title: "Thành Công",
+          message: "Xóa thành công nhiệm vụ",
+          variant: "success",
+        })
+      );
     };
 
   return (
@@ -70,6 +91,7 @@ function TodoList({ showAddTodoItem }) {
           {rowList}
         </tbody>
       </Table>
+      <ToastMsg></ToastMsg>
     </div>
   );
 }

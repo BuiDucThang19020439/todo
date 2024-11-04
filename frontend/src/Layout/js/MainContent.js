@@ -2,32 +2,39 @@ import "../css/MainContent.css";
 import WeatherForm from "../../Component/Weather/WeatherForm";
 import WeatherInfo from "../../Component/Weather/WeatherInfo";
 import ToastMsg from "../../Component/Toast/ToastMsg";
+import { useDispatch } from "react-redux";
+import { showToastMessage } from "../../reducer/toastSlice";
 import { useState } from "react";
 
 function MainContent() {
   // const Api_Key = "f6d6101d0021278c055f63970fe1b2f2";
   const Api_Key = "8d2de98e089f1c28e1a22fc19a24ef04";
+
+  //weatherState là dữ liệu thời tiết lấy từ api
   const [weatherState, setWeatherState] = useState({
     temperature: "",
     city: "",
     country: "",
-    humidity: '',
-    description: '',
+    humidity: "",
+    description: "",
     error: "",
   });
+  const dispatch = useDispatch();
 
+  /**
+   * Hàm getWeather lấy data và trả về dữ liệu thời tiết
+   */
   async function getWeather(event) {
-    const city = event.city
+    const city = event.city;
     const country = event.country;
     // event.preventDefault();
-    
+
     try {
       const api_call = await fetch(
         `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${Api_Key}`
       );
       const response = await api_call.json();
-      console.log(response);
-      
+
       if (city && country) {
         setWeatherState({
           temperature: response.main.temp,
@@ -37,6 +44,15 @@ function MainContent() {
           description: response.weather[0].description,
           error: "",
         });
+
+        dispatch(
+          showToastMessage({
+            show: true,
+            title: "Thành Công",
+            message: "Thời tiết đã được cập nhật",
+            variant: "success",
+          })
+        );
       } else {
         this.setWeatherState({
           error: "Please fill all fields...",
@@ -49,8 +65,17 @@ function MainContent() {
         country: undefined,
         humidity: undefined,
         description: undefined,
-        error: "Can not find out this city...",
+        error: "Không tìm thấy thành phố",
       });
+
+      dispatch(
+        showToastMessage({
+          show: true,
+          title: "Thất Bại",
+          message: "Không tìm thấy thành phố",
+          variant: "warning",
+        })
+      );
     }
     return;
   }
@@ -67,8 +92,7 @@ function MainContent() {
         error={weatherState.error}
       ></WeatherInfo>
 
-    {/* <ToastMsg variant='success' title='Thành Công' msg='hiện thành công'></ToastMsg> */}
-
+      <ToastMsg></ToastMsg>
     </div>
   );
 }
