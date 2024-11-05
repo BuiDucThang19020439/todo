@@ -13,9 +13,9 @@ import Row from "react-bootstrap/Row";
 function TodoForm({ showAddTodoItem }) {
   const dispatch = useDispatch();
   const [validated, setValidated] = useState(false);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [deadline, setDeadline] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [deadline, setDeadline] = useState("");
   const [importance, setImportance] = useState("Không quan trọng");
   let taskList = JSON.parse(localStorage.getItem("task_list")) || [];
 
@@ -29,12 +29,17 @@ function TodoForm({ showAddTodoItem }) {
       handleChange();
     }
   };
+  /**
+   * Hàm handleChange thêm 1 item vào tasklist trên db.
+   * id mới của item là id của phần tử cuối cùng cộng 1
+   */
   const handleChange = () => {
-    let arrLength = taskList.length + 1;
+    let arrLength = taskList.length;
+    let newId = taskList[arrLength-1].id + 1;
     taskList = [
       ...taskList,
       {
-        id: arrLength,
+        id: newId,
         userId: 1,
         title: title,
         content: content,
@@ -71,9 +76,9 @@ function TodoForm({ showAddTodoItem }) {
           <ion-icon name="close-sharp" size="large"></ion-icon>
         </Button>
 
-        <Form.Group 
-          as={Col} 
-          className="form-group add-title" 
+        <Form.Group
+          as={Col}
+          className="form-group add-title"
           controlId="add-title"
         >
           <Form.Label>Tiêu đề</Form.Label>
@@ -97,8 +102,8 @@ function TodoForm({ showAddTodoItem }) {
           className="form-group add-content"
           controlId="add-content"
         >
-          <Form.Label >Nội dung</Form.Label>
-          <InputGroup hasValidation> 
+          <Form.Label>Nội dung</Form.Label>
+          <InputGroup hasValidation>
             <Form.Control
               type="text"
               placeholder="Nhập nội dung công việc"

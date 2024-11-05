@@ -8,72 +8,84 @@ import { showToastMessage } from "../reducer/toastSlice";
 import ToastMsg from "../Component/Toast/ToastMsg";
 
 function TodoList({ showAddTodoItem }) {
-    const dispatch = useDispatch();
-    // isUpdate dùng để xét có cập nhật bảng hay không
-    const [isUpdate, setIsUpdate] = useState(true);
+  // order là số thứ tự hàng hiện trên bảng
+  let order = 0;
+  const dispatch = useDispatch();
+  // isUpdate dùng để xét có cập nhật bảng hay không
+  const [isUpdate, setIsUpdate] = useState(true);
+  const setIsUpdateTruthy = () => {
+    setIsUpdate(true);
+  }
 
-    // taskList là danh sách các hàng lấy từ localStorage
-    const [taskList, setTaskList] = useState([]);
+  // taskList là danh sách các hàng lấy từ localStorage
+  const [taskList, setTaskList] = useState([]);
 
-    // rowList: chuyển dữ liệu tasklist thành html để hiện ra giao diện
-    const rowList = taskList.map((task) => {
-      return (<tr key={task.id}>
-          <td className="table-order">{task.id}</td>
-          <td className="table-title">{task.title}</td>
-          <td className="table-content">{task.content}</td>
-          <td className="table-deadline">{task.deadline}</td>
-          <td className="table-importance">{task.important}</td>
-          <td className="table-modify">
-            <Button className="button-icon button-icon-delete-icon" onClick={()=>deleteItem(task.id)}>
-              <ion-icon name="trash-outline" size="small"></ion-icon>
-            </Button>
-            <Button className="button-icon button-icon-modify-icon">
-              <ion-icon name="create-sharp" size="small"></ion-icon>
-            </Button>
-          </td>
-      </tr>)
+  // rowList: chuyển dữ liệu tasklist thành html để hiện ra giao diện
+  const rowList = taskList.map((task) => {
+    return (
+      <tr key={task.id}>
+        <td className="table-order">{++order}</td>
+        <td className="table-title">{task.title}</td>
+        <td className="table-content">{task.content}</td>
+        <td className="table-deadline">{task.deadline}</td>
+        <td className="table-importance">{task.important}</td>
+        <td className="table-modify">
+          <Button
+            className="button-icon button-icon-delete-icon"
+            onClick={() => deleteItem(task.id)}
+          >
+            <ion-icon name="trash-outline" size="small"></ion-icon>
+          </Button>
+          <Button className="button-icon button-icon-modify-icon">
+            <ion-icon name="create-sharp" size="small"></ion-icon>
+          </Button>
+        </td>
+      </tr>
+    );
   });
 
-    useEffect(() => { 
-          if(isUpdate === true) {
-            updateTable();
-          };
-          return (() => {
-            setIsUpdate(false)
-          })
-    }, [isUpdate]);
-    
-    
-    /**
-     * hàm updateTable dùng để cập nhật bảng, gán chuỗi json đã parse cho tasklist
-     */
-    function updateTable() {
-      const arr = JSON.parse(localStorage.getItem("task_list"));
-      setTaskList(arr);
+  useEffect(() => {
+    if (isUpdate === true) {
+      updateTable();
     }
-    
-    /**
-     * itemId: id lấy từ hàng
-     * hàm deleteItem xóa 1 hàng theo id cho trc
-     */
-    function deleteItem(itemId) {
-      setIsUpdate(false)
-      const newArr = taskList.filter((task) => task.id !== itemId);
-      setTaskList(newArr);
-      localStorage.setItem("task_list", JSON.stringify(newArr));
-      dispatch(
-        showToastMessage({
-          show: true,
-          title: "Thành Công",
-          message: "Xóa thành công nhiệm vụ",
-          variant: "success",
-        })
-      );
+    return () => {
+      setIsUpdate(false);
     };
+  }, [isUpdate]);
+
+  /**
+   * hàm updateTable dùng để cập nhật bảng, gán chuỗi json đã parse cho tasklist
+   */
+  function updateTable() {
+    const arr = JSON.parse(localStorage.getItem("task_list"));
+    setTaskList(arr);
+  }
+
+  /**
+   * itemId: id lấy từ hàng
+   * hàm deleteItem xóa 1 hàng theo id cho trc
+   */
+  function deleteItem(itemId) {
+    setIsUpdate(false);
+    const newArr = taskList.filter((task) => task.id !== itemId);
+    setTaskList(newArr);
+    localStorage.setItem("task_list", JSON.stringify(newArr));
+    dispatch(
+      showToastMessage({
+        show: true,
+        title: "Thành Công",
+        message: "Xóa thành công nhiệm vụ",
+        variant: "success",
+      })
+    );
+  }
 
   return (
     <div className="todo-list">
-      <Button className="button-add-todo-item" onClick={showAddTodoItem}>
+      <Button
+        className="button-add-todo-item"
+        onClick={showAddTodoItem}
+      >
         Thêm
       </Button>
       <Table striped bordered hover>
@@ -87,9 +99,7 @@ function TodoList({ showAddTodoItem }) {
             <th className="table-modify">Chỉnh sửa</th>
           </tr>
         </thead>
-        <tbody>
-          {rowList}
-        </tbody>
+        <tbody>{rowList}</tbody>
       </Table>
       <ToastMsg></ToastMsg>
     </div>
