@@ -46,13 +46,13 @@ export const todoTableSlice = createSlice({
     getTodoData: (state) => {
       console.log(state.taskList);
     },
-    // Checkbox về sự hoàn thành của nhiệm vụ
+    // Checkbox về sự hoàn thành của nhiệm vụ, payload là 1 object gồm id và trạng thái completed
     toggleComplete: (state, action) => {
       // hàm findIndex trả về phần tử đầu tiên thỏa mãn điều kiện
       const index = state.taskList.findIndex((task) => task.id === action.payload.id);
       state.taskList[index].completed = action.payload.completed;
     },
-    // Thêm 1 phần tử vào danh sách
+    // Thêm 1 phần tử vào danh sách, payload là một phần tử cần dc thêm mới
     addTodoItem: (state, action) => {
       state.taskList = [...state.taskList, action.payload];
     },

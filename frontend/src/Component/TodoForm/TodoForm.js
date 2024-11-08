@@ -24,8 +24,9 @@ function TodoForm({ showAddTodoItem }) {
 
   const onSubmit = (event) => {
     const form = event.currentTarget;
+    event.preventDefault();
+
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
     } else {
       setValidated(true);
@@ -38,7 +39,7 @@ function TodoForm({ showAddTodoItem }) {
    */
   const handleChange = () => {
     let arrLength = taskList.length;
-    let newId = taskList[arrLength - 1].id + 1;
+    let newId = arrLength !==0 ? taskList[arrLength - 1].id + 1 : 1;
     dispatch(addTodoItem(
       {
         id: newId,
