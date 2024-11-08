@@ -2,34 +2,40 @@ import "./TodoList.css";
 import "../css/icon.css";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { showToastMessage } from "../reducer/toastSlice";
+import {
+  toggleComplete,
+  delTodoItem,
+} from "../reducer/todoTableSlice";
+
 import ToastMsg from "../Component/Toast/ToastMsg";
 
 function TodoList({ showAddTodoItem }) {
   // order là số thứ tự hàng hiện trên bảng
   let order = 0;
   const dispatch = useDispatch();
-  // isUpdate dùng để xét có cập nhật bảng hay không
-  const [isUpdate, setIsUpdate] = useState(true);
-  const setIsUpdateTruthy = () => {
-    setIsUpdate(true);
-  }
 
-  // taskList là danh sách các hàng lấy từ localStorage
-  const [taskList, setTaskList] = useState([]);
+  // taskList là danh sách các hàng lấy từ store
+  const taskList = useSelector((state) => {
+    return state.handleTodoTable.taskList;
+  });
 
   // rowList: chuyển dữ liệu tasklist thành html để hiện ra giao diện
   const rowList = taskList.map((task) => {
     return (
       <tr key={task.id}>
-        <td className="table-order">{++order}</td>
-        <td className="table-title">{task.title}</td>
-        <td className="table-content">{task.content}</td>
-        <td className="table-deadline">{task.deadline}</td>
-        <td className="table-importance">{task.important}</td>
-        <td className="table-modify">
+        <td className={`table-checkbox ${task.completed ? "task-completed" : ""}`}>
+          <input type="checkbox" value={task.id} defaultChecked={task.completed} onChange={() => handleCompleteCheck(task.id, !task.completed)}></input>
+        </td>
+        <td className={`table-order ${task.completed ? "task-completed" : ""}`}>
+          {++order}
+        </td>
+        <td className={`table-title ${task.completed ? "task-completed" : ""}`}>{task.title}</td>
+        <td className={`table-content ${task.completed ? "task-completed" : ""}`}>{task.content}</td>
+        <td className={`table-deadline ${task.completed ? "task-completed" : ""}`}>{task.deadline}</td>
+        <td className={`table-importance ${task.completed ? "task-completed" : ""}`}>{task.important}</td>
+        <td className={`table-modify ${task.completed ? "task-completed" : ""}`}>
           <Button
             className="button-icon button-icon-delete-icon"
             onClick={() => deleteItem(task.id)}
@@ -44,32 +50,12 @@ function TodoList({ showAddTodoItem }) {
     );
   });
 
-  useEffect(() => {
-    if (isUpdate === true) {
-      updateTable();
-    }
-    return () => {
-      setIsUpdate(false);
-    };
-  }, [isUpdate]);
-
-  /**
-   * hàm updateTable dùng để cập nhật bảng, gán chuỗi json đã parse cho tasklist
-   */
-  function updateTable() {
-    const arr = JSON.parse(localStorage.getItem("task_list"));
-    setTaskList(arr);
-  }
-
   /**
    * itemId: id lấy từ hàng
    * hàm deleteItem xóa 1 hàng theo id cho trc
    */
-  function deleteItem(itemId) {
-    setIsUpdate(false);
-    const newArr = taskList.filter((task) => task.id !== itemId);
-    setTaskList(newArr);
-    localStorage.setItem("task_list", JSON.stringify(newArr));
+  const deleteItem = (itemId) => {
+    dispatch(delTodoItem(itemId));
     dispatch(
       showToastMessage({
         show: true,
@@ -78,19 +64,26 @@ function TodoList({ showAddTodoItem }) {
         variant: "success",
       })
     );
+  };
+
+  /**
+   * hàm handleCompleteCheck xử lý việc check hoàn thành
+   */
+  const handleCompleteCheck = (id, completed) => {
+    dispatch(toggleComplete({ id, completed }))
   }
 
   return (
     <div className="todo-list">
-      <Button
-        className="button-add-todo-item"
-        onClick={showAddTodoItem}
-      >
+      <Button className="button-add-todo-item" onClick={showAddTodoItem}>
         Thêm
       </Button>
       <Table striped bordered hover>
         <thead>
           <tr>
+            <th className="table-checkbox">
+              <input type="checkbox"></input>
+            </th>
             <th className="table-order">#</th>
             <th className="table-title">Tiêu đề</th>
             <th className="table-content">Nội dung</th>
@@ -101,7 +94,6 @@ function TodoList({ showAddTodoItem }) {
         </thead>
         <tbody>{rowList}</tbody>
       </Table>
-      <ToastMsg></ToastMsg>
     </div>
   );
 }

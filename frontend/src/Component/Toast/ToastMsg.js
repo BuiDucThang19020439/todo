@@ -6,7 +6,7 @@ import {hideToastMessage, showToastMessage } from '../../reducer/toastSlice';
 function ToastMsg() {
   const toastAttr = useSelector((state) => {
     return state.handleToastMessage
-  });
+  });  
   
   const dispatch = useDispatch();
   return (

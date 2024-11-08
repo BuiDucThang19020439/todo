@@ -1,8 +1,9 @@
 import "./TodoForm.css";
 import "../../css/icon.css";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { showToastMessage } from "../../reducer/toastSlice";
+import { getTodoData, addTodoItem } from "../../reducer/todoTableSlice";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -17,9 +18,11 @@ function TodoForm({ showAddTodoItem }) {
   const [content, setContent] = useState("");
   const [deadline, setDeadline] = useState("");
   const [importance, setImportance] = useState("Không quan trọng");
-  let taskList = JSON.parse(localStorage.getItem("task_list")) || [];
+  const taskList = useSelector((state) => 
+     state.handleTodoTable.taskList
+  ); 
 
-  const handleSubmit = (event) => {
+  const onSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -35,9 +38,8 @@ function TodoForm({ showAddTodoItem }) {
    */
   const handleChange = () => {
     let arrLength = taskList.length;
-    let newId = taskList[arrLength-1].id + 1;
-    taskList = [
-      ...taskList,
+    let newId = taskList[arrLength - 1].id + 1;
+    dispatch(addTodoItem(
       {
         id: newId,
         userId: 1,
@@ -45,9 +47,10 @@ function TodoForm({ showAddTodoItem }) {
         content: content,
         deadline: deadline,
         important: importance,
+        completed: false,
+
       },
-    ];
-    localStorage.setItem("task_list", JSON.stringify(taskList));
+    ))
     showAddTodoItem();
     dispatch(
       showToastMessage({
@@ -65,7 +68,7 @@ function TodoForm({ showAddTodoItem }) {
         noValidate
         validated={validated}
         className="todo-form"
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
       >
         <h3>Thêm việc</h3>
         <Button

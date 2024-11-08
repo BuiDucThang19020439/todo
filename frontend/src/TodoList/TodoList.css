@@ -1,5 +1,3 @@
-
-
 .todo-list {
     width: calc(100vw - var(--sidebar-width));
     height: 80vh;
@@ -16,7 +14,7 @@
 table {
     width: calc(100vw - var(--sidebar-width));
     height: auto;
-    border: 1px solid grey;
+    /* border: 1px solid grey; */
     border-radius: 4px;
     position: absolute;
     top: 55px;
@@ -25,6 +23,10 @@ table {
 
 thead tr th{
     background-color: grey !important;
+}
+
+table .table-checkbox {
+    width: 2vw;
 }
 
 table .table-order {
@@ -36,7 +38,7 @@ table .table-title {
 }
 
 table .table-content {
-    width: calc(100vw - var(--sidebar-width) - (2vw + 10vw + 15vw + 20vw + 7vw));
+    width: calc(100vw - var(--sidebar-width) - (2vw + 2vw + 10vw + 15vw + 20vw + 7vw));
 }
 
 table .table-deadline {
@@ -53,4 +55,8 @@ table .table-importance {
     justify-content: center;
     align-items: flex-start;
     column-gap: 5px;
+}
+
+.task-completed {
+    background-color: chartreuse !important;
 }

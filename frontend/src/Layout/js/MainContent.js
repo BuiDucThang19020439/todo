@@ -1,7 +1,6 @@
 import "../css/MainContent.css";
 import WeatherForm from "../../Component/Weather/WeatherForm";
 import WeatherInfo from "../../Component/Weather/WeatherInfo";
-import ToastMsg from "../../Component/Toast/ToastMsg";
 import { useDispatch } from "react-redux";
 import { showToastMessage } from "../../reducer/toastSlice";
 import { useState } from "react";
@@ -91,8 +90,6 @@ function MainContent() {
         description={weatherState.description}
         error={weatherState.error}
       ></WeatherInfo>
-
-      <ToastMsg></ToastMsg>
     </div>
   );
 }

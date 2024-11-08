@@ -4,6 +4,7 @@ import "../css/Home.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import MainContent from "./MainContent";
+import ToastMsg from "../../Component/Toast/ToastMsg";
 import Footer from "./Footer";
 import LoginForm from "../../Component/LoginForm/LoginForm";
 import SignUpForm from "../../Component/SignUpForm/SignUpForm";
@@ -46,20 +47,32 @@ function Home() {
         <Header
           showLoginForm={showLoginForm}
           showSignUpForm={showSignUpForm}
-        >
-        </Header>
+        ></Header>
 
         <Routes>
-          <Route path="/" element={<MainContent ></MainContent>} />
-          <Route path="/TodoList" element={<TodoList showAddTodoItem={showAddTodoItem}></TodoList>} />
+          <Route path="/" element={<MainContent></MainContent>} />
+          <Route
+            path="/TodoList"
+            element={
+              <TodoList
+                showAddTodoItem={showAddTodoItem}
+              ></TodoList>
+            }
+          />
         </Routes>
         {/* <Footer></Footer> */}
       </div>
+      <ToastMsg></ToastMsg>
+
       {isLoginForm && <LoginForm showLoginForm={showLoginForm}></LoginForm>}
       {isSignUpForm && (
         <SignUpForm showSignUpForm={showSignUpForm}></SignUpForm>
       )}
-      {isAddTodoItem && <TodoForm showAddTodoItem={showAddTodoItem}></TodoForm>}
+      {isAddTodoItem && (
+        <TodoForm
+          showAddTodoItem={showAddTodoItem}
+        ></TodoForm>
+      )}
     </div>
   );
 }
