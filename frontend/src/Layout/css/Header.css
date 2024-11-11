@@ -1,7 +1,6 @@
 .header {
     width: calc(100vw - var(--sidebar-width));
     height: 10vh;
-    box-sizing: border-box;
     display: flex;
     justify-content: flex-end;
     position: fixed;
@@ -9,6 +8,7 @@
     background-image: url('https://images.pexels.com/photos/1835718/pexels-photo-1835718.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
     background-repeat: no-repeat;
     background-size: cover;
+    z-index: 1;
 }
 
 .button-list {

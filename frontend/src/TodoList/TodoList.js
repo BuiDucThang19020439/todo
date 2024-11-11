@@ -78,7 +78,7 @@ function TodoList({ showAddTodoItem }) {
       <Button className="button-add-todo-item" onClick={showAddTodoItem}>
         Thêm
       </Button>
-      <Table striped bordered hover>
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th className="table-checkbox">

@@ -7,6 +7,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { showToastMessage } from "../../reducer/toastSlice";
+import { userLogin } from "../../reducer/loginSlice";
 
 /**
  * Hàm showLoginForm nhận từ Home.js
@@ -38,37 +39,19 @@ function LoginForm({ showLoginForm }) {
     }
     checkLogin();
     setValidate(true);
-    console.log(accountId + ' '+ accountPassword);
   };
-    
+
   const checkLogin = () => {
-    let userList = JSON.parse(localStorage.getItem("user")) || [];
-    let arrLength = userList.length;
-    for (let i = 0; i < arrLength; i++) {
-      if(userList[i].userId === accountId && userList[i].password === accountPassword) {
-        console.log('login thanh cong');
-        dispatch(
-          showToastMessage({
-            show: true,
-            title: "Thành Công",
-            message: "Bạn đã đăng nhập. Chào mừng đến với ứng dụng!",
-            variant: "success",
-          })
-        );      
-        return true
-      } else {
-        dispatch(
-          showToastMessage({
-            show: true,
-            title: "Thành Công",
-            message: "Đăng nhập thất bại",
-            variant: "danger",
-          })
-        );      
-        return false;
-      }
+    dispatch(userLogin({ id: accountId, password: accountPassword }));
+    if (JSON.parse(localStorage.getItem('loginStatus')) === true) {
+      dispatch(showToastMessage({
+        show: true,
+        title: "Đăng nhập thành công",
+        message: "Chào mừng",
+        variant: "success",
+      }))
     }
-  }
+  };
 
   return (
     <div className="background">
@@ -86,11 +69,7 @@ function LoginForm({ showLoginForm }) {
         >
           <ion-icon name="close-sharp" size="large"></ion-icon>
         </Button>
-        <Form.Group 
-          as={Col} 
-          className="form-group" 
-          controlId="account-id"
-        >
+        <Form.Group as={Col} className="form-group" controlId="account-id">
           <Form.Label>ID đăng nhập</Form.Label>
           <InputGroup hasValidation>
             <Form.Control
