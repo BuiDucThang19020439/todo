@@ -1,6 +1,8 @@
 import "./SignUpForm.css";
 import "../../css/icon.css";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "../../reducer/loginSlice.js";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -16,29 +18,30 @@ function SignUpForm({ showSignUpForm }) {
   const [accountEmail, setAccountEmail] = useState("");
   const [accountPhoneNumber, setAccountPhoneNumber] = useState("");
 
-  let userList = JSON.parse(localStorage.getItem("user")) || [];
+  const dispatch = useDispatch();
+  let userList = useSelector((state) => state.handleLogin.userList);
 
   const handleSignUpForm = (event) => {
     const form = event.currentTarget;
-    let arrLength = userList.length + 1;
-    userList = [
-      ...userList,
-      {
-        id: arrLength,
-        userId: accountId,
-        username: accountName,
-        password: accountPassword,
-        phone: accountPhoneNumber,
-        email: accountEmail,
-      },
-    ];
-    localStorage.setItem('user', JSON.stringify(userList));
-
+    event.preventDefault();
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
+    } else {
+      setValidate(true);
+      let arrLength = userList.length;
+      let newId = arrLength !== 0 ? userList[arrLength - 1].id + 1 : 1;
+      dispatch(
+        addUser({
+          id: newId,
+          userId: accountId,
+          username: accountName,
+          password: accountPassword,
+          phone: accountPhoneNumber,
+          email: accountEmail,
+        })
+      );
+      showSignUpForm();
     }
-    setValidate(true);
   };
 
   return (

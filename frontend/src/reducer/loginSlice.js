@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
-import { showToastMessage } from "./toastSlice";
-
 export const loginSlice = createSlice({
   name: "login",
   initialState: {
+    loggedUserInfo: {
+      id: -1,
+      username: "",
+      loginStatus: false,
+    },
     userList: [
       {
         id: 1,
@@ -34,29 +36,34 @@ export const loginSlice = createSlice({
   },
   reducers: {
     userLogin: (state, action) => {
-      let arrLength = state.userList.length;
-      for (let i = 0; i < arrLength; i++) {
-        if (
-          action.payload.id === state.userList[i].userId &&
-          action.payload.password === state.userList[i].password
-        ) {
-          localStorage.setItem("loginStatus", true);
-          localStorage.setItem(
-            "userInfo",
-            JSON.stringify({
-              ...state.userList[i],
-            })
-          );
-          return;
-        }
+      const { id, password } = action.payload;
+      const user = state.userList.find(
+        (user) => user.userId === id && user.password === password
+      );
+      if (user) {
+        state.loggedUserInfo = {
+          id: user.id,
+          username: user.username,
+          loginStatus: true,
+        };
+        localStorage.setItem("userInfo", JSON.stringify(state.loggedUserInfo));
       }
     },
-    userLogout: () => {
-      localStorage.setItem("loginStatus", false);
-      localStorage.removeItem("userInfo");
+    // payload ở đây là object chứa id
+    userLogout: (state) => {
+      state.loggedUserInfo = {
+        id: -1,
+        username: "",
+        loginStatus: false,
+      };
+      localStorage.setItem("userInfo", JSON.stringify({loginStatus: false}));
+    },
+    // Thêm một người dùng mới
+    addUser: (state, action) => {
+      state.userList = [...state.userList, action.payload]
     },
   },
 });
 
 export default loginSlice;
-export const { userLogin, userLogout } = loginSlice.actions;
+export const { userLogin, userLogout, addUser } = loginSlice.actions;

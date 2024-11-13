@@ -29,27 +29,25 @@ function LoginForm({ showLoginForm }) {
   const [accountPassword, setAccountPassword] = useState("");
 
   /**
-   * hàm check dữ liệu, lấy từ boostrap
+   * hàm xử lý việc gửi thông tin từ form, lấy từ boostrap
    */
   const handleSubmitLoginForm = (event) => {
     const form = event.currentTarget;
+    event.preventDefault();
     if (form.checkValidity() === false) {
       event.stopPropagation();
-      event.preventDefault();
-    }
-    checkLogin();
-    setValidate(true);
-  };
-
-  const checkLogin = () => {
-    dispatch(userLogin({ id: accountId, password: accountPassword }));
-    if (JSON.parse(localStorage.getItem('loginStatus')) === true) {
-      dispatch(showToastMessage({
-        show: true,
-        title: "Đăng nhập thành công",
-        message: "Chào mừng",
-        variant: "success",
-      }))
+    } else {
+      setValidate(true);
+      dispatch(userLogin({ id: accountId, password: accountPassword }));
+      dispatch(
+        showToastMessage({
+          show: true,
+          title: "Đăng nhập thành công",
+          message: "Chào mừng",
+          variant: "success",
+        })
+      );
+      showLoginForm();
     }
   };
 

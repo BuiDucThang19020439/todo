@@ -40,12 +40,45 @@ export const todoTableSlice = createSlice({
         important: "Quan trọng",
         completed: false,
       },
+      {
+        id: 5,
+        userId: 1,
+        title: "Việc nhà",
+        content: "Rửa chén",
+        deadline: "2024-12-11",
+        important: "Không quan trọng",
+        completed: false,
+      },
+      {
+        id: 6,
+        userId: 1,
+        title: "Công Việc",
+        content: "Viết xã luận",
+        deadline: "2025-1-11",
+        important: "Quan trọng",
+        completed: false,
+      },
+      {
+        id: 7,
+        userId: 1,
+        title: "Công Việc",
+        content: "Duyệt đăng bài",
+        deadline: "2025-1-15",
+        important: "Quan trọng",
+        completed: false,
+      },
+      {
+        id: 8,
+        userId: 1,
+        title: "Công Việc",
+        content: "Trả lương nhân viên",
+        deadline: "2025-1-10",
+        important: "Quan trọng",
+        completed: false,
+      },
     ],
   },
   reducers: {
-    getTodoData: (state) => {
-      console.log(state.taskList);
-    },
     // Checkbox về sự hoàn thành của nhiệm vụ, payload là 1 object gồm id và trạng thái completed
     toggleComplete: (state, action) => {
       // hàm findIndex trả về phần tử đầu tiên thỏa mãn điều kiện
@@ -66,4 +99,4 @@ export const todoTableSlice = createSlice({
 });
 
 export default todoTableSlice;
-export const { getTodoData, toggleComplete, addTodoItem, delTodoItem } = todoTableSlice.actions;
+export const { toggleComplete, addTodoItem, delTodoItem } = todoTableSlice.actions;

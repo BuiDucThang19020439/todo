@@ -3,7 +3,7 @@ import "../../css/icon.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showToastMessage } from "../../reducer/toastSlice";
-import { getTodoData, addTodoItem } from "../../reducer/todoTableSlice";
+import { addTodoItem } from "../../reducer/todoTableSlice";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -25,7 +25,6 @@ function TodoForm({ showAddTodoItem }) {
   const onSubmit = (event) => {
     const form = event.currentTarget;
     event.preventDefault();
-
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
@@ -49,7 +48,7 @@ function TodoForm({ showAddTodoItem }) {
         deadline: deadline,
         important: importance,
         completed: false,
-
+        loginStatus: false,
       },
     ))
     showAddTodoItem();

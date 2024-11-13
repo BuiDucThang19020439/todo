@@ -4,7 +4,6 @@ import WeatherInfo from "../../Component/Weather/WeatherInfo";
 import { useDispatch } from "react-redux";
 import { showToastMessage } from "../../reducer/toastSlice";
 import { useState } from "react";
-import { Dropdown } from "react-bootstrap";
 
 function MainContent() {
   // const Api_Key = "f6d6101d0021278c055f63970fe1b2f2";
