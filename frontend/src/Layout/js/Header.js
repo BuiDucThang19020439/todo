@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "../css/Header.css";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -22,8 +21,7 @@ export default function Header({ showLoginForm, showSignUpForm }) {
     <div className="header">
       {user.loginStatus === false && (
         <div className="button-list">
-          <Button onClick={showLoginForm}>Đăng Nhập</Button>
-          <Button onClick={showSignUpForm}>Đăng Ký</Button>
+          <Button onClick={showLoginForm}>Đăng Nhập / Đăng Ký</Button>
         </div>
       )}
       {user.loginStatus === true && (

@@ -5,9 +5,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import MainContent from "./MainContent";
 import ToastMsg from "../../Component/Toast/ToastMsg";
-import Footer from "./Footer";
 import LoginForm from "../../Component/LoginForm/LoginForm";
-import SignUpForm from "../../Component/SignUpForm/SignUpForm";
 import TodoList from "../../TodoList/TodoList";
 import TodoForm from "../../Component/TodoForm/TodoForm";
 
@@ -65,9 +63,6 @@ function Home() {
       <ToastMsg></ToastMsg>
 
       {isLoginForm && <LoginForm showLoginForm={showLoginForm}></LoginForm>}
-      {isSignUpForm && (
-        <SignUpForm showSignUpForm={showSignUpForm}></SignUpForm>
-      )}
       {isAddTodoItem && (
         <TodoForm
           showAddTodoItem={showAddTodoItem}
