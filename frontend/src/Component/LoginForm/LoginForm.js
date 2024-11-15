@@ -5,83 +5,29 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showToastMessage } from "../../reducer/toastSlice";
 import { userLogin, addUser } from "../../reducer/loginSlice";
+import { Formik, Form, useField } from "formik";
+import * as Yup from "yup";
 
 /**
- * Hàm showLoginForm nhận từ Home.js
+ * Hàm toggleLoginForm nhận từ Home.js
  */
-function LoginForm({ showLoginForm }) {
+function LoginForm({ toggleLoginForm }) {
   const dispatch = useDispatch();
+  let userList = useSelector((state) => state.handleLogin.userList);
   // dùng để thêm class cho right panel
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
-  /**
-   * state validate dùng để validate dữ liệu cho form đăng nhập
-   */
-  const [validatedLogin, setValidateLogin] = useState(false);
 
-  /**
-   * state của id đăng nhập và state của mật khẩu đăng nhập
-   */
-  const [accountId, setAccountId] = useState("");
-  const [accountPassword, setAccountPassword] = useState("");
-
-  // state dùng để validate form đăng ký
-  const [validateSignUp, setValidateSignUp] = useState(false);
-  /**
-   * state dùng cho việc đăng kí tài khoản mới
-   */
-  const [newAccId, setNewAccId] = useState("");
-  const [newAccPassword, setNewAccPassword] = useState("");
-  const [rePassword, setRePassword] = useState("");
-  const [newAccName, setNewAccName] = useState("");
-  const [newAccEmail, setNewAccEmail] = useState("");
-  const [newAccPhone, setNewAccPhone] = useState("");
-
-  /**
-   * hàm xử lý việc gửi thông tin từ form đăng nhập
-   */
-  const handleSubmitLoginForm = (event) => {
-    const form = event.currentTarget;
-    event.preventDefault();
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-    } else {
-      setValidateLogin(true);
-      dispatch(userLogin({ id: accountId, password: accountPassword }));
-      dispatch(
-        showToastMessage({
-          show: true,
-          title: "Đăng nhập thành công",
-          message: "Chào mừng",
-          variant: "success",
-        })
-      );
-      showLoginForm();
-    }
-  };
-
-  let userList = useSelector((state) => state.handleLogin.userList);
-  // hàm xử lý submit form đăng ký tài khoản mới
-  const handleSignUpForm = (event) => {
-    const form = event.currentTarget;
-    event.preventDefault();
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-    } else {
-      setValidateSignUp(true);
-      let arrLength = userList.length;
-      let newId = arrLength !== 0 ? userList[arrLength - 1].id + 1 : 1;
-      dispatch(
-        addUser({
-          id: newId,
-          userId: newAccId,
-          username: newAccName,
-          password: newAccPassword,
-          phone: newAccPhone,
-          email: newAccEmail,
-        })
-      );
-      showLoginForm();
-    }
+  const MyTextInput = ({ label, ...props }) => {
+    const [field, meta] = useField(props);
+    return (
+      <>
+        <label htmlFor={props.id || props.name}>{label}</label>
+        <input className="text-input" {...field} {...props} />
+        {meta.touched && meta.error ? (
+          <div className="error">{meta.error}</div>
+        ) : null}
+      </>
+    );
   };
 
   return (
@@ -91,9 +37,8 @@ function LoginForm({ showLoginForm }) {
         className={`button-icon button-icon-close-form close-login-form ${
           isRightPanelActive ? "close-change-color" : ""
         }`}
-        onClick={showLoginForm}
+        onClick={toggleLoginForm}
       >
-        {" "}
         <ion-icon name="close-sharp" size="large"></ion-icon>
       </Button>
       <div
@@ -104,75 +49,143 @@ function LoginForm({ showLoginForm }) {
       >
         {/*-------------------------------form đăng ký--------------------------------------------------------------------- */}
         <div className="form-container sign-up-container">
-          <form onSubmit={handleSignUpForm}>
-            <h2>Tạo tài khoản mới</h2>
-            <input
-              type="text"
-              placeholder="ID đăng nhập"
-              onChange={(event) => {
-                setNewAccId(event.target.value);
-              }}
-            />
-            <input
-              type="password"
-              placeholder="Mật khẩu"
-              onChange={(event) => {
-                setNewAccPassword(event.target.value);
-              }}
-            />
-            <input
-              type="password"
-              placeholder="Nhập lại mật khẩu"
-              onChange={(event) => {
-                setRePassword(event.target.value);
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Tên đăng nhập"
-              onChange={(event) => {
-                setNewAccName(event.target.value);
-              }}
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              onChange={(event) => {
-                setNewAccEmail(event.target.value);
-              }}
-            />
-            <input
-              type="tel"
-              placeholder="Số điện thoại"
-              onChange={(event) => setNewAccPhone(event.target.value)}
-            />
-
-            <button>Đăng ký</button>
-          </form>
+          <Formik
+            initialValues={{
+              newAccId: "",
+              newAccPassword: "",
+              rePassword: "",
+              newAccName: "",
+              newAccEmail: "",
+              newAccPhone: "",
+            }}
+            validationSchema={Yup.object({
+              newAccId: Yup.string()
+                          .required("ID của tài khoản mới không được để trống"),
+              newAccPassword: Yup.string()
+                          .required("Mật khẩu không được để trống"),
+              rePassword: Yup.string()
+                          .required("Hãy nhập lại mật khẩu")
+                          .oneOf([Yup.ref("newAccPassword"), null], "Mật khẩu không đúng"),
+              newAccName: Yup.string()
+                          .required("Tên đăng nhập không được để trống"),
+              newAccEmail: Yup.string()
+                          .email("Email không hợp lệ"),
+              newAccPhone: Yup.string()
+                          .matches(/^(0|\+84)(\s|\.)?[1-9][0-9]{8}$/, 'Số điện thoại không hợp lệ')
+            })}
+            onSubmit={(values, { setSubmitting }) => {
+              let arrLength = userList.length;
+              let newId = arrLength !== 0 ? userList[arrLength - 1].id + 1 : 1;
+              dispatch(
+                addUser({
+                  id: newId,
+                  userId: values.newAccId,
+                  username: values.newAccName,
+                  password: values.newAccPassword,
+                  phone: values.newAccPhone,
+                  email: values.newAccEmail,
+                })
+              );
+              dispatch(
+                showToastMessage({
+                  show: true,
+                  title: "Đăng Ký thành công",
+                  message: "Chào mừng",
+                  variant: "success",
+                })
+              );
+              toggleLoginForm();
+              setSubmitting(false);
+            }}
+          >
+            <Form className="login-form">
+              <h2>Tạo tài khoản mới</h2>
+              <MyTextInput
+                type="text"
+                placeholder="ID đăng nhập"
+                name="newAccId"
+              />
+              <MyTextInput
+                type="password"
+                placeholder="Mật khẩu"
+                name="newAccPassword"
+              />
+              <MyTextInput
+                type="password"
+                placeholder="Nhập lại mật khẩu"
+                name="rePassword"
+              />
+              <MyTextInput
+                type="text"
+                placeholder="Tên đăng nhập"
+                name="newAccName"
+              />
+              <MyTextInput
+                type="email"
+                placeholder="Email"
+                name="newAccEmail"
+              />
+              <MyTextInput
+                type="tel"
+                placeholder="Số điện thoại"
+                name="newAccPhone"
+              />
+              <button type="submit">Đăng ký</button>
+            </Form>
+          </Formik>
         </div>
 
-        {/*----------------------------Form đăng nhập------------------------------------------------------------------ */}
+        {/*----------------------------Form đăng nhập---------------------------------------------------------- */}
         <div className="form-container sign-in-container">
-          <form onSubmit={handleSubmitLoginForm}>
-            <h2>Đăng Nhập</h2>
-            <input
-              type="text"
-              placeholder="ID đăng nhập"
-              onChange={(event) => {
-                setAccountId(event.target.value);
-              }}
-            />
-            <input
-              type="password"
-              placeholder="Mật khẩu"
-              onChange={(event) => {
-                setAccountPassword(event.target.value);
-              }}
-            />
-            <a href="#">Quên mật khẩu?</a>
-            <button type="submit">Đăng nhập</button>
-          </form>
+          <Formik
+            initialValues={{
+              accountId: "",
+              accountPassword: "",
+            }}
+            validationSchema={Yup.object({
+              accountId: Yup.string()
+                            .required("ID của tài khoản không được để trống"),
+              accountPassword: Yup.string()
+                            .required("Mật khẩu không được để trống"),
+            })}
+            onSubmit={(values, { setSubmitting }) => {
+              dispatch(
+                userLogin({
+                  id: values.accountId,
+                  password: values.accountPassword,
+                })
+              );
+              dispatch(
+                showToastMessage({
+                  show: true,
+                  title: "Đăng nhập thành công",
+                  message: "Chào mừng",
+                  variant: "success",
+                })
+              );
+              toggleLoginForm();
+              setSubmitting(false);
+            }}
+          >
+            <Form className='login-form'>
+              <h2>Đăng Nhập</h2>
+              <MyTextInput
+                type="text"
+                placeholder="ID đăng nhập"
+                name="accountId"
+              />
+              <MyTextInput
+                type="password"
+                placeholder="Mật khẩu"
+                name="accountPassword"
+              />
+              <a href="siu">Quên mật khẩu?</a>
+              <button type="submit">Đăng nhập</button>
+            </Form>
+          </Formik>
         </div>
+
+        {/*-----------------------------------------------------overlay---------------------------------------------*/}
         <div className="overlay-container">
           <div className="overlay">
             <div className="overlay-panel overlay-left">
@@ -185,7 +198,7 @@ function LoginForm({ showLoginForm }) {
                 id="signIn"
                 onClick={() => setIsRightPanelActive(false)}
               >
-                Sign In
+                Đăng Nhập
               </button>
             </div>
             <div className="overlay-panel overlay-right">
@@ -196,7 +209,7 @@ function LoginForm({ showLoginForm }) {
                 id="signUp"
                 onClick={() => setIsRightPanelActive(true)}
               >
-                Sign Up
+                Đăng Ký
               </button>
             </div>
           </div>

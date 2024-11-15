@@ -12,27 +12,18 @@ import TodoForm from "../../Component/TodoForm/TodoForm";
 function Home() {
   /**
    * isLoginForm dùng để ẩn hiện trang đăng nhập
-   * hàm showLoginForm dùng để đổi trạng thái true-false của isLoginForm
+   * hàm toggleLoginForm dùng để đổi trạng thái true-false của isLoginForm
    */
   const [isLoginForm, setIsLoginForm] = useState(false);
-  function showLoginForm() {
+  function toggleLoginForm() {
     setIsLoginForm(!isLoginForm);
-  }
-
-  /**
-   * isSignUpForm dùng để ẩn hiện trang đăng ký
-   * hàm showSignUpForm dùng để thay đổi trạng thái của isSignUpForm
-   */
-  const [isSignUpForm, setSignUpForm] = useState(false);
-  function showSignUpForm() {
-    setSignUpForm(!isSignUpForm);
   }
 
   /**
    * isAddTodoItem dùng để ẩn hiện trang thêm việc tại trang todo list
    */
   const [isAddTodoItem, setIsAddTodoItem] = useState(false);
-  function showAddTodoItem() {
+  function toggleAddItemForm() {
     setIsAddTodoItem(!isAddTodoItem);
   }
 
@@ -43,8 +34,7 @@ function Home() {
       </div>
       <div className="content">
         <Header
-          showLoginForm={showLoginForm}
-          showSignUpForm={showSignUpForm}
+          toggleLoginForm={toggleLoginForm}
         ></Header>
 
         <Routes>
@@ -53,19 +43,18 @@ function Home() {
             path="/TodoList"
             element={
               <TodoList
-                showAddTodoItem={showAddTodoItem}
+                toggleAddItemForm={toggleAddItemForm}
               ></TodoList>
             }
           />
         </Routes>
-        {/* <Footer></Footer> */}
       </div>
       <ToastMsg></ToastMsg>
 
-      {isLoginForm && <LoginForm showLoginForm={showLoginForm}></LoginForm>}
+      {isLoginForm && <LoginForm toggleLoginForm={toggleLoginForm}></LoginForm>}
       {isAddTodoItem && (
         <TodoForm
-          showAddTodoItem={showAddTodoItem}
+          toggleAddItemForm={toggleAddItemForm}
         ></TodoForm>
       )}
     </div>

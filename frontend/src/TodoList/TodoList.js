@@ -5,9 +5,8 @@ import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { showToastMessage } from "../reducer/toastSlice";
 import { toggleComplete, delTodoItem } from "../reducer/todoTableSlice";
-import { useState } from "react";
 
-function TodoList({ showAddTodoItem }) {
+function TodoList({ toggleAddItemForm }) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.handleLogin.loggedUserInfo);
   // order là số thứ tự hàng hiện trên bảng
@@ -110,7 +109,7 @@ function TodoList({ showAddTodoItem }) {
     <>
       {user.loginStatus === true && (
         <div className="todo-list">
-          <Button className="button-add-todo-item" onClick={showAddTodoItem}>
+          <Button className="button-add-todo-item" onClick={toggleAddItemForm}>
             Thêm
           </Button>
           <Table striped bordered hover responsive>

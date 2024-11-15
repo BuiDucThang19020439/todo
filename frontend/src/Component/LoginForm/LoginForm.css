@@ -6,28 +6,22 @@
     top: 0;
     left: 0;
     z-index: 1;
-
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	font-family: "Montserrat", sans-serif;
 }
 
-/* * {
-	box-sizing: border-box;
-} */
-
-/* body {
-	background: #f6f5f7;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	font-family: "Montserrat", sans-serif;
-	height: 100vh;
-	margin: -20px 0 50px;
-} */
+.error {
+	color: red;
+	font-size: 12px;
+	width: 400px;
+  	margin: 0.25rem 0;
+}
+.error::before {
+	content: "❌ ";
+    font-size: 10px;
+}
 
 h1 {
 	font-weight: bold;
@@ -54,9 +48,8 @@ span {
 
 a {
 	color: #333;
-	font-size: 14px;
+	font-size: 12px;
 	text-decoration: none;
-	/* margin: 5px 0; */
 }
 
 .button-icon.btn.btn-primary.button-icon-close-form.close-login-form {
@@ -96,7 +89,7 @@ button.ghost {
 	border-color: #ffffff;
 }
 
-form {
+.login-form {
 	background-color: #ffffff;
 	display: flex;
 	align-items: center;
@@ -107,18 +100,24 @@ form {
 	text-align: center;
 }
 
-.sign-in-container input {
-	background-color: #eee;
+input {
+	width: 100%;
 	border: none;
+	background-color: #eee;
+	border-radius: 4px;
+}
+
+input:focus-visible {
+	border: 1px solid blue !important;
+	outline: 1px solid blue;
+}
+
+.sign-in-container input {
 	padding: 12px 15px;
 	margin: 8px 0 !important;
-	width: 100%;
 }
 
 .sign-up-container input {
-	background-color: #eee;
-	border: none;
-	width: 100%;
 	padding: 10px 15px;
 	margin-bottom: 3px !important;
 }

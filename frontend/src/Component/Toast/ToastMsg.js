@@ -1,7 +1,7 @@
 import "./ToastMsg.css";
 import { Toast, ToastContainer } from "react-bootstrap";
 import { useSelector, useDispatch } from 'react-redux';
-import {hideToastMessage, showToastMessage } from '../../reducer/toastSlice';
+import { hideToastMessage } from '../../reducer/toastSlice';
 
 function ToastMsg() {
   const toastAttr = useSelector((state) => {

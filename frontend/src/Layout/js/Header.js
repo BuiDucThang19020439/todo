@@ -1,11 +1,10 @@
 import "../css/Header.css";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
-
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../reducer/loginSlice";
 
-export default function Header({ showLoginForm, showSignUpForm }) {
+export default function Header({ toggleLoginForm }) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.handleLogin.loggedUserInfo)
 
@@ -21,7 +20,7 @@ export default function Header({ showLoginForm, showSignUpForm }) {
     <div className="header">
       {user.loginStatus === false && (
         <div className="button-list">
-          <Button onClick={showLoginForm}>Đăng Nhập / Đăng Ký</Button>
+          <Button onClick={toggleLoginForm}>Đăng Nhập / Đăng Ký</Button>
         </div>
       )}
       {user.loginStatus === true && (
@@ -30,7 +29,6 @@ export default function Header({ showLoginForm, showSignUpForm }) {
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
               {user.username}
             </Dropdown.Toggle>
-
             <Dropdown.Menu className="user-action-list">
               <Dropdown.Item
                 as="button"
