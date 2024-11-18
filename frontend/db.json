@@ -1,0 +1,40 @@
+{
+    "taskList": [
+        {
+            "id": 1,
+            "userId": 1,
+            "title": "Việc nhà",
+            "content": "Giặt đồ",
+            "deadline": "2024-12-30",
+            "important": "Không quan trọng",
+            "completed": false
+        },
+        {
+            "id": 2,
+            "userId": 1,
+            "title": "Việc nhà",
+            "content": "Phơi đồ",
+            "deadline": "2024-12-30",
+            "important": "Không quan trọng",
+            "completed": false
+        },
+        {
+            "id": 3,
+            "userId": 1,
+            "title": "Việc nhà",
+            "content": "Quét nhà",
+            "deadline": "2024-12-30",
+            "important": "Không quan trọng",
+            "completed": false
+        },
+        {
+            "id": 4,
+            "userId": 1,
+            "title": "Lau nhà",
+            "content": "Giặt đồ",
+            "deadline": "2024-12-30",
+            "important": "Ít quan trọng",
+            "completed": false
+        }
+    ]
+}

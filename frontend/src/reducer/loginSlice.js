@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
+
 export const loginSlice = createSlice({
   name: "login",
   initialState: {
@@ -35,6 +37,7 @@ export const loginSlice = createSlice({
     ],
   },
   reducers: {
+    //reducer dùng cho đăng nhập, payload là id mà mật khẩu
     userLogin: (state, action) => {
       const { id, password } = action.payload;
       const user = state.userList.find(
@@ -47,6 +50,7 @@ export const loginSlice = createSlice({
           loginStatus: true,
         };
         localStorage.setItem("userInfo", JSON.stringify(state.loggedUserInfo));
+        Cookies.set("id", user.id, { expires: 2 });
       }
     },
     // payload ở đây là object chứa id
@@ -57,6 +61,7 @@ export const loginSlice = createSlice({
         loginStatus: false,
       };
       localStorage.setItem("userInfo", JSON.stringify({loginStatus: false}));
+      Cookies.remove('id');
     },
     // Thêm một người dùng mới
     addUser: (state, action) => {

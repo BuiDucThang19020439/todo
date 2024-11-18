@@ -7,7 +7,6 @@ import { showToastMessage } from "../../reducer/toastSlice";
 import { userLogin, addUser } from "../../reducer/loginSlice";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
-
 /**
  * Hàm toggleLoginForm nhận từ Home.js
  */
@@ -59,19 +58,26 @@ function LoginForm({ toggleLoginForm }) {
               newAccPhone: "",
             }}
             validationSchema={Yup.object({
-              newAccId: Yup.string()
-                          .required("ID của tài khoản mới không được để trống"),
-              newAccPassword: Yup.string()
-                          .required("Mật khẩu không được để trống"),
+              newAccId: Yup.string().required(
+                "ID của tài khoản mới không được để trống"
+              ),
+              newAccPassword: Yup.string().required(
+                "Mật khẩu không được để trống"
+              ),
               rePassword: Yup.string()
-                          .required("Hãy nhập lại mật khẩu")
-                          .oneOf([Yup.ref("newAccPassword"), null], "Mật khẩu không đúng"),
-              newAccName: Yup.string()
-                          .required("Tên đăng nhập không được để trống"),
-              newAccEmail: Yup.string()
-                          .email("Email không hợp lệ"),
-              newAccPhone: Yup.string()
-                          .matches(/^(0|\+84)(\s|\.)?[1-9][0-9]{8}$/, 'Số điện thoại không hợp lệ')
+                .required("Hãy nhập lại mật khẩu")
+                .oneOf(
+                  [Yup.ref("newAccPassword"), null],
+                  "Mật khẩu không đúng"
+                ),
+              newAccName: Yup.string().required(
+                "Tên đăng nhập không được để trống"
+              ),
+              newAccEmail: Yup.string().email("Email không hợp lệ"),
+              newAccPhone: Yup.string().matches(
+                /^(0|\+84)(\s|\.)?[1-9][0-9]{8}$/,
+                "Số điện thoại không hợp lệ"
+              ),
             })}
             onSubmit={(values, { setSubmitting }) => {
               let arrLength = userList.length;
@@ -143,10 +149,12 @@ function LoginForm({ toggleLoginForm }) {
               accountPassword: "",
             }}
             validationSchema={Yup.object({
-              accountId: Yup.string()
-                            .required("ID của tài khoản không được để trống"),
-              accountPassword: Yup.string()
-                            .required("Mật khẩu không được để trống"),
+              accountId: Yup.string().required(
+                "ID của tài khoản không được để trống"
+              ),
+              accountPassword: Yup.string().required(
+                "Mật khẩu không được để trống"
+              ),
             })}
             onSubmit={(values, { setSubmitting }) => {
               dispatch(
@@ -167,7 +175,7 @@ function LoginForm({ toggleLoginForm }) {
               setSubmitting(false);
             }}
           >
-            <Form className='login-form'>
+            <Form className="login-form">
               <h2>Đăng Nhập</h2>
               <MyTextInput
                 type="text"
