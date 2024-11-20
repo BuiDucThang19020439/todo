@@ -11,13 +11,8 @@ import TodoForm from "../../Component/TodoForm/TodoForm";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { userLogin } from "../../reducer/loginSlice";
-import axios from 'axios'; 
+
 function Home() {
-  let fetchData = async()=> {
-    let response = await axios.get('http://localhost:3001/taskList');
-    let final = await response.data;
-    console.log(final);  
-  }
   /**
    * isLoginForm dùng để ẩn hiện trang đăng nhập
    * hàm toggleLoginForm dùng để đổi trạng thái true-false của isLoginForm
@@ -37,23 +32,24 @@ function Home() {
 
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.handleLogin.userList);
-  const initLogin = async() => {
+  // hàm initLogin có nhiệm vụ đăng nhập lại nếu người dùng chưa đăng xuất mà refresh hoặc xóa trình duyệt
+  const initLogin = () => {
     const token = Cookies.get("id");
-    if(token) {
+    if (token) {
       const u = userList.filter((user) => {
         return user.id == token;
       });
-      await dispatch(userLogin({
-        id: u[0].userId,
-        password: u[0].password,
-      }));
+      dispatch(
+        userLogin({
+          id: u[0].userId,
+          password: u[0].password,
+        })
+      );
     }
-  }
-
+  };
   useEffect(() => {
-    fetchData();
     initLogin();
-  },[]);
+  }, []);
 
   return (
     <div className="home">
@@ -74,7 +70,8 @@ function Home() {
       </div>
       <ToastMsg></ToastMsg>
       {isLoginForm && <LoginForm toggleLoginForm={toggleLoginForm}></LoginForm>}
-      {isAddTodoItem && (<TodoForm toggleAddItemForm={toggleAddItemForm}></TodoForm>)}
+      {isAddTodoItem && (<TodoForm toggleAddItemForm={toggleAddItemForm}></TodoForm>
+      )}
     </div>
   );
 }

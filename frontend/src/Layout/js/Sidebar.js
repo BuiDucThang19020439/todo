@@ -23,9 +23,7 @@ function Sidebar() {
           "--sidebar-width",
           "var(--sidebar-expanded-width)"
         );
-    console.log(
-      getComputedStyle(sidebarWidth).getPropertyValue("--sidebar-width")
-    );
+    // console.log(getComputedStyle(sidebarWidth).getPropertyValue("--sidebar-width"));
   }
 
   return (

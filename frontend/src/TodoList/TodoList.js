@@ -2,20 +2,52 @@ import "./TodoList.css";
 import "../css/icon.css";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
+import Pagination from "react-bootstrap/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { showToastMessage } from "../reducer/toastSlice";
-import { toggleComplete, delTodoItem } from "../reducer/todoTableSlice";
+import { toggleComplete } from "../reducer/todoTableSlice";
+import { getTaskList, deleteTask } from "../api/api";
+import { useState, useEffect } from "react";
 
 function TodoList({ toggleAddItemForm }) {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.handleLogin.loggedUserInfo);
+  // Lấy thông tin người đăng nhập hiện tại
+  const user = useSelector((state) => state.handleLogin.loggedUserInfo);
   // order là số thứ tự hàng hiện trên bảng
   let order = 0;
 
-  // taskList là danh sách các hàng lấy từ store
-  let taskList = useSelector((state) => state.handleTodoTable.taskList).filter(
-    (task) => task.userId === user.id
-  ); 
+  // taskList là danh sách các hàng lấy từ database
+  const [taskList, setTaskList] = useState([]);
+  /**
+   * Hàm getTodoItem lấy dữ liệu từ db về và lọc ra những kết quả phù hợp với người đăng nhập
+   */
+  const getTodoItem = async () => {
+    try {
+      const response = await getTaskList();
+      response.filter((task) => task.userId === user.id);
+      setTaskList(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  /**
+   * Hàm deleteTodoItem gọi api xóa (lưu ở file api.js) nhận param là id hiện tại của task
+   *  id
+   */
+  const deleteTodoItem = async (id) => {
+    await deleteTask(id);
+    dispatch(
+      showToastMessage({
+        show: true,
+        title: "Thành Công",
+        message: "Xóa thành công nhiệm vụ",
+        variant: "success",
+      })
+    );
+  };
+  useEffect(() => {
+    getTodoItem();
+  }, [taskList]);
 
   // rowList: chuyển dữ liệu tasklist thành html để hiện ra giao diện
   const rowList =
@@ -23,9 +55,8 @@ function TodoList({ toggleAddItemForm }) {
       return (
         <tr key={task.id}>
           <td
-            className={`table-checkbox ${
-              task.completed ? "task-completed" : ""
-            }`}
+            className={`table-checkbox ${task.completed ? "task-completed" : ""
+              }`}
           >
             <input
               type="checkbox"
@@ -45,23 +76,20 @@ function TodoList({ toggleAddItemForm }) {
             {task.title}
           </td>
           <td
-            className={`table-content ${
-              task.completed ? "task-completed" : ""
-            }`}
+            className={`table-content ${task.completed ? "task-completed" : ""
+              }`}
           >
             {task.content}
           </td>
           <td
-            className={`table-deadline ${
-              task.completed ? "task-completed" : ""
-            }`}
+            className={`table-deadline ${task.completed ? "task-completed" : ""
+              }`}
           >
             {task.deadline}
           </td>
           <td
-            className={`table-importance ${
-              task.completed ? "task-completed" : ""
-            }`}
+            className={`table-importance ${task.completed ? "task-completed" : ""
+              }`}
           >
             {task.important}
           </td>
@@ -70,7 +98,7 @@ function TodoList({ toggleAddItemForm }) {
           >
             <Button
               className="button-icon button-icon-delete-icon"
-              onClick={() => deleteItem(task.id)}
+              onClick={() => deleteTodoItem(task.id)}
             >
               <ion-icon name="trash-outline" size="small"></ion-icon>
             </Button>
@@ -81,22 +109,6 @@ function TodoList({ toggleAddItemForm }) {
         </tr>
       );
     }) || [];
-
-  /**
-   * itemId: id lấy từ hàng
-   * hàm deleteItem xóa 1 hàng theo id cho trc
-   */
-  const deleteItem = (itemId) => {
-    dispatch(delTodoItem(itemId));
-    dispatch(
-      showToastMessage({
-        show: true,
-        title: "Thành Công",
-        message: "Xóa thành công nhiệm vụ",
-        variant: "success",
-      })
-    );
-  };
 
   /**
    * hàm handleCompleteCheck xử lý việc check hoàn thành
@@ -127,6 +139,29 @@ function TodoList({ toggleAddItemForm }) {
               </tr>
             </thead>
             <tbody>{rowList}</tbody>
+            <tfoot>
+              <tr>
+                <td colSpan={7}>
+                  <Pagination>
+                    <Pagination.First />
+                    <Pagination.Prev />
+                    <Pagination.Item>{1}</Pagination.Item>
+                    <Pagination.Ellipsis />
+
+                    <Pagination.Item>{10}</Pagination.Item>
+                    <Pagination.Item>{11}</Pagination.Item>
+                    <Pagination.Item active>{12}</Pagination.Item>
+                    <Pagination.Item>{13}</Pagination.Item>
+                    <Pagination.Item disabled>{14}</Pagination.Item>
+
+                    <Pagination.Ellipsis />
+                    <Pagination.Item>{20}</Pagination.Item>
+                    <Pagination.Next />
+                    <Pagination.Last />
+                  </Pagination>
+                </td>
+              </tr>
+            </tfoot>
           </Table>
         </div>
       )}

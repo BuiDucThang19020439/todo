@@ -1,8 +1,13 @@
 .todo-list {
     width: calc(100vw - var(--sidebar-width));
-    height: 80vh;
+    height: 90vh;
     position: absolute;
     top: 10vh;
+    overflow-y: scroll;
+}
+
+.todo-list::-webkit-scrollbar {
+    display: none;
 }
 
 .button-add-todo-item {
@@ -13,7 +18,7 @@
 
 table {
     width: calc(100vw - var(--sidebar-width));
-    height: auto;
+    height: 100%;
     /* border: 1px solid grey; */
     border-radius: 4px;
     position: absolute;
@@ -59,4 +64,14 @@ td.table-modify {
 
 .task-completed {
     background-color: chartreuse !important;
+}
+
+tfoot {
+    width: calc(100vw - var(--sidebar-width));
+    height: fit-content;
+}
+tfoot tr td {
+    border: none;
+    position: absolute;
+    right: 30%;
 }
