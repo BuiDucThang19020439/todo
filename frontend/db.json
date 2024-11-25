@@ -31,7 +31,7 @@
       "id": "4",
       "userId": 1,
       "title": "Việc nhà",
-      "content": "Giặt đồ",
+      "content": "Rửa bát",
       "deadline": "2024-12-30",
       "important": "Ít quan trọng",
       "completed": false
@@ -70,7 +70,7 @@
       "content": "Ra ủy ban công chứng giấy tờ",
       "deadline": "2005-3-5",
       "important": "Khẩn cấp",
-      "completed": false
+      "completed": true
     },
     {
       "id": "9",
@@ -82,16 +82,16 @@
       "completed": false
     },
     {
-      "id": 10,
+      "id": "10",
       "userId": 1,
       "title": "Thể thao",
       "content": "Đánh bóng chuyền",
       "deadline": "",
       "important": "Không quan trọng",
-      "completed": false
+      "completed": true
     },
     {
-      "id": 11,
+      "id": "11",
       "userId": 1,
       "title": "Ăn uống",
       "content": "Nấu ăn cho trẻ con",
@@ -100,7 +100,7 @@
       "completed": false
     },
     {
-      "id": 12,
+      "id": "12",
       "userId": 1,
       "title": "Ăn uống",
       "content": "Nấu ăn cho người vô gia cư",
