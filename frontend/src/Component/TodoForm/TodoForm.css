@@ -15,7 +15,7 @@ form.form-add-item {
     background-image: url('https://img.freepik.com/free-photo/white-particle-lines-futuristic-gradient-background_53876-102621.jpg?t=st=1728531959~exp=1728532559~hmac=7198885cf849fd4066c5448ba70eb18e7e0741b636808f5f2d7fb9112a907884');
     display: flex;
     flex-direction: column;
-    z-index: 2;
+    z-index: 5 !important;
     position: absolute;
     transform: translate(-50%,-50%);
     top: 50%;

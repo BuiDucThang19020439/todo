@@ -54,21 +54,31 @@ function TodoList({ toggleAddItemForm }) {
 
   /**
    * Hàm getTodoItem lấy dữ liệu từ db về và lọc ra những kết quả phù hợp với người đăng nhập
+   * Thêm nextItemId lưu vào để khi thêm item mới không phải gọi lại api để kiểm tra id item cuối cùng
+   * dấu cộng đặt trước string để chuyển đổi thành dạng số, nếu không 15 + 1 = 151
    */
   const getTodoItem = async () => {
     try {
       const response = await getTaskList();
-      response.filter((task) => task.userId === user.id);
-      setTaskList(response);
+      let newArr = response.filter((task) => task.userId === user.id);
+      handleTaskList(newArr);
+      localStorage.setItem("nextItemId", +response[response.length-1].id  + 1);
+
     } catch (error) {
       console.log(error);
     }
   };
 
+  /**
+   * Hàm editTodoItem sửa thông tin trên một hàng
+   */
+  const editTodoItem = async (newId) => {
+  }
+
   useEffect(() => {
     getTodoItem();
     if (numberOfPages && numberOfPages < currentPage) handleCurrentPage(numberOfPages);
-  },);
+  }, [taskList]);
 
   // lấy các task theo trang được phân
   const paginatedList = taskList.slice(indexOfFirstItem, indexOfLastItem);
@@ -108,7 +118,10 @@ function TodoList({ toggleAddItemForm }) {
             >
               <ion-icon name="trash-outline" size="small"></ion-icon>
             </Button>
-            <Button className="button-icon button-icon-modify-icon">
+            <Button 
+              className="button-icon button-icon-modify-icon"
+              onClick={toggleAddItemForm}
+            >
               <ion-icon name="create-sharp" size="small"></ion-icon>
             </Button>
           </td>
@@ -120,7 +133,7 @@ function TodoList({ toggleAddItemForm }) {
       return(
         <Pagination.Item key={page} active={currentPage === page} onClick={()=>handleCurrentPage(page)}>{page}</Pagination.Item>
       )}) 
-
+    
   return (
     <>
       {user.loginStatus === true && (

@@ -1,35 +1,19 @@
 import "./TodoForm.css";
 import "../../css/icon.css";
-import { useState, useEffect } from "react";
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showToastMessage } from "../../reducer/toastSlice";
 import Button from "react-bootstrap/Button";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
-import { getTaskList, addTask } from "../../api/api";
+import {  addTask } from "../../api/api";
 
 function TodoForm({ toggleAddItemForm }) {
   const dispatch = useDispatch();
   // Lấy thông tin của người dùng đăng nhập
   const user = useSelector((state) => state.handleLogin.loggedUserInfo);
-  // taskList là danh sách các hàng lấy từ database
-  const [taskList, setTaskList] = useState([]);
-  /**
-   * Hàm getTodoItem lấy dữ liệu từ db về và lọc ra những kết quả phù hợp với người đăng nhập
-   */
-  const getTodoItem = async () => {
-    try {
-      const response = await getTaskList();
-      response.filter((task) => task.userId === user.id);
-      setTaskList(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getTodoItem();
-  }, []);
+  const newId = localStorage.getItem("nextItemId");
+  const firstInputRef = useRef(null);
 
   const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
@@ -75,10 +59,8 @@ function TodoForm({ toggleAddItemForm }) {
           content: Yup.string().required("Nội dung không được để trống"),
         })}
         onSubmit={(values, { setSubmitting }) => {
-          let arrLength = taskList.length;
-          let newId = arrLength !== 0 ? +taskList[arrLength - 1].id + 1 : 1; // dấu + chuyển string thành dạng số
           addTask({
-            id: newId,
+            id: newId.toString(),
             userId: user.id,
             title: values.title,
             content: values.content,
@@ -114,6 +96,7 @@ function TodoForm({ toggleAddItemForm }) {
             type="text"
             placeholder="Nhập tiêu đề"
             name="title"
+            ref={firstInputRef}
           />
           <MyTextInput
             label="Nội dung"
