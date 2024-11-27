@@ -104,7 +104,11 @@ function TodoForm({ toggleAddItemForm }) {
             placeholder="Nhập nội dung công việc"
             name="content"
           />
-          <MyTextInput label="Hạn hoàn thành" type="date" name="deadline" />
+          <MyTextInput 
+            label="Hạn hoàn thành" 
+            type="date" 
+            name="deadline" 
+          />
           <MySelect
             label="Độ quan trọng"
             name="important"

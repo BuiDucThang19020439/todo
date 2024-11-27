@@ -38,22 +38,22 @@
     right: 5px;
 }
 
-.button-icon.button-icon-delete-icon {
-    width: 24px;
-    height: 24px;
+.button-icon.button-icon-delete-icon, .button-icon.button-icon-exit-modify {
+    width: 25px;
+    height: 25px;
     color: red;
 }
 
-.button-icon.button-icon-delete-icon:hover {
+.button-icon.button-icon-delete-icon:hover, .button-icon.button-icon-exit-modify:hover {
     background-color: red;
 }
 
-.button-icon.button-icon-modify-icon {
-    width: 24px;
-    height: 24px;
+.button-icon.button-icon-modify-icon, .button-icon.button-icon-send-icon {
+    width: 25px;
+    height: 25px;
     color: green;
 }
-.button-icon.button-icon-modify-icon:hover {
+.button-icon.button-icon-modify-icon:hover, .button-icon.button-icon-send-icon:hover {
     background-color: green;
 }
 

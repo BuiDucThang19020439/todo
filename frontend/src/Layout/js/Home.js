@@ -70,8 +70,7 @@ function Home() {
       </div>
       <ToastMsg></ToastMsg>
       {isLoginForm && <LoginForm toggleLoginForm={toggleLoginForm}></LoginForm>}
-      {isAddTodoItem && (<TodoForm toggleAddItemForm={toggleAddItemForm}></TodoForm>
-      )}
+      {isAddTodoItem && (<TodoForm toggleAddItemForm={toggleAddItemForm}></TodoForm>)}
     </div>
   );
 }

@@ -34,9 +34,33 @@ table .table-checkbox {
     width: 2vw;
 }
 
+table tr td {
+    height: 46px !important;
+    box-sizing: border-box;
+    text-align: center;
+}
+
 input[type="checkbox"] {
     width: 16px !important;
     height: 16px !important;
+}
+
+table tr td input {
+    width: 100%;
+    height: fit-content;
+    text-align: center;
+    border: 2px solid  #404040;
+}
+table tr td select {
+    width: 100%;
+    height: fit-content;
+    text-align: center;
+    border: 2px solid  #404040;
+    border-radius: 4px;
+}
+
+table tr td select:focus {
+    border: 2px solid blue;
 }
 
 table .table-order {
@@ -60,8 +84,8 @@ table .table-importance {
 }
 
 td.table-modify {
-    /* height: 42px;
-    width: 7vw; */
+    height: 42px;
+    width: 7vw;
     min-width: 0;
     min-height: 0;
     display: flex;

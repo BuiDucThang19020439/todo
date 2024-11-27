@@ -84,3 +84,14 @@ export const toggleCheckBoxAll = async(numberOfTasks) => {
     console.log(error);
   }
 }
+
+/**
+ * hàm modifyTask sửa nội dung của 1 task
+ */
+export const modifyTask = async(id, data) => {
+  try {
+    await axios.patch(baseURL + "taskList/" + id, data);
+  } catch (error) {
+    console.log(error);
+  }
+}
