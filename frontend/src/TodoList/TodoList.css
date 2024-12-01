@@ -16,6 +16,17 @@
     top: 5px;
 }
 
+.filter-input {
+    max-width: 350px;
+    position: absolute;
+    top: 5px;
+    left: 650px;
+}
+
+.set-filter-option {
+    max-width: fit-content;
+}
+
 table {
     width: calc(100vw - var(--sidebar-width));
     max-height: 100%;

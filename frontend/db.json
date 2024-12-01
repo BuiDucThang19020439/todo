@@ -7,7 +7,7 @@
       "content": "Giặt đồ",
       "deadline": "2024-12-30",
       "important": "Không quan trọng",
-      "completed": false
+      "completed": true
     },
     {
       "id": "2",
@@ -15,7 +15,7 @@
       "title": "Việc nhà",
       "content": "Phơi đồ",
       "deadline": "2024-12-30",
-      "important": "Không quan trọng",
+      "important": "Quan trọng",
       "completed": false
     },
     {
@@ -24,7 +24,7 @@
       "title": "Việc nhà",
       "content": "Quét nhà",
       "deadline": "2024-12-30",
-      "important": "Không quan trọng",
+      "important": "Quan trọng",
       "completed": false
     },
     {
@@ -61,7 +61,7 @@
       "content": "Sửa đăng nhập",
       "deadline": "2024-12-30",
       "important": "Ít quan trọng",
-      "completed": false
+      "completed": true
     },
     {
       "id": "8",
@@ -78,7 +78,7 @@
       "title": "Thể thao",
       "content": "Đá bóng cùng đồng nghiệp",
       "deadline": "2024-12-30",
-      "important": "Ít quan trọng",
+      "important": "Khẩn cấp",
       "completed": false
     },
     {
@@ -86,7 +86,7 @@
       "userId": 1,
       "title": "Thể thao",
       "content": "Đánh bóng chuyền",
-      "deadline": "",
+      "deadline": "2025-01-09",
       "important": "Không quan trọng",
       "completed": true
     },
@@ -142,6 +142,15 @@
       "content": "Lau cầu thang",
       "deadline": "2024-08-31",
       "important": "Không quan trọng",
+      "completed": false
+    },
+    {
+      "id": "18",
+      "userId": 1,
+      "title": "Công việc",
+      "content": "Tải app",
+      "deadline": "2025-01-03",
+      "important": "Ít quan trọng",
       "completed": false
     }
   ]

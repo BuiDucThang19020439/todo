@@ -1,9 +1,10 @@
 import "./TodoList.css";
 import "../css/icon.css";
-import TableRow from "./TableRow";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
+import InputGroup from 'react-bootstrap/InputGroup';
+import TableRow from "./TableRow";
 import Pagination from "react-bootstrap/Pagination";
 import { useSelector } from "react-redux";
 import { getTaskList} from "../api/api";
@@ -11,8 +12,7 @@ import { useState, useEffect } from "react";
 
 function TodoList({ toggleAddItemForm }) {
   // Lấy thông tin người đăng nhập hiện tại
-  const user = useSelector((state) => state.handleLogin.loggedUserInfo);
-  
+  const user = useSelector((state) => state.handleLogin.loggedUserInfo); 
   let order = 0; // order là số thứ tự hàng hiện trên bảng
 
   // taskList là danh sách các hàng lấy từ database
@@ -21,11 +21,47 @@ function TodoList({ toggleAddItemForm }) {
     setTaskList(tasks);
   }
 
+  const [filterWord, setFilterWord] = useState('')
+  const handleFilter = (data) => {
+    setFilterWord(data)
+  }
+  const [filterOption, setFilterOption] = useState('');
+  const handleFilterOption = (data) => {
+    handleCurrentPage(1);
+    setFilterOption(data);
+  }
+
+  const compareDataByImportant = (a, b) => {
+    const importantOrder = {
+      "Không quan trọng": 1,
+      "Ít quan trọng": 2,
+      "Quan trọng": 3,
+      "Khẩn cấp": 4
+    };
+    return importantOrder[b.important] - importantOrder[a.important];
+  }
+  let filteredData = taskList;
+  if(filterOption === "") filteredData = taskList;
+  else if (filterOption === "content") {
+    filteredData = taskList.filter((item) =>
+      item.content.toLowerCase().includes(filterWord.toLowerCase())   
+    );
+  } else if (filterOption === "title") {
+    filteredData = taskList.filter((item) =>
+      item.title.toLowerCase().includes(filterWord.toLowerCase())   
+    );
+  } else if (filterOption === "completed") {
+    filteredData = taskList.filter((item) =>item.completed === true );
+  } else if (filterOption === "not-completed") {
+    filteredData = taskList.filter((item) =>item.completed === false );
+  } else if (filterOption === "important") {
+    filteredData.sort(compareDataByImportant);
+  }
   const [currentPage,setCurrentPage] = useState(1); // Trang hiện tại
   const [numberItemAPage, setNumberItemAPage] = useState(5); // Số item 1 trang
   const indexOfLastItem = currentPage*numberItemAPage; // index vị trí cuối cùng của trang hiện tại 
   const indexOfFirstItem = indexOfLastItem - numberItemAPage; // index vị trí đầu tiên của trang hiện tại
-  const numberOfPages = Math.ceil(taskList.length / numberItemAPage); // Tổng số trang
+  const numberOfPages = Math.ceil(filteredData.length / numberItemAPage); // Tổng số trang
   const pages = []; // mảng các trang (1, 2, 3,... )
     for (let i = 1; i <= numberOfPages; i++) {
       pages.push(i);
@@ -35,6 +71,7 @@ function TodoList({ toggleAddItemForm }) {
     setCurrentPage(page);
   }
   const handleNumberItemAPage = (num) => {
+    handleCurrentPage(1);
     setNumberItemAPage(num);
   }
 
@@ -56,11 +93,12 @@ function TodoList({ toggleAddItemForm }) {
 
   useEffect(() => {
     getTodoItem();
-    if (numberOfPages && numberOfPages < currentPage) handleCurrentPage(numberOfPages);
   }, [taskList]);
 
+
+
   // lấy các task theo trang được phân
-  const paginatedList = taskList.slice(indexOfFirstItem, indexOfLastItem);
+  const paginatedList = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   // rowList: chuyển dữ liệu tasklist thành html để hiện ra giao diện
   const rowList =
     paginatedList.map((task) => {
@@ -78,9 +116,26 @@ function TodoList({ toggleAddItemForm }) {
     <>
       {user.loginStatus === true && (
         <div className="todo-list">
-          <Button className="button-add-todo-item" onClick={toggleAddItemForm}>
-            Thêm
-          </Button>
+          <Button className="button-add-todo-item" onClick={toggleAddItemForm}>Thêm</Button>
+          <InputGroup className="mb-3 filter-input">
+            <Form.Control aria-label="Text input with dropdown button" 
+              type="text"
+              value={filterWord} 
+              onChange={(event) => handleFilter(event.target.value)}/>
+            <Form.Select
+              variant="outline-secondary"
+              value={filterOption}
+              onChange={(event) => handleFilterOption(event.target.value)}
+              className="set-filter-option"
+              alignRight>
+              <option value="">---Lọc---</option>
+              <option value="title">Tiêu đề</option>
+              <option value="content">Nội dung</option>
+              <option value="completed">Hoàn thành</option>
+              <option value="not-completed">Chưa hoàn thành</option>
+              <option value="important">Độ quan trọng</option>
+            </Form.Select>
+          </InputGroup>
           <Table striped bordered hover responsive>
             <thead>
               <tr>

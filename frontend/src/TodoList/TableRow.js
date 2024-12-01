@@ -92,7 +92,7 @@ export default function TableRow({ task, order }) {
           <select value={important} onChange={(event) => handleImportant(event.target.value)}>
             <option value='Không quan trọng'>Không quan trọng</option>
             <option value='Ít quan trọng'>Ít quan trọng</option>
-            <option value='Quan trọng'>Không quan trọng</option>
+            <option value='Quan trọng'>Quan trọng</option>
             <option value='Khẩn cấp'>Khẩn cấp</option>
           </select>
           : task.important}
