@@ -35,9 +35,7 @@ export default function TableRow({ task, order }) {
     if(task.title !== title) newPatch.title = title;
     if(task.content !== content) newPatch.content = content;
     if(task.deadline !== deadline) newPatch.deadline = deadline;
-    if(task.important !== important) newPatch.important = important;
-    console.log(newPatch);
-    
+    if(task.important !== important) newPatch.important = important;   
     if(Object.keys(newPatch).length > 0) {
       await modifyTask(task.id, newPatch);
     }
@@ -54,8 +52,7 @@ export default function TableRow({ task, order }) {
         title: "Thành Công",
         message: "Xóa thành công nhiệm vụ",
         variant: "success",
-      })
-    );
+    }));
   };
 
   return (
@@ -102,19 +99,19 @@ export default function TableRow({ task, order }) {
           <>
             <Button
               className="button-icon button-icon-send-icon"
-              onClick={handleSubmit}>
+              onClick={() => handleSubmit()}>
               <ion-icon name="paper-plane-sharp" size="small"></ion-icon>
             </Button>
             <Button
             className="button-icon button-icon-exit-modify"
-            onClick={toggleEditRow}>
+            onClick={() => toggleEditRow()}>
               <ion-icon name="close-sharp" size="small"></ion-icon>
             </Button>
           </> 
           : <>
               <Button
                 className="button-icon button-icon-modify-icon"
-                onClick={toggleEditRow}>
+                onClick={() => toggleEditRow()}>
                 <ion-icon name="create-sharp" size="small"></ion-icon>
               </Button>
               <Button

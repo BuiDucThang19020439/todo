@@ -5,7 +5,7 @@
       "userId": 1,
       "title": "Việc nhà",
       "content": "Giặt đồ",
-      "deadline": "2024-12-30",
+      "deadline": "2025-05-07",
       "important": "Không quan trọng",
       "completed": true
     },
@@ -15,7 +15,7 @@
       "title": "Việc nhà",
       "content": "Phơi đồ",
       "deadline": "2024-12-30",
-      "important": "Quan trọng",
+      "important": "Ít quan trọng",
       "completed": false
     },
     {
@@ -23,17 +23,17 @@
       "userId": 1,
       "title": "Việc nhà",
       "content": "Quét nhà",
-      "deadline": "2024-12-30",
+      "deadline": "2024-12-02",
       "important": "Quan trọng",
-      "completed": false
+      "completed": true
     },
     {
       "id": "4",
       "userId": 1,
       "title": "Việc nhà",
       "content": "Rửa bát",
-      "deadline": "2024-12-30",
-      "important": "Ít quan trọng",
+      "deadline": "2025-01-04",
+      "important": "Quan trọng",
       "completed": false
     },
     {
@@ -41,7 +41,7 @@
       "userId": 1,
       "title": "Công việc",
       "content": "Validate form",
-      "deadline": "2024-12-30",
+      "deadline": "2025-01-09",
       "important": "Quan trọng",
       "completed": false
     },
@@ -50,8 +50,8 @@
       "userId": 1,
       "title": "Công việc",
       "content": "Responsive giao diện",
-      "deadline": "2024-12-30",
-      "important": "Khẩn cấp",
+      "deadline": "2024-12-24",
+      "important": "Quan trọng",
       "completed": false
     },
     {
@@ -60,15 +60,15 @@
       "title": "Công việc",
       "content": "Sửa đăng nhập",
       "deadline": "2024-12-30",
-      "important": "Ít quan trọng",
-      "completed": true
+      "important": "Quan trọng",
+      "completed": false
     },
     {
       "id": "8",
       "userId": 1,
       "title": "Làm giấy tờ",
       "content": "Ra ủy ban công chứng giấy tờ",
-      "deadline": "2005-3-5",
+      "deadline": "2024-12-25",
       "important": "Khẩn cấp",
       "completed": true
     },
@@ -79,7 +79,7 @@
       "content": "Đá bóng cùng đồng nghiệp",
       "deadline": "2024-12-30",
       "important": "Khẩn cấp",
-      "completed": false
+      "completed": true
     },
     {
       "id": "10",
@@ -97,7 +97,7 @@
       "content": "Nấu ăn cho trẻ con",
       "deadline": "2024-12-25",
       "important": "Quan trọng",
-      "completed": false
+      "completed": true
     },
     {
       "id": "12",
@@ -105,8 +105,8 @@
       "title": "Ăn uống",
       "content": "Nấu ăn cho người vô gia cư",
       "deadline": "2024-11-29",
-      "important": "Ít quan trọng",
-      "completed": false
+      "important": "Quan trọng",
+      "completed": true
     },
     {
       "id": "14",
@@ -150,8 +150,17 @@
       "title": "Công việc",
       "content": "Tải app",
       "deadline": "2025-01-03",
-      "important": "Ít quan trọng",
+      "important": "Quan trọng",
       "completed": false
+    },
+    {
+      "id": "19",
+      "userId": 1,
+      "title": "Công việc",
+      "content": "Sửa xe",
+      "deadline": "2025-01-10",
+      "important": "Quan trọng",
+      "completed": true
     }
   ]
 }
