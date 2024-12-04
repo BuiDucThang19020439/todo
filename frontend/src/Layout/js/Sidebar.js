@@ -23,7 +23,6 @@ function Sidebar() {
           "--sidebar-width",
           "var(--sidebar-expanded-width)"
         );
-    // console.log(getComputedStyle(sidebarWidth).getPropertyValue("--sidebar-width"));
   }
 
   return (
@@ -38,10 +37,22 @@ function Sidebar() {
             </Link>
           </div>
           <div className="sidebar-route">
+            <Link to="/" className="sidebar-item">
+              <Button className="button-nav-item">
+                Trang chủ
+                <ion-icon name="home-sharp"></ion-icon>
+              </Button>
+            </Link>
             <Link to="/TodoList" className="sidebar-item">
               <Button className="button-nav-item">
                 TodoList
-                <ion-icon name="list" size=""></ion-icon>
+                <ion-icon name="list"></ion-icon>
+              </Button>
+            </Link>
+            <Link to="/userInfo" className="sidebar-item">
+              <Button className="button-nav-item">
+                Thông tin
+                <ion-icon name="information-circle-sharp"></ion-icon>
               </Button>
             </Link>
           </div>

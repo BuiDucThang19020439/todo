@@ -8,6 +8,7 @@ import ToastMsg from "../../Component/Toast/ToastMsg";
 import LoginForm from "../../Component/LoginForm/LoginForm";
 import TodoList from "../../TodoList/TodoList";
 import TodoForm from "../../Component/TodoForm/TodoForm";
+import UserInfo from "../../Component/UserInfo/UserInfo";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { userLogin } from "../../reducer/loginSlice";
@@ -64,8 +65,8 @@ function Home() {
             path="/TodoList"
             element={
               <TodoList toggleAddItemForm={toggleAddItemForm}></TodoList>
-            }
-          />
+          }/>
+          <Route path="/userInfo" element={<UserInfo></UserInfo>}></Route>
         </Routes>
       </div>
       <ToastMsg></ToastMsg>

@@ -8,6 +8,8 @@ export const loginSlice = createSlice({
       id: -1,
       username: "",
       loginStatus: false,
+      phone: 0,
+      email: "",
     },
     userList: [
       {
@@ -48,6 +50,8 @@ export const loginSlice = createSlice({
           id: user.id,
           username: user.username,
           loginStatus: true,
+          phone: user.phone,
+          email: user.email,
         };
         localStorage.setItem("userInfo", JSON.stringify(state.loggedUserInfo));
         Cookies.set("id", user.id, { expires: 2 });
@@ -59,13 +63,15 @@ export const loginSlice = createSlice({
         id: -1,
         username: "",
         loginStatus: false,
+        phone: 0,
+        email: "",
       };
-      localStorage.setItem("userInfo", JSON.stringify({loginStatus: false}));
-      Cookies.remove('id');
+      localStorage.setItem("userInfo", JSON.stringify({ loginStatus: false }));
+      Cookies.remove("id");
     },
     // Thêm một người dùng mới
     addUser: (state, action) => {
-      state.userList = [...state.userList, action.payload]
+      state.userList = [...state.userList, action.payload];
     },
   },
 });

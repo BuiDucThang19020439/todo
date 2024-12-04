@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function Header({ toggleLoginForm }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector(state => state.handleLogin.loggedUserInfo)
+  const user = useSelector((state) => state.handleLogin.loggedUserInfo);
 
   /**
    * Hàm handleLogout xử lý việc đăng xuất tài khoản,
@@ -16,7 +16,7 @@ export default function Header({ toggleLoginForm }) {
    */
   const handleLogout = () => {
     dispatch(userLogout(user.id));
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -40,7 +40,11 @@ export default function Header({ toggleLoginForm }) {
               >
                 Đăng Xuất
               </Dropdown.Item>
-              <Dropdown.Item as="button" className="user-action">
+              <Dropdown.Item
+                as="button"
+                className="user-action"
+                onClick={() => navigate("/userInfo")}
+              >
                 Thông tin
               </Dropdown.Item>
             </Dropdown.Menu>
