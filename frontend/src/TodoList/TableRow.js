@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { showToastMessage } from "../reducer/toastSlice";
 import { deleteTask, toggleCheckBox, modifyTask } from "../api/api";
 
-export default function TableRow({ task, order }) {
+export default function TableRow({ task, order, getTodoItem }) {
   const dispatch = useDispatch();
   /**
    * isEditRow là state dùng để bật tắt chức năng sửa thông tin một hàng
@@ -40,21 +40,26 @@ export default function TableRow({ task, order }) {
       await modifyTask(task.id, newPatch);
     }
     toggleEditRow();
+    getTodoItem();
   }
   /**
    * Hàm deleteTodoItem gọi api xóa (lưu ở file api.js) nhận param là id hiện tại của task
    */
   const deleteTodoItem = async (id) => {
-    await deleteTask(id);
-    dispatch(
-      showToastMessage({
-        show: true,
-        title: "Thành Công",
-        message: "Xóa thành công nhiệm vụ",
-        variant: "success",
-    }));
+    try {
+      await deleteTask(id);
+      dispatch(
+        showToastMessage({
+          show: true,
+          title: "Thành Công",
+          message: "Xóa thành công nhiệm vụ",
+          variant: "success",
+      }));
+      getTodoItem();
+    } catch (error) {
+      console.log(error);
+    }    
   };
-
   return (
     <tr>
       <td className={`table-checkbox ${task.completed ? "task-completed" : ""}`}>

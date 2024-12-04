@@ -1,19 +1,20 @@
 import "./TodoForm.css";
 import "../../css/icon.css";
-import { useRef } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { showToastMessage } from "../../reducer/toastSlice";
 import Button from "react-bootstrap/Button";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import {  addTask } from "../../api/api";
+import { useNavigate } from 'react-router-dom';
 
 function TodoForm({ toggleAddItemForm }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // Lấy thông tin của người dùng đăng nhập
   const user = useSelector((state) => state.handleLogin.loggedUserInfo);
   const newId = localStorage.getItem("nextItemId");
-  const firstInputRef = useRef(null);
 
   const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
@@ -79,6 +80,7 @@ function TodoForm({ toggleAddItemForm }) {
             })
           );
           setSubmitting(false);
+          navigate(0);
         }}
       >
         <Form className="form-add-item">
@@ -96,7 +98,6 @@ function TodoForm({ toggleAddItemForm }) {
             type="text"
             placeholder="Nhập tiêu đề"
             name="title"
-            ref={firstInputRef}
           />
           <MyTextInput
             label="Nội dung"

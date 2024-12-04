@@ -34,7 +34,6 @@ export const getATask = async(id) => {
  * @param {*} id : id của task được chọn để xóa
  */
 export const deleteTask = async (id) => {
-  console.log(`${baseURL}taskList/${id}`);
   try {
     await axios.delete(`${baseURL}taskList/${id}`);    
   } catch (error) {

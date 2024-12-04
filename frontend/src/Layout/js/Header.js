@@ -3,8 +3,10 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../reducer/loginSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Header({ toggleLoginForm }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(state => state.handleLogin.loggedUserInfo)
 
@@ -14,6 +16,7 @@ export default function Header({ toggleLoginForm }) {
    */
   const handleLogout = () => {
     dispatch(userLogout(user.id));
+    navigate('/');
   };
 
   return (

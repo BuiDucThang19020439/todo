@@ -6,15 +6,13 @@ import Form from "react-bootstrap/Form";
 import InputGroup from 'react-bootstrap/InputGroup';
 import TableRow from "./TableRow";
 import Pagination from "react-bootstrap/Pagination";
-import { useSelector } from "react-redux";
 import { getTaskList} from "../api/api";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
 function TodoList({ toggleAddItemForm }) {
   // Lấy thông tin người đăng nhập hiện tại
   const token = Cookies.get("id");
-  const [user, setUser] = useState(useSelector((state) => state.handleLogin.loggedUserInfo))
   let order = 0; // order là số thứ tự hàng hiện trên bảng
 
   const [filterWord, setFilterWord] = useState('')
@@ -27,10 +25,12 @@ function TodoList({ toggleAddItemForm }) {
     handleFilter('')
     setFilterOption(data);
   }
-  const [taskList, settaskList] = useState([]);
-  const handletaskList = (list) => {
-    settaskList(list);
+  const [taskList, setTaskList] = useState([]);
+  const handleTaskList = (list) => {
+    setTaskList(list);
   }
+  const [filterList, setFilterList] = useState([]);
+
   /**
    * Hàm so sánh dựa theo độ quan trọng
    */
@@ -53,7 +53,8 @@ function TodoList({ toggleAddItemForm }) {
     try {
       let response = await getTaskList();
       localStorage.setItem("nextItemId", +response[response.length-1].id  + 1); 
-      handletaskList(response.filter(task => +task.userId === + (token || -1))); 
+      handleTaskList(response.filter(task => +task.userId === + (token || -1))); 
+      setFilterList(response.filter(task => +task.userId === + (token || -1)));
     } catch (error) {
       console.log(error);
     }
@@ -62,20 +63,27 @@ function TodoList({ toggleAddItemForm }) {
   useEffect(() => {
     getTodoItem();
   }, []);
+
   // lọc danh sách hiện tại
-  const filterList = useMemo(() => {
-    switch (filterOption) {
-      case "":
-        return taskList;
-      case "important":
-        return taskList.sort(compareDataByImportant);
-      case "completed": 
-        return taskList.filter(item => item.completed === true);
-      case "not-completed":
-        return taskList.filter(item => item.completed === false);
-      default: 
-        return taskList.filter(item => item[filterOption].toLowerCase().includes(filterWord.toLowerCase()));
-    }}, [filterWord, filterOption, taskList]);  
+  const handleFilterList = () => {  
+    let Term = () => {
+      switch (filterOption) {
+        case "":
+          return taskList;
+        case "important":
+          return taskList.sort(compareDataByImportant);
+        case "completed": 
+          return taskList.filter(item => item.completed === true);
+        case "not-completed":
+          return taskList.filter(item => item.completed === false);
+        default: 
+          return taskList.filter(item => item[filterOption].toLowerCase().includes(filterWord.toLowerCase()));
+      }};
+    setFilterList(Term())
+  }
+  useEffect(()=> {
+    handleFilterList();
+  }, [filterOption, filterWord])
 
   const [currentPage,setCurrentPage] = useState(1); // Trang hiện tại
   const [numberItemAPage, setNumberItemAPage] = useState(5); // Số item 1 trang
@@ -83,9 +91,7 @@ function TodoList({ toggleAddItemForm }) {
   const indexOfFirstItem = indexOfLastItem - numberItemAPage; // index vị trí đầu tiên của trang hiện tại
   const numberOfPages = Math.ceil(filterList.length / numberItemAPage) || 1; // Tổng số trang
   const pages = []; // mảng các trang (1, 2, 3,... )
-    for (let i = 1; i <= numberOfPages; i++) {
-      pages.push(i);
-    };
+  for (let i = 1; i <= numberOfPages; i++) pages.push(i);
   
   const handleCurrentPage = (page) => {
     setCurrentPage(page);
@@ -95,11 +101,12 @@ function TodoList({ toggleAddItemForm }) {
     setNumberItemAPage(num);
   }  
 
+
   const pagesListRender = pages.map((page) => {
     return(
       <Pagination.Item key={page} active={currentPage === page} onClick={()=>handleCurrentPage(page)}>{page}</Pagination.Item>
     )});
-    
+
   return (
     <>
       {token > 0 && (
@@ -141,7 +148,7 @@ function TodoList({ toggleAddItemForm }) {
             <tbody>{
               filterList.slice(indexOfFirstItem, indexOfLastItem).map((task) => {
                 return (
-                  <TableRow key={task.id} task={task} order={++order}></TableRow>
+                  <TableRow key={task.id} task={task} order={++order} getTodoItem={getTodoItem}></TableRow>
                 );})}
             </tbody>
             <tfoot>

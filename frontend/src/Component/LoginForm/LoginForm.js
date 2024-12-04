@@ -7,11 +7,13 @@ import { showToastMessage } from "../../reducer/toastSlice";
 import { userLogin, addUser } from "../../reducer/loginSlice";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 /**
  * Hàm toggleLoginForm nhận từ Home.js
  */
 function LoginForm({ toggleLoginForm }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   let userList = useSelector((state) => state.handleLogin.userList);
   // dùng để thêm class cho right panel
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -102,6 +104,7 @@ function LoginForm({ toggleLoginForm }) {
               );
               toggleLoginForm();
               setSubmitting(false);
+              navigate('/');
             }}
           >
             <Form className="login-form">
@@ -173,6 +176,7 @@ function LoginForm({ toggleLoginForm }) {
               );
               toggleLoginForm();
               setSubmitting(false);
+              navigate('/');
             }}
           >
             <Form className="login-form">
