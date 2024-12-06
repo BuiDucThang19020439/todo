@@ -5,17 +5,20 @@
   background-color: var(--color-active);
   position: fixed;
   width: var(--sidebar-width);
+  min-width: 67px;
   height: 100%;
   box-sizing: border-box;
 }
 
 .head-sidebar {
   width: var(--sidebar-width);
+  min-width: 67px;
   height: 10vh;
 }
 
 .sidebar-route {
   width: var(--sidebar-width);
+  min-width: 67px;
   height: 80vh;
   padding: 5px;
   display: flex;
@@ -41,9 +44,16 @@
 }
 
 .sidebar-item {
-    width: calc(var(--sidebar-width) - 5px);
-    margin: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: calc(var(--sidebar-width) - 5px);
+  min-width: 62px;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 389px) and (min-width: 575px) {
+}
+
+@media screen and (min-width: 576px) {
 }

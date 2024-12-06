@@ -40,10 +40,10 @@
       "id": "5",
       "userId": 1,
       "title": "Công việc",
-      "content": "Viết báo cáo doanh thu",
-      "deadline": "2025-01-10",
+      "content": "Viết báo cáo ",
+      "deadline": "2025-02-05",
       "important": "Quan trọng",
-      "completed": false
+      "completed": true
     },
     {
       "id": "6",
@@ -79,14 +79,14 @@
       "content": "Đá bóng cùng đồng nghiệp",
       "deadline": "2024-12-30",
       "important": "Không quan trọng",
-      "completed": false
+      "completed": true
     },
     {
       "id": "10",
       "userId": 1,
       "title": "Thể thao",
       "content": "Đánh bóng chuyền",
-      "deadline": "2025-01-09",
+      "deadline": "2025-02-05",
       "important": "Không quan trọng",
       "completed": false
     },
@@ -168,8 +168,8 @@
       "title": "Công việc",
       "content": "Bán dự án",
       "deadline": "2025-01-10",
-      "important": "Không quan trọng",
-      "completed": false
+      "important": "Ít quan trọng",
+      "completed": true
     }
   ]
 }

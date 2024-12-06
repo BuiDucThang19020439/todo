@@ -81,6 +81,7 @@ function MainContent() {
 
   return (
     <div className="main-content">
+      <div className="welcome-banner"></div>
       <WeatherForm onDataChange={getWeather}></WeatherForm>
       <WeatherInfo
         temperature={weatherState.temperature}

@@ -1,6 +1,6 @@
 import "./UserInfo.css";
 import "../../css/icon.css";
-import { Table, Button, Row, Col } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 
@@ -8,7 +8,6 @@ function UserInfo() {
   const token = Cookies.get("id");
   const dispatch = useDispatch();
   const user = useSelector((state) => state.handleLogin.loggedUserInfo);
-  if (user.id > 0) console.log(user);
   return (
     <div className="user-info-container">
       <Table striped bordered hover className="user-info-table">

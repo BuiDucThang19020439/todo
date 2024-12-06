@@ -1,24 +1,24 @@
 .header {
-    width: calc(100vw - var(--sidebar-width));
-    height: 10vh;
-    display: flex;
-    justify-content: flex-end;
-    position: fixed;
-    box-sizing: border-box;
-    background-image: url('https://images.pexels.com/photos/1835718/pexels-photo-1835718.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-    background-repeat: no-repeat;
-    background-size: cover;
-    z-index: 1;
+  width: calc(100vw - var(--sidebar-width));
+  height: 10vh;
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  box-sizing: border-box;
+  background-image: url("https://images.pexels.com/photos/1835718/pexels-photo-1835718.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 1;
 }
 
 .button-list {
-    display: flex;
-    width: 25%;
-    height: 100%;
-    flex-direction: row;
-    justify-content: end;
-    align-items: center;
-    gap: 5px;
-    padding: 0 10px;
-    margin: 0 20px;
+  display: flex;
+  width: 25%;
+  height: 100%;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px;
+  margin: 0 1vw;
 }

@@ -1,13 +1,51 @@
 .weather-form {
-    position: absolute;
-    right: 100px;
-    top: 40px;
+  width: 80%;
+  height: auto;
+  position: absolute;
+  right: 100px;
+  top: 120px;
 }
-.button-icon.button-icon-search-icon{
+
+.weather-form input {
+  min-width: 120px;
+}
+.button-icon.button-icon-search-icon {
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  top: 48%;
+  left: 102%;
+  z-index: 3;
+}
+
+/* <389 px */
+@media screen and (max-width: 389px) {
+  .weather-form {
+    position: absolute;
+    top: 25%;
+    left: 10%;
+  }
+  .button-icon.button-icon-search-icon {
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    top: 105%;
+    left: 50%;
+  }
+}
+
+@media screen and (min-width: 389px) {
+  .weather-form {
+    position: absolute;
+    top: 25%;
+    left: 5%;
+  }
+
+  .button-icon.button-icon-search-icon {
     width: fit-content;
     height: fit-content;
     position: absolute;
     top: 48%;
     left: 102%;
-
+  }
 }

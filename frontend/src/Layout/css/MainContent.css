@@ -6,8 +6,35 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("../../assets/welcome-to-app.gif");
-  background-repeat: no-repeat;
-  background-size: 50%;
 }
 
+.welcome-banner {
+  width: 250px;
+  min-height: 105px;
+  background-image: url("../../assets/welcome-to-app.gif");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+@media screen and (max-width: 389px) {
+  .welcome-banner {
+    width: 60%;
+    height: 20%;
+    background-size: contain;
+    position: absolute;
+    top: 0%;
+    right: 20%;
+  }
+}
+
+@media screen and (min-width: 389px) {
+  .welcome-banner {
+    width: 50%;
+    height: 20%;
+    background-size: 300px auto;
+    position: absolute;
+    top: 0%;
+    right: 30%;
+  }
+}

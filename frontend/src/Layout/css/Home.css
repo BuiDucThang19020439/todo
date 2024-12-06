@@ -1,16 +1,18 @@
 .home {
-    width: 100%;
-    height: auto;
-    display: flex;
+  width: 100%;
+  height: auto;
+  display: flex;
 }
 
 .left-sidebar {
-    width: var(--sidebar-width);
-    height: 100vh;
+  width: var(--sidebar-width);
+  height: 100vh;
 }
 
 .content {
-    width: calc(100vw - var(--sidebar-width));
-    height: 100vh;
-    position: relative;
+  width: calc(100vw - var(--sidebar-width));
+  max-width: calc(100vw - 67px);
+  height: 100vh;
+  position: relative;
+  box-sizing: content-box;
 }

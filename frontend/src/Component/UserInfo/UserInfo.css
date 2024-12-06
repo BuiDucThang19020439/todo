@@ -5,12 +5,13 @@
   top: 10vh;
   text-align: center;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 
 .user-info-table {
   width: 85% !important;
-  margin-left: 20px;
 }
 .user-table-title {
-  width: 125px;
+  width: 150px;
 }
