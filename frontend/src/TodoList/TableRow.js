@@ -137,7 +137,7 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
       </td>
       <td className={`table-modify ${task.completed ? "task-completed" : ""}`}>
         {isEditRow ? (
-          <>
+          <div>
             <Button
               className="button-icon button-icon-send-icon"
               onClick={() => handleSubmit()}
@@ -150,9 +150,9 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
             >
               <ion-icon name="close-sharp" size="small"></ion-icon>
             </Button>
-          </>
+          </div>
         ) : (
-          <>
+          <div>
             <Button
               className="button-icon button-icon-modify-icon"
               onClick={() => toggleEditRow()}
@@ -165,7 +165,7 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
             >
               <ion-icon name="trash-outline" size="small"></ion-icon>
             </Button>
-          </>
+          </div>
         )}
       </td>
     </tr>

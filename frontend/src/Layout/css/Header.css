@@ -13,7 +13,7 @@
 
 .button-list {
   display: flex;
-  width: 25%;
+  width: fit-content;
   height: 100%;
   flex-direction: row;
   justify-content: end;

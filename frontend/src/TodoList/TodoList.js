@@ -138,7 +138,7 @@ function TodoList({ toggleAddItemForm }) {
               onChange={(event) => handleFilterOption(event.target.value)}
               className="set-filter-option"
             >
-              <option value="">---Lọc---</option>
+              <option value="">--Lọc--</option>
               <option value="title">Tiêu đề</option>
               <option value="content">Nội dung</option>
               <option value="completed">Hoàn thành</option>

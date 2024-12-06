@@ -1,85 +1,92 @@
 .background {
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(90, 90, 90, 0.6);
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(90, 90, 90, 0.6);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 
 form.form-add-item {
-    width: 600px;
-    height: 500px;
-    background-color: #fff;
-    background-image: url('https://img.freepik.com/free-photo/white-particle-lines-futuristic-gradient-background_53876-102621.jpg?t=st=1728531959~exp=1728532559~hmac=7198885cf849fd4066c5448ba70eb18e7e0741b636808f5f2d7fb9112a907884');
-    display: flex;
-    flex-direction: column;
-    z-index: 5 !important;
-    position: absolute;
-    transform: translate(-50%,-50%);
-    top: 50%;
-    left: 50%;
-    border-radius: 10px;
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
-    padding: 30px 35px;
-    column-gap: 5px;
+  width: 600px;
+  height: 500px;
+  background-color: #fff;
+  background-image: url("https://img.freepik.com/free-photo/white-particle-lines-futuristic-gradient-background_53876-102621.jpg?t=st=1728531959~exp=1728532559~hmac=7198885cf849fd4066c5448ba70eb18e7e0741b636808f5f2d7fb9112a907884");
+  display: flex;
+  flex-direction: column;
+  z-index: 5 !important;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  padding: 30px 35px;
+  column-gap: 5px;
 }
 
 .button-submit-todo-item {
-    width: 50px;
-    position: absolute;
-    bottom: 25px;
-    right: 50%;
+  width: 75px;
+  position: absolute;
+  bottom: 25px;
+  right: 40%;
 }
 
 .button-icon.button-icon-close-form#close-add-form {
-    width: 50px;
-    position: absolute;
-    top: 5%;
-    right: 4%;
-    z-index: 3;
+  width: 50px;
+  position: absolute;
+  top: 5%;
+  right: 4%;
+  z-index: 3;
 }
 
 form.form-add-item label {
-    font-weight: bold;
-    display: flex;
-    /* margin-top: 1rem; */
+  font-weight: bold;
+  display: flex;
+  /* margin-top: 1rem; */
 }
 
 form.form-add-item input {
-	width: 100%;
-	border: none;
-	background-color: #eee;
-	border-radius: 4px;
-    padding: 10px 15px;
-	margin-bottom: 10px !important;
+  width: 100%;
+  border: none;
+  background-color: #eee;
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin-bottom: 10px !important;
 }
 
 input:focus-visible {
-	border: 1px solid blue !important;
-	outline: 1px solid blue;
+  border: 1px solid blue !important;
+  outline: 1px solid blue;
 }
 
 form.form-add-item .error {
-	color: red;
-	font-size: 12px;
-	width: 400px;
-    text-align: left;
-    margin-bottom: 5px;
+  color: red;
+  font-size: 12px;
+  width: 400px;
+  text-align: left;
+  margin-bottom: 5px;
 }
 form.form-add-item .error::before {
-	content: "❌ ";
-    font-size: 10px;
+  content: "❌ ";
+  font-size: 10px;
 }
 
 form.form-add-item .select-item-importance {
-    width: 100%;
-    height: 42px;
-	border: none;
-	background-color: #eee;
-	border-radius: 4px;
-    padding: 10px 15px;
-	margin-bottom: 15px !important;
+  width: 100%;
+  height: 42px;
+  border: none;
+  background-color: #eee;
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin-bottom: 15px !important;
+}
+
+@media screen and (max-width: 576px) {
+  form.form-add-item {
+    width: 80vw;
+    height: 500px;
+  }
 }
