@@ -6,17 +6,9 @@ import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 
 function Sidebar() {
-  const isExtraSmall = useMediaQuery({ query: "(max-width: 388px)" });
   const isSmall = useMediaQuery({
-    query: "(min-width: 389px) and (max-width: 575px)",
+    query: "(max-width: 575px)",
   });
-  const isMedium = useMediaQuery({
-    query: "(min-width: 576px) and (max-width: 767px)",
-  });
-  const isLarge = useMediaQuery({
-    query: "(min-width: 768px) and (max-width: 992px)",
-  });
-  const isExtraLarge = useMediaQuery({ query: "(min-width: 993px)" });
   /**
    * isSidebarCollapsed dùng để đóng mở sidebar
    * setSidebarCollapsed đặt giá trị true false cho việc đóng mở
@@ -26,9 +18,6 @@ function Sidebar() {
   const toggleSibarCollapse = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
   };
-  const openSidebar = () => {
-    setIsSidebarCollapsed(false);
-  };
   const closeSidebar = () => {
     setIsSidebarCollapsed(true);
   };
@@ -36,11 +25,11 @@ function Sidebar() {
   let sidebarWidth = document.querySelector(":root");
 
   useEffect(() => {
-    if (isExtraSmall || isSmall) {
+    if (isSmall) {
       sidebarWidth.style.setProperty("--sidebar-width", "68px");
       closeSidebar();
     }
-  }, [isExtraSmall, isSmall]);
+  }, [isSmall]);
 
   function setSidebarCollapsed() {
     toggleSibarCollapse();
@@ -54,6 +43,8 @@ function Sidebar() {
           "var(--sidebar-expanded-width)"
         );
   }
+  // let rootStyles = getComputedStyle(sidebarWidth);
+  // console.log(rootStyles.getPropertyValue("--sidebar-width"));
 
   return (
     <div className="sidebar">
@@ -125,7 +116,7 @@ function Sidebar() {
               </Button>
             </Link>
           </div>
-          {!isSmall && !isExtraSmall && (
+          {!isSmall && (
             <div>
               <Button
                 type="button"

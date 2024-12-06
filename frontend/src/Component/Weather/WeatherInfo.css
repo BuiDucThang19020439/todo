@@ -9,7 +9,6 @@
 }
 @media screen and (max-width: 389px) {
   .weather-info {
-    position: absolute;
     top: 60%;
     right: 30%;
   }
@@ -17,8 +16,14 @@
 
 @media screen and (min-width: 389px) {
   .weather-info {
-    position: absolute;
     top: 50%;
     right: 50%;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .weather-info {
+    top: 50%;
+    right: 40%;
   }
 }

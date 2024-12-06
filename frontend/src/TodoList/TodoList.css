@@ -17,10 +17,7 @@
 }
 
 .filter-input {
-  max-width: 350px;
   position: absolute;
-  top: 5px;
-  left: 650px;
 }
 
 .set-filter-option {
@@ -127,19 +124,16 @@ tfoot form {
   margin-left: 5px;
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 525px) {
   .button-add-todo-item {
     position: absolute;
     top: 5px;
     right: 3vw;
   }
   .filter-input {
-    max-width: 50vw;
+    max-width: calc(100vw - 180px) !important;
     top: 5px;
     left: 3vw;
-  }
-  .set-filter-option {
-    max-width: fit-content;
   }
   td.table-deadline {
     max-width: 8vw;
@@ -151,5 +145,33 @@ tfoot form {
   td {
     word-wrap: break-word;
     white-space: normal;
+  }
+}
+
+@media screen and (min-width: 525px) {
+  .button-add-todo-item {
+    position: absolute;
+    top: 5px;
+    right: 3vw;
+  }
+  .filter-input {
+    max-width: 350px;
+    top: 5px;
+    left: 3vw;
+  }
+  td.table-deadline {
+    max-width: 8vw;
+  }
+  td.table-modify {
+    width: fit-content;
+    height: 100%;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .filter-input {
+    max-width: 360px;
+    top: 5px;
+    left: 3vw;
   }
 }
