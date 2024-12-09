@@ -13,6 +13,9 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
   const toggleEditRow = () => {
     setIsEditRow(!isEditRow);
   };
+  /**
+   * title, content, deadline và important là các state lưu giá trị cho mục đích chỉnh sửa một nhiệm vụ
+   */
   const [title, setTitle] = useState(task.title);
   const handleTitle = (text) => {
     setTitle(text);
@@ -30,6 +33,12 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
     setImportant(text);
   };
 
+  /**
+   * hàm handleSubmit là hàm cập nhật một nhiệm vụ (một hàng)
+   * nếu một ô có thay đổi, thì lưu thay đổi đó vào object newPatch, chỉ update những ô thay đổi
+   * ở đây dùng patch thay vì put vì patch chỉ sửa đổi những key được gửi, không có key thì thêm mới
+   * còn put sẽ thay mới hoàn toàn object được chọn, key nào không được gửi trong put thì xóa luôn
+   */
   const handleSubmit = async () => {
     let newPatch = {};
     if (task.title !== title) newPatch.title = title;
@@ -63,6 +72,12 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
     }
   };
 
+  /**
+   * hàm handleCheckbox phụ trách việc set key completed cho nhiệm vụ
+   * param là task cần thay đổi
+   * cần async await để đồng bộ dữ liệu lưu trên db và dự liệu hiển thị trên màn hình,
+   * nếu không màn hình hiển thị sẽ bị chậm mật một bước
+   */
   const handleCheckbox = async (task) => {
     await toggleCheckBox(task.id, task.completed);
     getTodoItem();

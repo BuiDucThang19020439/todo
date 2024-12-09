@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
  */
 function LoginForm({ toggleLoginForm }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   let userList = useSelector((state) => state.handleLogin.userList);
   // dùng để thêm class cho right panel
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -81,6 +81,9 @@ function LoginForm({ toggleLoginForm }) {
                 "Số điện thoại không hợp lệ"
               ),
             })}
+            /**
+             * Hàm submit form cho form thêm một tài khoản mới
+             */
             onSubmit={(values, { setSubmitting }) => {
               let arrLength = userList.length;
               let newId = arrLength !== 0 ? userList[arrLength - 1].id + 1 : 1;
@@ -104,7 +107,7 @@ function LoginForm({ toggleLoginForm }) {
               );
               toggleLoginForm();
               setSubmitting(false);
-              navigate('/');
+              navigate("/");
             }}
           >
             <Form className="login-form">
@@ -159,6 +162,9 @@ function LoginForm({ toggleLoginForm }) {
                 "Mật khẩu không được để trống"
               ),
             })}
+            /**
+             * hàm submit form cho chức năng đăng nhập
+             */
             onSubmit={(values, { setSubmitting }) => {
               dispatch(
                 userLogin({
@@ -176,7 +182,7 @@ function LoginForm({ toggleLoginForm }) {
               );
               toggleLoginForm();
               setSubmitting(false);
-              navigate('/');
+              navigate("/");
             }}
           >
             <Form className="login-form">

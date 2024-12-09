@@ -6,12 +6,13 @@ import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 
 function Sidebar() {
+  // isSmall: khi width của trình duyệt <992px, sidebar luôn ở trạng thái thu nhỏ
   const isSmall = useMediaQuery({
-    query: "(max-width: 575px)",
+    query: "(max-width: 992px)",
   });
+
   /**
    * isSidebarCollapsed dùng để đóng mở sidebar
-   * setSidebarCollapsed đặt giá trị true false cho việc đóng mở
    * câu điều kiện dùng để thay đổi --sidebar-width lấy từ https://youtu.be/OMzuo7MOS2I?si=DlPZoWNSse25pEi4
    */
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -23,7 +24,6 @@ function Sidebar() {
   };
 
   let sidebarWidth = document.querySelector(":root");
-
   useEffect(() => {
     if (isSmall) {
       sidebarWidth.style.setProperty("--sidebar-width", "68px");
@@ -31,6 +31,9 @@ function Sidebar() {
     }
   }, [isSmall]);
 
+  /**
+   * hàm setSidebarCollapsed set giá trị width của sidebar khi đóng mở
+   */
   function setSidebarCollapsed() {
     toggleSibarCollapse();
     !isSidebarCollapsed
@@ -48,6 +51,7 @@ function Sidebar() {
 
   return (
     <div className="sidebar">
+      {/* -----------------------------sidebar khi mở -----------------------------------------------*/}
       {!isSidebarCollapsed && (
         <div className="extend-sidebar">
           <div className="head-sidebar">
@@ -88,7 +92,7 @@ function Sidebar() {
           </div>
         </div>
       )}
-
+      {/* ------------------------------------sidebar khi đóng---------------------------------------- */}
       {isSidebarCollapsed && (
         <div className="collapsed-sidebar">
           <div className="head-sidebar">

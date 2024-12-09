@@ -7,7 +7,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import TableRow from "./TableRow";
 import Pagination from "react-bootstrap/Pagination";
 import { getTaskList } from "../api/api";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
 function TodoList({ toggleAddItemForm }) {
@@ -15,20 +15,32 @@ function TodoList({ toggleAddItemForm }) {
   const token = Cookies.get("id");
   let order = 0; // order là số thứ tự hàng hiện trên bảng
 
+  /**
+   * filterWord là từ dùng cho việc tìm kiếm
+   */
   const [filterWord, setFilterWord] = useState("");
   const handleFilter = (data) => {
     setFilterWord(data);
   };
+  /**
+   * filterOption cho phép lựa chọn lọc theo cái gì (title, content, ...)
+   */
   const [filterOption, setFilterOption] = useState("");
   const handleFilterOption = (data) => {
     handleCurrentPage(1);
     handleFilter("");
     setFilterOption(data);
   };
+  /**
+   * taskList là danh sách nhiệm vụ ban đầu, sẽ không thay đổi
+   */
   const [taskList, setTaskList] = useState([]);
   const handleTaskList = (list) => {
     setTaskList(list);
   };
+  /**
+   * filterList là danh sách sau khi lọc, sẽ thay đổi, phân trang dựa vào danh sách này
+   */
   const [filterList, setFilterList] = useState([]);
 
   /**
@@ -62,11 +74,12 @@ function TodoList({ toggleAddItemForm }) {
     }
   };
 
+  // Get dữ liệu 1 lần từ db với useEffect
   useEffect(() => {
     getTodoItem();
   }, []);
 
-  // lọc danh sách hiện tại
+  // lọc danh sách hiện tại theo filterOption
   const handleFilterList = () => {
     let Term = () => {
       switch (filterOption) {
@@ -86,10 +99,13 @@ function TodoList({ toggleAddItemForm }) {
     };
     setFilterList(Term());
   };
+  // thay đổi filterList để hiển thị danh sách đã lọc dựa theo filterOption và filterWord
+  // phân ra 2 useEffect để tránh render vô hạn
   useEffect(() => {
     handleFilterList();
   }, [filterOption, filterWord]);
 
+  // Các biến sử dụng cho việc phân trang
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const [numberItemAPage, setNumberItemAPage] = useState(5); // Số item 1 trang
   const indexOfLastItem = currentPage * numberItemAPage; // index vị trí cuối cùng của trang hiện tại
@@ -101,11 +117,15 @@ function TodoList({ toggleAddItemForm }) {
   const handleCurrentPage = (page) => {
     setCurrentPage(page);
   };
+  // Mỗi khi thay đổi số task hiển thị trên một page, quay về page 1
   const handleNumberItemAPage = (num) => {
     handleCurrentPage(1);
     setNumberItemAPage(num);
   };
 
+  /**
+   * render thanh phân trang(1, 2, 3...)
+   */
   const pagesListRender = pages.map((page) => {
     return (
       <Pagination.Item

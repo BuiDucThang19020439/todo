@@ -33,6 +33,7 @@ function Home() {
 
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.handleLogin.userList);
+
   // hàm initLogin có nhiệm vụ đăng nhập lại nếu người dùng chưa đăng xuất mà refresh hoặc xóa trình duyệt
   const initLogin = () => {
     const token = Cookies.get("id");
@@ -48,6 +49,7 @@ function Home() {
       );
     }
   };
+  // tự động đăng nhập nếu vẫn còn token lưu trên cockies
   useEffect(() => {
     initLogin();
   }, []);
@@ -65,13 +67,17 @@ function Home() {
             path="/TodoList"
             element={
               <TodoList toggleAddItemForm={toggleAddItemForm}></TodoList>
-          }/>
+            }
+          />
           <Route path="/userInfo" element={<UserInfo></UserInfo>}></Route>
         </Routes>
       </div>
       <ToastMsg></ToastMsg>
+      {/* form đăng nhập và form thêm tài sản lưu ẩn hiện ở đây */}
       {isLoginForm && <LoginForm toggleLoginForm={toggleLoginForm}></LoginForm>}
-      {isAddTodoItem && (<TodoForm toggleAddItemForm={toggleAddItemForm}></TodoForm>)}
+      {isAddTodoItem && (
+        <TodoForm toggleAddItemForm={toggleAddItemForm}></TodoForm>
+      )}
     </div>
   );
 }
