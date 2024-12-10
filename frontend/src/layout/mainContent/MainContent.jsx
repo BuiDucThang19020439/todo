@@ -1,14 +1,12 @@
-import "../css/MainContent.css";
-import WeatherForm from "../../Component/Weather/WeatherForm";
-import WeatherInfo from "../../Component/Weather/WeatherInfo";
+import "./MainContent.css";
+import WeatherForm from "component/Weather/WeatherForm";
+import WeatherInfo from "component/Weather/WeatherInfo";
 import { useDispatch } from "react-redux";
-import { showToastMessage } from "../../reducer/toastSlice";
+import { showToastMessage } from "reducer/toastSlice";
 import { useState } from "react";
 
 function MainContent() {
-  // const Api_Key = "f6d6101d0021278c055f63970fe1b2f2";
-  const Api_Key = "8d2de98e089f1c28e1a22fc19a24ef04";
-
+  const Api_Key = process.env.REACT_APP_API_KEY;
   //weatherState là dữ liệu thời tiết lấy từ api
   const [weatherState, setWeatherState] = useState({
     temperature: "",

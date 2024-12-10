@@ -1,8 +1,8 @@
-import "../css/Header.css";
+import "./Header.css";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
-import { userLogout } from "../../reducer/loginSlice";
+import { userLogout } from "reducer/loginSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function Header({ toggleLoginForm }) {

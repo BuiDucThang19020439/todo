@@ -1,5 +1,5 @@
 import "./UserInfo.css";
-import "../../css/icon.css";
+import "css/icon.css";
 import { Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
 

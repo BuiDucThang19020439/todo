@@ -1,5 +1,5 @@
-import "../css/Sidebar.css";
-import "../../css/icon.css";
+import "./Sidebar.css";
+import "css/icon.css";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import { Link } from "react-router-dom";

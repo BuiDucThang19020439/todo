@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
-import "../css/Home.css";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import MainContent from "./MainContent";
-import ToastMsg from "../../Component/Toast/ToastMsg";
-import LoginForm from "../../Component/LoginForm/LoginForm";
-import TodoList from "../../TodoList/TodoList";
-import TodoForm from "../../Component/TodoForm/TodoForm";
-import UserInfo from "../../Component/UserInfo/UserInfo";
+import "./Home.css";
+import Header from "../header/Header";
+import Sidebar from "../sidebar/Sidebar";
+import MainContent from "../mainContent/MainContent";
+import ToastMsg from "component/toast/ToastMsg";
+import LoginForm from "component/LoginForm/LoginForm";
+import TodoList from "pages/todoList/TodoList";
+import TodoForm from "component/TodoForm/TodoForm";
+import UserInfo from "pages/userInfo/UserInfo";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { userLogin } from "../../reducer/loginSlice";
+import { userLogin } from "reducer/loginSlice";
 
 function Home() {
   /**
@@ -20,7 +20,7 @@ function Home() {
    */
   const [isLoginForm, setIsLoginForm] = useState(false);
   function toggleLoginForm() {
-    setIsLoginForm(!isLoginForm);
+    setIsLoginForm((prev) => !prev);
   }
 
   /**
@@ -28,7 +28,7 @@ function Home() {
    */
   const [isAddTodoItem, setIsAddTodoItem] = useState(false);
   function toggleAddItemForm() {
-    setIsAddTodoItem(!isAddTodoItem);
+    setIsAddTodoItem((prev) => !prev);
   }
 
   const dispatch = useDispatch();

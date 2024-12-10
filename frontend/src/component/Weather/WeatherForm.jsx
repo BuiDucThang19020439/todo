@@ -1,5 +1,5 @@
 import "./WeatherForm.css";
-import "../../css/icon.css";
+import "css/icon.css";
 import {
   Form,
   FormControl,

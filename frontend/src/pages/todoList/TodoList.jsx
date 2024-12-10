@@ -1,12 +1,12 @@
 import "./TodoList.css";
-import "../css/icon.css";
+import "css/icon.css";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import TableRow from "./TableRow";
 import Pagination from "react-bootstrap/Pagination";
-import { getTaskList } from "../api/api";
+import { getTaskList } from "api/api";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 

@@ -1,12 +1,12 @@
 import "./TodoForm.css";
-import "../../css/icon.css";
+import "css/icon.css";
 import { useDispatch, useSelector } from "react-redux";
-import { showToastMessage } from "../../reducer/toastSlice";
+import { showToastMessage } from "reducer/toastSlice";
 import Button from "react-bootstrap/Button";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
-import {  addTask } from "../../api/api";
-import { useNavigate } from 'react-router-dom';
+import { addTask } from "api/api";
+import { useNavigate } from "react-router-dom";
 
 function TodoForm({ toggleAddItemForm }) {
   const dispatch = useDispatch();
@@ -14,32 +14,6 @@ function TodoForm({ toggleAddItemForm }) {
   // Lấy thông tin của người dùng đăng nhập
   const user = useSelector((state) => state.handleLogin.loggedUserInfo);
   const newId = localStorage.getItem("nextItemId");
-
-  const MyTextInput = ({ label, ...props }) => {
-    const [field, meta] = useField(props);
-    return (
-      <>
-        <label htmlFor={props.id || props.name}>{label}</label>
-        <input className="text-input" {...field} {...props} />
-        {meta.touched && meta.error ? (
-          <div className="error">{meta.error}</div>
-        ) : null}
-      </>
-    );
-  };
-
-  const MySelect = ({ label, ...props }) => {
-    const [field, meta] = useField(props);
-    return (
-      <>
-        <label htmlFor={props.id || props.name}>{label}</label>
-        <select {...field} {...props}></select>
-        {meta.touched && meta.error ? (
-          <div className="error">{meta.error}</div>
-        ) : null}
-      </>
-    );
-  };
 
   return (
     <div className="background">
@@ -104,11 +78,7 @@ function TodoForm({ toggleAddItemForm }) {
             placeholder="Nhập nội dung công việc"
             name="content"
           />
-          <MyTextInput 
-            label="Hạn hoàn thành" 
-            type="date" 
-            name="deadline" 
-          />
+          <MyTextInput label="Hạn hoàn thành" type="date" name="deadline" />
           <MySelect
             label="Độ quan trọng"
             name="important"
@@ -119,10 +89,38 @@ function TodoForm({ toggleAddItemForm }) {
             <option value="Quan trọng">Quan trọng</option>
             <option value="Khẩn cấp">Khẩn cấp</option>
           </MySelect>
-          <Button className="button-submit-todo-item" type="submit">Gửi</Button>
+          <Button className="button-submit-todo-item" type="submit">
+            Gửi
+          </Button>
         </Form>
       </Formik>
     </div>
+  );
+}
+
+function MyTextInput({ label, ...props }) {
+  const [field, meta] = useField(props);
+  return (
+    <>
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <input className="text-input" {...field} {...props} />
+      {meta.touched && meta.error ? (
+        <div className="error">{meta.error}</div>
+      ) : null}
+    </>
+  );
+}
+
+function MySelect({ label, ...props }) {
+  const [field, meta] = useField(props);
+  return (
+    <>
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <select {...field} {...props}></select>
+      {meta.touched && meta.error ? (
+        <div className="error">{meta.error}</div>
+      ) : null}
+    </>
   );
 }
 

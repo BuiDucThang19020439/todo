@@ -1,10 +1,10 @@
 import "./LoginForm.css";
-import "../../css/icon.css";
+import "css/icon.css";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { showToastMessage } from "../../reducer/toastSlice";
-import { userLogin, addUser } from "../../reducer/loginSlice";
+import { showToastMessage } from "reducer/toastSlice";
+import { userLogin, addUser } from "reducer/loginSlice";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -17,19 +17,6 @@ function LoginForm({ toggleLoginForm }) {
   let userList = useSelector((state) => state.handleLogin.userList);
   // dùng để thêm class cho right panel
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
-
-  const MyTextInput = ({ label, ...props }) => {
-    const [field, meta] = useField(props);
-    return (
-      <>
-        <label htmlFor={props.id || props.name}>{label}</label>
-        <input className="text-input" {...field} {...props} />
-        {meta.touched && meta.error ? (
-          <div className="error">{meta.error}</div>
-        ) : null}
-      </>
-    );
-  };
 
   return (
     <div className="background">
@@ -234,6 +221,19 @@ function LoginForm({ toggleLoginForm }) {
         </div>
       </div>
     </div>
+  );
+}
+
+function MyTextInput({ label, ...props }) {
+  const [field, meta] = useField(props);
+  return (
+    <>
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <input className="text-input" {...field} {...props} />
+      {meta.touched && meta.error ? (
+        <div className="error">{meta.error}</div>
+      ) : null}
+    </>
   );
 }
 

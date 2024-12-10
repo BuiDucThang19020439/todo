@@ -6,7 +6,7 @@
       "title": "Việc nhà",
       "content": "Giặt đồ",
       "deadline": "2025-05-07",
-      "important": "Quan trọng",
+      "important": "Khẩn cấp",
       "completed": true
     },
     {
@@ -25,7 +25,7 @@
       "content": "Quét nhà",
       "deadline": "2024-12-02",
       "important": "Không quan trọng",
-      "completed": false
+      "completed": true
     },
     {
       "id": "4",
@@ -33,7 +33,7 @@
       "title": "Việc nhà",
       "content": "Rửa bát",
       "deadline": "2025-01-04",
-      "important": "Quan trọng",
+      "important": "Khẩn cấp",
       "completed": false
     },
     {
@@ -187,7 +187,16 @@
       "content": "Cắm hoa",
       "deadline": "2025-01-10",
       "important": "Ít quan trọng",
-      "completed": true
+      "completed": false
+    },
+    {
+      "id": "22",
+      "userId": 1,
+      "title": "Nghỉ ngơi",
+      "content": "Đọc sách",
+      "deadline": "2024-12-13",
+      "important": "Không quan trọng",
+      "completed": false
     }
   ]
 }
