@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
 
-const taskSchema = mongoose.Schema(
+const TaskSchema = mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, "Please enter title"],
+      required: [true, "Please enter task name"],
     },
+
     content: {
       type: String,
-      required: [true, "Please enter content"],
+      required: [true, "Please enter task content"],
     },
   },
   {
@@ -16,5 +17,6 @@ const taskSchema = mongoose.Schema(
   }
 );
 
-const Task = mongoose.model("Task", taskSchema);
+const Task = mongoose.model("Task", TaskSchema);
+
 module.exports = Task;
