@@ -3,6 +3,7 @@ import Button from "react-bootstrap/esm/Button";
 import { useDispatch } from "react-redux";
 import { showToastMessage } from "reducer/toastSlice";
 import { deleteTask, toggleCheckBox, modifyTask } from "api/api";
+import moment from "moment";
 
 export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
     if (task.deadline !== deadline) newPatch.deadline = deadline;
     if (task.important !== important) newPatch.important = important;
     if (Object.keys(newPatch).length > 0) {
-      await modifyTask(task.id, newPatch);
+      await modifyTask(task._id, newPatch);
     }
     toggleEditRow();
     getTodoItem();
@@ -79,7 +80,7 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
    * nếu không màn hình hiển thị sẽ bị chậm mật một bước
    */
   const handleCheckbox = async (task) => {
-    await toggleCheckBox(task.id, task.completed);
+    await toggleCheckBox(task._id, task.completed);
     getTodoItem();
   };
   return (
@@ -90,7 +91,7 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
         <input
           className="task-checkbox"
           type="checkbox"
-          value={task.id}
+          value={task._id}
           defaultChecked={task.completed}
           onChange={() => handleCheckbox(task)}
         ></input>
@@ -129,8 +130,10 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
             value={deadline}
             onChange={(event) => handleDeadline(event.target.value)}
           ></input>
+        ) : task.deadline ? (
+          moment(task.deadline).format("DD-MM-YYYY")
         ) : (
-          task.deadline
+          ""
         )}
       </td>
       <td
@@ -176,7 +179,7 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
             </Button>
             <Button
               className="button-icon button-icon-delete-icon"
-              onClick={() => deleteTodoItem(task.id)}
+              onClick={() => deleteTodoItem(task._id)}
             >
               <ion-icon name="trash-outline" size="small"></ion-icon>
             </Button>

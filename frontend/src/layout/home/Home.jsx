@@ -12,6 +12,7 @@ import UserInfo from "pages/userInfo/UserInfo";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { userLogin } from "reducer/loginSlice";
+import axios from "axios";
 
 function Home() {
   /**

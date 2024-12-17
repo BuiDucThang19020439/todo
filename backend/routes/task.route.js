@@ -1,23 +1,24 @@
 const express = require("express");
-const Task = require("../models/task.model.js");
 const router = express.Router();
 const {
-  getTasks,
-  getTask,
-  createTask,
-  updateTask,
+  getTaskList,
+  getATask,
+  addTask,
+  modifyTask,
   deleteTask,
 } = require("../controllers/task.controller.js");
 
-router.get("/", getTasks);
-router.get("/:id", getTask);
+// lấy danh sách các task
+router.get("/", getTaskList);
+router.get("/:id", getATask);
 
-router.post("/", createTask);
+// thêm một task
+router.post("/", addTask);
 
-// update a Task
-router.put("/:id", updateTask);
+// sửa đổi một task
+router.patch("/:id", modifyTask);
 
-// delete a Task
+// xóa một task
 router.delete("/:id", deleteTask);
 
 module.exports = router;

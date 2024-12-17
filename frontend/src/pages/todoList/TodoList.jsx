@@ -186,7 +186,7 @@ function TodoList({ toggleAddItemForm }) {
                 .map((task) => {
                   return (
                     <TableRow
-                      key={task.id}
+                      key={task._id}
                       task={task}
                       order={++order}
                       getTodoItem={getTodoItem}

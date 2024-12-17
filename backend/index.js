@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Task = require("./models/task.model.js");
 const taskRoute = require("./routes/task.route.js");
 const app = express();
 const port = 3001;
@@ -9,8 +8,17 @@ const port = 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+//loại bỏ lỗi cors
+const cors = require("cors");
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+
 //routes
-app.use("/api/tasks", taskRoute);
+app.use("/api/taskList", taskRoute);
 
 // kết nối đến mongodb
 const uri =

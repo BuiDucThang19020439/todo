@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const TaskSchema = mongoose.Schema(
   {
+    userId: {
+      type: Number,
+      required: true,
+    },
     title: {
       type: String,
       required: [true, "Please enter task name"],
@@ -11,6 +15,17 @@ const TaskSchema = mongoose.Schema(
       type: String,
       required: [true, "Please enter task content"],
     },
+    deadline: {
+      type: Date,
+    },
+    important: {
+      type: String,
+      default: "Không quan trọng",
+    },
+    completed: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
@@ -18,5 +33,4 @@ const TaskSchema = mongoose.Schema(
 );
 
 const Task = mongoose.model("Task", TaskSchema);
-
 module.exports = Task;

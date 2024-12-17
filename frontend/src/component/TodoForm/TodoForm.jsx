@@ -13,13 +13,11 @@ function TodoForm({ toggleAddItemForm }) {
   const navigate = useNavigate();
   // Lấy thông tin của người dùng đăng nhập
   const user = useSelector((state) => state.handleLogin.loggedUserInfo);
-  const newId = localStorage.getItem("nextItemId");
 
   return (
     <div className="background">
       <Formik
         initialValues={{
-          id: 0,
           userId: 0,
           title: "",
           content: "",
@@ -34,7 +32,6 @@ function TodoForm({ toggleAddItemForm }) {
         })}
         onSubmit={(values, { setSubmitting }) => {
           addTask({
-            id: newId.toString(),
             userId: user.id,
             title: values.title,
             content: values.content,
