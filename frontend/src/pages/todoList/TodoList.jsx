@@ -64,7 +64,6 @@ function TodoList({ toggleAddItemForm }) {
   const getTodoItem = async () => {
     try {
       let response = await getTaskList();
-      localStorage.setItem("nextItemId", +response[response.length - 1].id + 1);
       handleTaskList(
         response.filter((task) => +task.userId === +(token || -1))
       );
