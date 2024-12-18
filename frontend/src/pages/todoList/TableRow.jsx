@@ -66,7 +66,6 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
           variant: "success",
         })
       );
-      setCurrentPage(1);
       getTodoItem();
     } catch (error) {
       console.log(error);
