@@ -36,6 +36,7 @@ mongoose
     console.log("Connection failed");
   });
 
+// fake dữ liệu
 // async function seedDb() {
 //   const client = new MongoClient(uri);
 

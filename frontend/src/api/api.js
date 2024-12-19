@@ -86,3 +86,17 @@ export const modifyTask = async (id, data) => {
     console.log(error);
   }
 };
+
+/**
+ * hàm pagination lấy về các task sau khi đã phân trang
+ */
+export const paginateList = async (id, page, limit) => {
+  try {
+    const response = await axios.get(
+      `${baseURL}taskList/userId/${id}/page/${page}/limit/${limit}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -61,10 +61,37 @@ const deleteTask = async (req, res) => {
   }
 };
 
+// hàm phân trang
+//nhận vào các giá trị
+const paginateTask = async (req, res) => {
+  const id = parseInt(req.params.userId);
+  const currentPage = parseInt(req.params.currentPage) || 1; // trang hiện tại
+  const numberItemAPage = parseInt(req.params.numberItemAPage) || 5; // số item 1 trang
+  const skip = (currentPage - 1) * numberItemAPage;
+  const totalTask = await Task.countDocuments({ userId: id });
+  const totalPage = Math.ceil(totalTask / numberItemAPage);
+
+  const taskList = await Task.find({ userId: id })
+    .skip(skip)
+    .limit(numberItemAPage);
+
+  res.json({
+    taskList,
+    totalTask,
+    totalPage,
+    currentPage: currentPage,
+  });
+  try {
+  } catch (error) {
+    res.status(500).json({ error: "Lỗi server" });
+  }
+};
+
 module.exports = {
   getTaskList,
   getATask,
   addTask,
   modifyTask,
   deleteTask,
+  paginateTask,
 };

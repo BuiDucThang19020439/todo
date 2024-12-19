@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import TableRow from "./TableRow";
 import Pagination from "react-bootstrap/Pagination";
-import { getTaskList } from "api/api";
+import { paginateList } from "api/api";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
@@ -15,6 +15,19 @@ function TodoList({ toggleAddItemForm }) {
   const token = Cookies.get("id");
   let order = 0; // order là số thứ tự hàng hiện trên bảng
 
+  // Các biến sử dụng cho việc phân trang
+  const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
+  const [numberItemAPage, setNumberItemAPage] = useState(5); // Số item 1 trang
+  const [numberOfPages, setNumberOfPage] = useState(1);
+
+  const handleCurrentPage = (page) => {
+    setCurrentPage(page);
+  };
+  // Mỗi khi thay đổi số task hiển thị trên một page, quay về page 1
+  const handleNumberItemAPage = (num) => {
+    handleCurrentPage(1);
+    setNumberItemAPage(num);
+  };
   /**
    * filterWord là từ dùng cho việc tìm kiếm
    */
@@ -63,11 +76,10 @@ function TodoList({ toggleAddItemForm }) {
    */
   const getTodoItem = async () => {
     try {
-      let response = await getTaskList();
-      handleTaskList(
-        response.filter((task) => +task.userId === +(token || -1))
-      );
-      setFilterList(response.filter((task) => +task.userId === +(token || -1)));
+      let response = await paginateList(token, currentPage, numberItemAPage);
+      handleTaskList(response.taskList);
+      setFilterList(response.taskList);
+      setNumberOfPage(response.totalPage);
     } catch (error) {
       console.log(error);
     }
@@ -76,7 +88,7 @@ function TodoList({ toggleAddItemForm }) {
   // Get dữ liệu 1 lần từ db với useEffect
   useEffect(() => {
     getTodoItem();
-  }, []);
+  }, [currentPage, numberItemAPage]);
 
   // lọc danh sách hiện tại theo filterOption
   const handleFilterList = () => {
@@ -103,39 +115,6 @@ function TodoList({ toggleAddItemForm }) {
   useEffect(() => {
     handleFilterList();
   }, [filterOption, filterWord]);
-
-  // Các biến sử dụng cho việc phân trang
-  const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
-  const [numberItemAPage, setNumberItemAPage] = useState(5); // Số item 1 trang
-  const indexOfLastItem = currentPage * numberItemAPage; // index vị trí cuối cùng của trang hiện tại
-  const indexOfFirstItem = indexOfLastItem - numberItemAPage; // index vị trí đầu tiên của trang hiện tại
-  const numberOfPages = Math.ceil(filterList.length / numberItemAPage) || 1; // Tổng số trang
-  const pages = []; // mảng các trang (1, 2, 3,... )
-  for (let i = 1; i <= numberOfPages; i++) pages.push(i);
-
-  const handleCurrentPage = (page) => {
-    setCurrentPage(page);
-  };
-  // Mỗi khi thay đổi số task hiển thị trên một page, quay về page 1
-  const handleNumberItemAPage = (num) => {
-    handleCurrentPage(1);
-    setNumberItemAPage(num);
-  };
-
-  /**
-   * render thanh phân trang(1, 2, 3...)
-   */
-  const pagesListRender = pages.map((page) => {
-    return (
-      <Pagination.Item
-        key={page}
-        active={currentPage === page}
-        onClick={() => handleCurrentPage(page)}
-      >
-        {page}
-      </Pagination.Item>
-    );
-  });
 
   return (
     <>
@@ -180,19 +159,17 @@ function TodoList({ toggleAddItemForm }) {
               </tr>
             </thead>
             <tbody>
-              {filterList
-                .slice(indexOfFirstItem, indexOfLastItem)
-                .map((task) => {
-                  return (
-                    <TableRow
-                      key={task._id}
-                      task={task}
-                      order={++order}
-                      getTodoItem={getTodoItem}
-                      setCurrentPage={setCurrentPage}
-                    ></TableRow>
-                  );
-                })}
+              {filterList.map((task) => {
+                return (
+                  <TableRow
+                    key={task._id}
+                    task={task}
+                    order={++order}
+                    getTodoItem={getTodoItem}
+                    setCurrentPage={setCurrentPage}
+                  ></TableRow>
+                );
+              })}
             </tbody>
             <tfoot>
               <tr>
@@ -208,7 +185,18 @@ function TodoList({ toggleAddItemForm }) {
                         if (currentPage > 1) handleCurrentPage(currentPage - 1);
                       }}
                     />
-                    {pagesListRender}
+                    {Array.from({ length: numberOfPages }, (_, i) => i + 1).map(
+                      (page) => (
+                        <Pagination.Item
+                          key={page}
+                          onClick={() => handleCurrentPage(page)}
+                          active={currentPage === page}
+                        >
+                          {page}
+                        </Pagination.Item>
+                      )
+                    )}
+
                     <Pagination.Next
                       onClick={() => {
                         if (currentPage < numberOfPages)
