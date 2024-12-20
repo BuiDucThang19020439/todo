@@ -124,6 +124,10 @@ tfoot form {
   margin-left: 5px;
 }
 
+table tfoot input.pagination-choose-page {
+  max-width: 72px;
+}
+
 @media screen and (max-width: 525px) {
   .button-add-todo-item {
     position: absolute;

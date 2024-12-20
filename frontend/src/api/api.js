@@ -88,7 +88,10 @@ export const modifyTask = async (id, data) => {
 };
 
 /**
- * hàm pagination lấy về các task sau khi đã phân trang
+ * hàm paginateList lấy về các task sau khi đã phân trang
+ * id: userId hay id của người dùng đăng nhập
+ * page: currentPage hay trang hiện tại
+ * limit: numberItemAPage hay số hàng trong 1 trang
  */
 export const paginateList = async (id, page, limit) => {
   try {
@@ -100,3 +103,17 @@ export const paginateList = async (id, page, limit) => {
     console.log(error);
   }
 };
+
+/**
+ * Hàm filterList lọc danh sách
+ * filterWord từ khóa tìm kiếm
+ * filterOption tìm kiếm theo trường nào
+ */
+
+export const filterList = async (
+  id,
+  page,
+  limit,
+  filterWord,
+  filterOption
+) => {};

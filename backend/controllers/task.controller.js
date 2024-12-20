@@ -61,12 +61,23 @@ const deleteTask = async (req, res) => {
   }
 };
 
-// hàm phân trang
-//nhận vào các giá trị
+/**
+ * hàm paginateTask được sử dụng để phân trang
+ * id: id của người dùng đăng nhập hiện tại
+ * numberItemAPage: số hàng trong 1 trang
+ * currentPage: trang hiện tại
+ */
 const paginateTask = async (req, res) => {
+  // lấy từ params
   const id = parseInt(req.params.userId);
-  const currentPage = parseInt(req.params.currentPage) || 1; // trang hiện tại
-  const numberItemAPage = parseInt(req.params.numberItemAPage) || 5; // số item 1 trang
+  const currentPage = parseInt(req.params.currentPage) || 1;
+  const numberItemAPage = parseInt(req.params.numberItemAPage) || 5;
+
+  /**
+   * skip: bỏ qua các phần tử từ vị trí đầu tiên đến skip
+   * totalTask được lấy bằng countDocuments, ko phải lấy tất cả danh sách về rồi mới đếm nên ko lo hiệu suất
+   * totalPage: Tổng số trang
+   */
   const skip = (currentPage - 1) * numberItemAPage;
   const totalTask = await Task.countDocuments({ userId: id });
   const totalPage = Math.ceil(totalTask / numberItemAPage);
@@ -74,8 +85,8 @@ const paginateTask = async (req, res) => {
   const taskList = await Task.find({ userId: id })
     .skip(skip)
     .limit(numberItemAPage);
-
-  res.json({
+  // gửi về FE những thứ sau
+  res.status(200).json({
     taskList,
     totalTask,
     totalPage,
@@ -83,8 +94,29 @@ const paginateTask = async (req, res) => {
   });
   try {
   } catch (error) {
-    res.status(500).json({ error: "Lỗi server" });
+    res.status(500).json({ error: "Lỗi bên server" });
   }
+};
+
+/**
+ * hàm filterList sẽ lọc ra các task thỏa mãn filterWord và filterOption
+ */
+const filterList = async (req, res) => {
+  // lấy từ params
+  const id = parseInt(req.params.userId);
+  const currentPage = parseInt(req.params.currentPage) || 1;
+  const numberItemAPage = parseInt(req.params.numberItemAPage) || 5;
+  const filterWord = String(req.params.filterWord);
+  const filterOption = String(req.params.filterOption);
+
+  /**
+   * skip: bỏ qua các phần tử từ vị trí đầu tiên đến skip
+   * totalTask được lấy bằng countDocuments, ko phải lấy tất cả danh sách về rồi mới đếm nên ko lo hiệu suất
+   * totalPage: Tổng số trang
+   */
+  const skip = (currentPage - 1) * numberItemAPage;
+  const totalTask = await Task.countDocuments({ userId: id });
+  const totalPage = Math.ceil(totalTask / numberItemAPage);
 };
 
 module.exports = {
@@ -94,4 +126,5 @@ module.exports = {
   modifyTask,
   deleteTask,
   paginateTask,
+  filterList,
 };
