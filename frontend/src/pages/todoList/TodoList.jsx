@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import TableRow from "./TableRow";
 import Pagination from "react-bootstrap/Pagination";
-import { paginateList } from "api/api";
+import { paginateList, filterPaginationList } from "api/api";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
@@ -76,7 +76,7 @@ function TodoList({ toggleAddItemForm }) {
    */
   const getTodoItem = async () => {
     try {
-      let response = await paginateList(token, currentPage, numberItemAPage);
+      let response = await filterPaginationList(token, currentPage, numberItemAPage);
       handleTaskList(response.taskList);
       setFilterList(response.taskList);
       setNumberOfPage(response.totalPage);
@@ -219,9 +219,7 @@ function TodoList({ toggleAddItemForm }) {
     <>
       {token > 0 && (
         <div className="todo-list">
-          <Button className="button-add-todo-item" onClick={toggleAddItemForm}>
-            Thêm
-          </Button>
+          <Button className="button-add-todo-item" onClick={toggleAddItemForm}>Thêm</Button>
           <InputGroup className="mb-3 filter-input">
             <Form.Control
               aria-label="Text input with dropdown button"
@@ -258,7 +256,7 @@ function TodoList({ toggleAddItemForm }) {
               </tr>
             </thead>
             <tbody>
-              {filterList.map((task) => {
+              {taskList.map((task) => {
                 return (
                   <TableRow
                     key={task._id}

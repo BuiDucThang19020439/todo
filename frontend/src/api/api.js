@@ -110,10 +110,19 @@ export const paginateList = async (id, page, limit) => {
  * filterOption tìm kiếm theo trường nào
  */
 
-export const filterList = async (
+export const filterPaginationList = async (
   id,
   page,
   limit,
+  filterOption,
   filterWord,
-  filterOption
-) => {};
+) => {
+  try {
+    const response = await axios.get(
+      `${baseURL}taskList/userId/${id}/page/${page}/limit/${limit}/filterOption/${filterOption}/filterWord/${filterWord}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error)
+  }
+};

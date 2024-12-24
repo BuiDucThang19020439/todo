@@ -68,55 +68,99 @@ const deleteTask = async (req, res) => {
  * currentPage: trang hiện tại
  */
 const paginateTask = async (req, res) => {
-  // lấy từ params
-  const id = parseInt(req.params.userId);
-  const currentPage = parseInt(req.params.currentPage) || 1;
-  const numberItemAPage = parseInt(req.params.numberItemAPage) || 5;
-
-  /**
-   * skip: bỏ qua các phần tử từ vị trí đầu tiên đến skip
-   * totalTask được lấy bằng countDocuments, ko phải lấy tất cả danh sách về rồi mới đếm nên ko lo hiệu suất
-   * totalPage: Tổng số trang
-   */
-  const skip = (currentPage - 1) * numberItemAPage;
-  const totalTask = await Task.countDocuments({ userId: id });
-  const totalPage = Math.ceil(totalTask / numberItemAPage);
-
-  const taskList = await Task.find({ userId: id })
-    .skip(skip)
-    .limit(numberItemAPage);
-  // gửi về FE những thứ sau
-  res.status(200).json({
-    taskList,
-    totalTask,
-    totalPage,
-    currentPage: currentPage,
-  });
   try {
+    // lấy từ params
+    const id = parseInt(req.params.userId);
+    const currentPage = parseInt(req.params.currentPage) || 1;
+    const numberItemAPage = parseInt(req.params.numberItemAPage) || 5;
+
+    /**
+     * skip: bỏ qua các phần tử từ vị trí đầu tiên đến skip
+     * totalTask được lấy bằng countDocuments, ko phải lấy tất cả danh sách về rồi mới đếm nên ko lo hiệu suất
+     * totalPage: Tổng số trang
+     */
+    const skip = (currentPage - 1) * numberItemAPage;
+    const totalTask = await Task.countDocuments({ userId: id });
+    const totalPage = Math.ceil(totalTask / numberItemAPage);
+
+    const taskList = await Task.find({ userId: id })
+      .skip(skip)
+      .limit(numberItemAPage);
+    // gửi về FE những thứ sau
+    res.status(200).json({
+      taskList,
+      totalTask,
+      totalPage,
+      currentPage: currentPage,
+    });
   } catch (error) {
     res.status(500).json({ error: "Lỗi bên server" });
   }
+};
+
+// Hàm so sánh dựa theo độ quan trọng
+const compareDataByImportant = (a, b) => {
+  const importantOrder = {
+    "Không quan trọng": 1,
+    "Ít quan trọng": 2,
+    "Quan trọng": 3,
+    "Khẩn cấp": 4,
+  };
+  return importantOrder[b.important] - importantOrder[a.important];
 };
 
 /**
  * hàm filterList sẽ lọc ra các task thỏa mãn filterWord và filterOption
  */
 const filterList = async (req, res) => {
-  // lấy từ params
-  const id = parseInt(req.params.userId);
-  const currentPage = parseInt(req.params.currentPage) || 1;
-  const numberItemAPage = parseInt(req.params.numberItemAPage) || 5;
-  const filterWord = String(req.params.filterWord);
-  const filterOption = String(req.params.filterOption);
+  try {
+    // lấy từ params
+    const id = parseInt(req.params.userId);
+    const currentPage = parseInt(req.params.currentPage) || 1;
+    const numberItemAPage = parseInt(req.params.numberItemAPage) || 5;
+    const filterWord = String(req.params.filterWord);
+    const filterOption = String(req.params.filterOption);
 
-  /**
-   * skip: bỏ qua các phần tử từ vị trí đầu tiên đến skip
-   * totalTask được lấy bằng countDocuments, ko phải lấy tất cả danh sách về rồi mới đếm nên ko lo hiệu suất
-   * totalPage: Tổng số trang
-   */
-  const skip = (currentPage - 1) * numberItemAPage;
-  const totalTask = await Task.countDocuments({ userId: id });
-  const totalPage = Math.ceil(totalTask / numberItemAPage);
+    let query  = {}
+      switch (filterOption) {
+        case "":
+        case "important":
+          return {};
+        case "completed":
+          query.completed = true;
+          break; 
+        case "not-completed":
+          query.completed = false;
+          break; 
+        default:
+          query[filterOption] = {$regex: filterWord, $options:'i'};
+          break;
+      }
+      query.userId = id;
+      console.log(query)
+    /**
+     * skip: bỏ qua các phần tử từ vị trí đầu tiên đến skip
+     * totalTask được lấy bằng countDocuments, ko phải lấy tất cả danh sách về rồi mới đếm nên ko lo hiệu suất
+     * totalPage: Tổng số trang
+     */
+    const skip = (currentPage - 1) * numberItemAPage;
+    const totalTask = await Task.countDocuments(query);
+    const totalPage = Math.ceil(totalTask / numberItemAPage);
+      console.log('1 ' + totalTask)
+    const taskList = await Task.find(query)
+      .skip(skip)
+      .limit(numberItemAPage) || [];
+    // if (filterOption === "important") taskList.sort(compareDataByImportant);
+    res.status(200).json({
+      taskList,
+      totalTask,
+      totalPage,
+      currentPage: currentPage,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Lỗi bên server" });
+    console.log(error);
+  }
 };
 
 module.exports = {

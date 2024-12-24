@@ -7,6 +7,7 @@ const {
   modifyTask,
   deleteTask,
   paginateTask,
+  filterList,
 } = require("../controllers/task.controller.js");
 
 // lấy danh sách các task
@@ -26,5 +27,11 @@ router.delete("/:id", deleteTask);
 router.get(
   "/userId/:userId/page/:currentPage/limit/:numberItemAPage",
   paginateTask
+);
+
+//lọc
+router.get(
+  "/userId/:userId/page/:currentPage/limit/:numberItemAPage/filterOption/:filterOption/filterWord/:filterWord",
+  filterList
 );
 module.exports = router;
