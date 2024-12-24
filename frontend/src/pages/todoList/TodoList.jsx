@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import TableRow from "./TableRow";
 import Pagination from "react-bootstrap/Pagination";
-import { paginateList, filterPaginationList } from "api/api";
+import { filterPaginationList } from "api/api";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
@@ -55,20 +55,6 @@ function TodoList({ toggleAddItemForm }) {
     setTaskList(list);
   };
 
-  // filterList là danh sách sau khi lọc, sẽ thay đổi, phân trang dựa vào danh sách này
-  const [filterList, setFilterList] = useState([]);
-
-  // Hàm so sánh dựa theo độ quan trọng
-  const compareDataByImportant = (a, b) => {
-    const importantOrder = {
-      "Không quan trọng": 1,
-      "Ít quan trọng": 2,
-      "Quan trọng": 3,
-      "Khẩn cấp": 4,
-    };
-    return importantOrder[b.important] - importantOrder[a.important];
-  };
-
   /**
    * Hàm getTodoItem lấy dữ liệu từ db về và lọc ra những kết quả phù hợp với người đăng nhập
    * Thêm nextItemId lưu vào để khi thêm item mới không phải gọi lại api để kiểm tra id item cuối cùng
@@ -76,9 +62,8 @@ function TodoList({ toggleAddItemForm }) {
    */
   const getTodoItem = async () => {
     try {
-      let response = await filterPaginationList(token, currentPage, numberItemAPage);
+      let response = await filterPaginationList(token, currentPage, numberItemAPage, filterOption, filterWord);
       handleTaskList(response.taskList);
-      setFilterList(response.taskList);
       setNumberOfPage(response.totalPage);
     } catch (error) {
       console.log(error);
@@ -88,33 +73,7 @@ function TodoList({ toggleAddItemForm }) {
   // Get dữ liệu 1 lần từ db với useEffect
   useEffect(() => {
     getTodoItem();
-  }, [currentPage, numberItemAPage]);
-
-  // lọc danh sách hiện tại theo filterOption
-  const handleFilterList = () => {
-    let Term = () => {
-      switch (filterOption) {
-        case "":
-          return taskList;
-        case "important":
-          return taskList.sort(compareDataByImportant);
-        case "completed":
-          return taskList.filter((item) => item.completed === true);
-        case "not-completed":
-          return taskList.filter((item) => item.completed === false);
-        default:
-          return taskList.filter((item) =>
-            item[filterOption].toLowerCase().includes(filterWord.toLowerCase())
-          );
-      }
-    };
-    setFilterList(Term());
-  };
-  // thay đổi filterList để hiển thị danh sách đã lọc dựa theo filterOption và filterWord
-  // phân ra 2 useEffect để tránh render vô hạn
-  useEffect(() => {
-    handleFilterList();
-  }, [filterOption, filterWord]);
+  }, [currentPage, numberItemAPage, filterOption, filterWord]);
 
   const handleChosenPageOnClick = () => {
     if (chosenPage > numberOfPages || chosenPage < 1) {

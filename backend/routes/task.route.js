@@ -31,7 +31,7 @@ router.get(
 
 //lọc
 router.get(
-  "/userId/:userId/page/:currentPage/limit/:numberItemAPage/filterOption/:filterOption/filterWord/:filterWord",
+  "/userId/:userId/page/:currentPage/limit/:numberItemAPage/option/:filterOption/word/:filterWord",
   filterList
 );
 module.exports = router;

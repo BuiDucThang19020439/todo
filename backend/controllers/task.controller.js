@@ -123,9 +123,10 @@ const filterList = async (req, res) => {
 
     let query  = {}
       switch (filterOption) {
-        case "":
-        case "important":
-          return {};
+        case "content":
+        case "title":
+          query[filterOption] = {$regex: filterWord, $options:'i'};
+          break;
         case "completed":
           query.completed = true;
           break; 
@@ -133,11 +134,10 @@ const filterList = async (req, res) => {
           query.completed = false;
           break; 
         default:
-          query[filterOption] = {$regex: filterWord, $options:'i'};
+          console.log("trường hợp mặc định")
           break;
       }
       query.userId = id;
-      console.log(query)
     /**
      * skip: bỏ qua các phần tử từ vị trí đầu tiên đến skip
      * totalTask được lấy bằng countDocuments, ko phải lấy tất cả danh sách về rồi mới đếm nên ko lo hiệu suất
@@ -146,11 +146,11 @@ const filterList = async (req, res) => {
     const skip = (currentPage - 1) * numberItemAPage;
     const totalTask = await Task.countDocuments(query);
     const totalPage = Math.ceil(totalTask / numberItemAPage);
-      console.log('1 ' + totalTask)
     const taskList = await Task.find(query)
       .skip(skip)
       .limit(numberItemAPage) || [];
     // if (filterOption === "important") taskList.sort(compareDataByImportant);
+    console.log(taskList)
     res.status(200).json({
       taskList,
       totalTask,

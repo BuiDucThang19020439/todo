@@ -117,9 +117,15 @@ export const filterPaginationList = async (
   filterOption,
   filterWord,
 ) => {
+  if(filterOption === "completed" || filterOption ==="not-completed") {
+    filterWord = ':filterWord';
+  } else if(filterOption === "" || filterWord === ""){
+    filterOption = ":filterOption";
+    filterWord = ":filterWord";
+  }
   try {
     const response = await axios.get(
-      `${baseURL}taskList/userId/${id}/page/${page}/limit/${limit}/filterOption/${filterOption}/filterWord/${filterWord}`
+      `${baseURL}taskList/userId/${id}/page/${page}/limit/${limit}/option/${filterOption}/word/${filterWord}`
     );
     return response.data;
   } catch (error) {
