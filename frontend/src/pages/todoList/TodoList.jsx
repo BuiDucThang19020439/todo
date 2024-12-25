@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { showToastMessage } from "reducer/toastSlice";
+import debounce from 'lodash.debounce';
 
 function TodoList({ toggleAddItemForm }) {
   // Lấy thông tin người đăng nhập hiện tại
@@ -67,8 +68,7 @@ function TodoList({ toggleAddItemForm }) {
       setNumberOfPage(response.totalPage);
     } catch (error) {
       console.log(error);
-    }
-  };
+  }};
 
   // Get dữ liệu 1 lần từ db với useEffect
   useEffect(() => {
@@ -152,17 +152,14 @@ function TodoList({ toggleAddItemForm }) {
             </InputGroup>
           </>
         )}
-
         <Pagination.Next
           onClick={() => {
             if (currentPage < numberOfPages) handleCurrentPage(currentPage + 1);
-          }}
-        />
+        }}/>
         <Pagination.Last
           onClick={() => {
             if (currentPage !== numberOfPages) handleCurrentPage(numberOfPages);
-          }}
-        />
+        }}/>
         <Form>
           <Form.Select
             onChange={(e) => {handleNumberItemAPage(e.target.value)}}>
@@ -183,6 +180,7 @@ function TodoList({ toggleAddItemForm }) {
             <Form.Control
               aria-label="Text input with dropdown button"
               type="text"
+              disabled={(filterOption !== "content" && filterOption !== "title")}
               value={filterWord}
               onChange={(event) => handleFilter(event.target.value)}
             />
@@ -227,16 +225,11 @@ function TodoList({ toggleAddItemForm }) {
                 );
               })}
             </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan={7}>{paginationRow()}</td>
-              </tr>
-            </tfoot>
+            <tfoot><tr><td colSpan={7}>{paginationRow()}</td></tr></tfoot>
           </Table>
         </div>
       )}
     </>
   );
 }
-
 export default TodoList;

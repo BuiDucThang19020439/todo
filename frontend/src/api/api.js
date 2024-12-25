@@ -17,7 +17,7 @@ export const getTaskList = async () => {
 
 /**
  * Hàm getATask get api để trả về 1 task theo id tương ứng
- * @param {*} id : id của task cần lấy
+ * @param  id : id của task cần lấy
  * @returns 1 task có id tương ứng
  */
 export const getATask = async (id) => {
@@ -88,24 +88,10 @@ export const modifyTask = async (id, data) => {
 };
 
 /**
- * hàm paginateList lấy về các task sau khi đã phân trang
+ * Hàm filterList lọc danh sách và phân trang
  * id: userId hay id của người dùng đăng nhập
  * page: currentPage hay trang hiện tại
  * limit: numberItemAPage hay số hàng trong 1 trang
- */
-export const paginateList = async (id, page, limit) => {
-  try {
-    const response = await axios.get(
-      `${baseURL}taskList/userId/${id}/page/${page}/limit/${limit}`
-    );
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-/**
- * Hàm filterList lọc danh sách
  * filterWord từ khóa tìm kiếm
  * filterOption tìm kiếm theo trường nào
  */

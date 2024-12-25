@@ -113,6 +113,18 @@ const compareDataByImportant = (a, b) => {
  * hàm filterList sẽ lọc ra các task thỏa mãn filterWord và filterOption
  */
 const filterList = async (req, res) => {
+  // const taskListSorted = await Task.find({}).sort((a, b) => {
+  //   const importantOrder = {
+  //     "Không quan trọng": 1,
+  //     "Ít quan trọng": 2,
+  //     "Quan trọng": 3,
+  //     "Khẩn cấp": 4,
+  //   };
+  //   if (a.important !== b.important) {
+  //     return importantOrder.indexOf(b.important) - importantOrder.indexOf(a.important);
+  //   }
+  // }); 
+
   try {
     // lấy từ params
     const id = parseInt(req.params.userId);
@@ -146,11 +158,11 @@ const filterList = async (req, res) => {
     const skip = (currentPage - 1) * numberItemAPage;
     const totalTask = await Task.countDocuments(query);
     const totalPage = Math.ceil(totalTask / numberItemAPage);
+
     const taskList = await Task.find(query)
       .skip(skip)
       .limit(numberItemAPage) || [];
-    // if (filterOption === "important") taskList.sort(compareDataByImportant);
-    console.log(taskList)
+    // console.log(taskListSorted)
     res.status(200).json({
       taskList,
       totalTask,
@@ -159,7 +171,6 @@ const filterList = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: "Lỗi bên server" });
-    console.log(error);
   }
 };
 

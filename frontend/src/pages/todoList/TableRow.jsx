@@ -84,9 +84,7 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
   };
   return (
     <tr>
-      <td
-        className={`table-checkbox ${task.completed ? "task-completed" : ""}`}
-      >
+      <td className={`table-checkbox ${task.completed ? "task-completed" : ""}`}>
         <input
           className="task-checkbox"
           type="checkbox"
@@ -95,9 +93,7 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
           onChange={() => handleCheckbox(task)}
         ></input>
       </td>
-      <td className={`table-order ${task.completed ? "task-completed" : ""}`}>
-        {order}
-      </td>
+      <td className={`table-order ${task.completed ? "task-completed" : ""}`}>{order}</td>
       <td className={`table-title ${task.completed ? "task-completed" : ""}`}>
         {isEditRow ? (
           <input
@@ -105,9 +101,7 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
             value={title}
             onChange={(event) => handleTitle(event.target.value)}
           ></input>
-        ) : (
-          task.title
-        )}
+        ) : (task.title)}
       </td>
       <td className={`table-content ${task.completed ? "task-completed" : ""}`}>
         {isEditRow ? (
@@ -116,13 +110,9 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
             value={content}
             onChange={(event) => handleContent(event.target.value)}
           ></input>
-        ) : (
-          task.content
-        )}
+        ) : (task.content)}
       </td>
-      <td
-        className={`table-deadline ${task.completed ? "task-completed" : ""}`}
-      >
+      <td className={`table-deadline ${task.completed ? "task-completed" : ""}`}>
         {isEditRow ? (
           <input
             type="date"
@@ -131,9 +121,7 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
           ></input>
         ) : task.deadline ? (
           moment(task.deadline).format("DD-MM-YYYY")
-        ) : (
-          ""
-        )}
+        ) : ("")}
       </td>
       <td
         className={`table-importance ${task.completed ? "task-completed" : ""}`}
@@ -144,13 +132,10 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
             onChange={(event) => handleImportant(event.target.value)}
           >
             <option value="Không quan trọng">Không quan trọng</option>
-            <option value="Ít quan trọng">Ít quan trọng</option>
             <option value="Quan trọng">Quan trọng</option>
             <option value="Khẩn cấp">Khẩn cấp</option>
           </select>
-        ) : (
-          task.important
-        )}
+        ) : (task.important)}
       </td>
       <td className={`table-modify ${task.completed ? "task-completed" : ""}`}>
         {isEditRow ? (
@@ -158,14 +143,12 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
             <Button
               className="button-icon button-icon-send-icon"
               onClick={() => handleSubmit()}
-            >
-              <ion-icon name="paper-plane-sharp" size="small"></ion-icon>
+            ><ion-icon name="paper-plane-sharp" size="small"></ion-icon>
             </Button>
             <Button
               className="button-icon button-icon-exit-modify"
               onClick={() => toggleEditRow()}
-            >
-              <ion-icon name="close-sharp" size="small"></ion-icon>
+            ><ion-icon name="close-sharp" size="small"></ion-icon>
             </Button>
           </div>
         ) : (
@@ -173,14 +156,12 @@ export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
             <Button
               className="button-icon button-icon-modify-icon"
               onClick={() => toggleEditRow()}
-            >
-              <ion-icon name="create-sharp" size="small"></ion-icon>
+            ><ion-icon name="create-sharp" size="small"></ion-icon>
             </Button>
             <Button
               className="button-icon button-icon-delete-icon"
               onClick={() => deleteTodoItem(task._id)}
-            >
-              <ion-icon name="trash-outline" size="small"></ion-icon>
+            ><ion-icon name="trash-outline" size="small"></ion-icon>
             </Button>
           </div>
         )}
