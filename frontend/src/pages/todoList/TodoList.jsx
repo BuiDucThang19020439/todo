@@ -43,7 +43,7 @@ function TodoList({ toggleAddItemForm }) {
     setFilterWord(data);
   };
   // filterOption cho phép lựa chọn lọc theo cái gì (title, content, ...)
-  const [filterOption, setFilterOption] = useState("");
+  const [filterOption, setFilterOption] = useState(":filterOption");
   const handleFilterOption = (data) => {
     handleCurrentPage(1);
     handleFilter("");
@@ -75,6 +75,7 @@ function TodoList({ toggleAddItemForm }) {
     getTodoItem();
   }, [currentPage, numberItemAPage, filterOption, filterWord]);
 
+  // chọn page khi phân trang
   const handleChosenPageOnClick = () => {
     if (chosenPage > numberOfPages || chosenPage < 1) {
       dispatch(
@@ -83,16 +84,15 @@ function TodoList({ toggleAddItemForm }) {
           title: "Vượt quá số trang",
           message: `Hãy nhập số trang từ 1 đến ${numberOfPages}`,
           variant: "warning",
-        })
-      );
+      }));
     } else handleCurrentPage(chosenPage);
   };
+
   const handleChosenPageEnterPress = (key) => {
     if (key === "Enter" && chosenPage <= currentPage && chosenPage > 0) {
       console.log(key);
       handleCurrentPage(chosenPage);
-    }
-  };
+  }};
 
   const paginationRow = () => {
     return (
@@ -147,8 +147,7 @@ function TodoList({ toggleAddItemForm }) {
                 value={chosenPage}
                 onChange={(event) => handleChosenPage(event.target.value)}
                 onKeyDown={(event) => handleChosenPageEnterPress(event.key)}
-              />
-              <Button onClick={() => handleChosenPageOnClick()}>Đi</Button>
+              /><Button onClick={() => handleChosenPageOnClick()}>Đi</Button>
             </InputGroup>
           </>
         )}
@@ -190,12 +189,14 @@ function TodoList({ toggleAddItemForm }) {
               onChange={(event) => handleFilterOption(event.target.value)}
               className="set-filter-option"
             >
-              <option value="">--Lọc--</option>
+              <option value=":filterOption">--Lọc--</option>
               <option value="title">Tiêu đề</option>
               <option value="content">Nội dung</option>
               <option value="completed">Hoàn thành</option>
               <option value="not-completed">Chưa hoàn thành</option>
-              <option value="important">Độ quan trọng</option>
+              <option value="not-important">Không quan trọng</option>
+              <option value="important">Quan trọng</option>
+              <option value="urgent">Khẩn cấp</option>
             </Form.Select>
           </InputGroup>
           <Table striped bordered hover responsive>

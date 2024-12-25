@@ -98,33 +98,10 @@ const paginateTask = async (req, res) => {
   }
 };
 
-// Hàm so sánh dựa theo độ quan trọng
-const compareDataByImportant = (a, b) => {
-  const importantOrder = {
-    "Không quan trọng": 1,
-    "Ít quan trọng": 2,
-    "Quan trọng": 3,
-    "Khẩn cấp": 4,
-  };
-  return importantOrder[b.important] - importantOrder[a.important];
-};
-
 /**
  * hàm filterList sẽ lọc ra các task thỏa mãn filterWord và filterOption
  */
 const filterList = async (req, res) => {
-  // const taskListSorted = await Task.find({}).sort((a, b) => {
-  //   const importantOrder = {
-  //     "Không quan trọng": 1,
-  //     "Ít quan trọng": 2,
-  //     "Quan trọng": 3,
-  //     "Khẩn cấp": 4,
-  //   };
-  //   if (a.important !== b.important) {
-  //     return importantOrder.indexOf(b.important) - importantOrder.indexOf(a.important);
-  //   }
-  // }); 
-
   try {
     // lấy từ params
     const id = parseInt(req.params.userId);
@@ -145,11 +122,21 @@ const filterList = async (req, res) => {
         case "not-completed":
           query.completed = false;
           break; 
+        case "not-important":
+          query.important = "Không quan trọng";
+          break;
+        case "important":
+          query.important = "Quan trọng";
+          break;
+        case "urgent":
+          query.important = "Khẩn cấp";
+          break;
         default:
-          console.log("trường hợp mặc định")
+          console.log("trường hợp mặc định");
           break;
       }
-      query.userId = id;
+    query.userId = id;
+    console.log(query)
     /**
      * skip: bỏ qua các phần tử từ vị trí đầu tiên đến skip
      * totalTask được lấy bằng countDocuments, ko phải lấy tất cả danh sách về rồi mới đếm nên ko lo hiệu suất
