@@ -104,7 +104,7 @@ export const filterPaginationList = async (
   filterWord,
 ) => {
   if ((filterOption === "content" || filterOption === "title") && filterWord === "") {
-    return;
+    filterOption = ":filterOption";
   }
   if (filterWord === "") {
     filterWord = ":filterWord";

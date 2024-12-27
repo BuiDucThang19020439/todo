@@ -147,9 +147,9 @@ const filterList = async (req, res) => {
     const totalPage = Math.ceil(totalTask / numberItemAPage);
 
     const taskList = await Task.find(query)
+      .sort({deadline: 1})
       .skip(skip)
       .limit(numberItemAPage) || [];
-    // console.log(taskListSorted)
     res.status(200).json({
       taskList,
       totalTask,

@@ -11,7 +11,6 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { showToastMessage } from "reducer/toastSlice";
-import debounce from 'lodash.debounce';
 
 function TodoList({ toggleAddItemForm }) {
   // Lấy thông tin người đăng nhập hiện tại
@@ -37,16 +36,19 @@ function TodoList({ toggleAddItemForm }) {
     setNumberItemAPage(num);
   };
 
+      // const debounceFilterWord = useCallback(debounce((value) => handleFilter(value), 1000), []);
+    // handleFilter là hàm gọi debounce để giảm số lần gọi api
+
   // filterWord là từ dùng cho việc tìm kiếm
   const [filterWord, setFilterWord] = useState("");
-  const handleFilter = (data) => {
+  const handleFilterWord = (data) => {
     setFilterWord(data);
-  };
+  }
   // filterOption cho phép lựa chọn lọc theo cái gì (title, content, ...)
   const [filterOption, setFilterOption] = useState(":filterOption");
   const handleFilterOption = (data) => {
     handleCurrentPage(1);
-    handleFilter("");
+    handleFilterWord("");
     setFilterOption(data);
   };
 
@@ -91,7 +93,7 @@ function TodoList({ toggleAddItemForm }) {
   const handleChosenPageEnterPress = (key) => {
     if (key === "Enter" && chosenPage <= currentPage && chosenPage > 0) {
       console.log(key);
-      handleCurrentPage(chosenPage);
+      handleCurrentPage(+chosenPage);
   }};
 
   const paginationRow = () => {
@@ -181,7 +183,7 @@ function TodoList({ toggleAddItemForm }) {
               type="text"
               disabled={(filterOption !== "content" && filterOption !== "title")}
               value={filterWord}
-              onChange={(event) => handleFilter(event.target.value)}
+              onChange={(event) => handleFilterWord(event.target.value)}
             />
             <Form.Select
               variant="outline-secondary"
@@ -221,7 +223,6 @@ function TodoList({ toggleAddItemForm }) {
                     task={task}
                     order={++order}
                     getTodoItem={getTodoItem}
-                    setCurrentPage={setCurrentPage}
                   ></TableRow>
                 );
               })}

@@ -5,7 +5,7 @@ import { showToastMessage } from "reducer/toastSlice";
 import { deleteTask, toggleCheckBox, modifyTask } from "api/api";
 import moment from "moment";
 
-export default function TableRow({ task, order, getTodoItem, setCurrentPage }) {
+export default function TableRow({ task, order, getTodoItem }) {
   const dispatch = useDispatch();
   /**
    * isEditRow là state dùng để bật tắt chức năng sửa thông tin một hàng

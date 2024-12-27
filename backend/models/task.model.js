@@ -20,6 +20,7 @@ const TaskSchema = mongoose.Schema(
     },
     important: {
       type: String,
+      enum: ["Không quan trọng", "Quan trọng", "Khẩn cấp"],
       default: "Không quan trọng",
     },
     completed: {

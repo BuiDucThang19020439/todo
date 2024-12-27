@@ -15,3 +15,7 @@
 .user-table-title {
   width: 150px;
 }
+
+.tr-footer input{
+  margin: 5px 0px;
+}
