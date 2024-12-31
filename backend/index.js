@@ -4,6 +4,7 @@ const taskRoute = require("./routes/task.route.js");
 const userRoute = require("./routes/user.route.js");
 const dotenv = require('dotenv');
 const _ = require("lodash");
+const { errorHandler } = require("./middlewares/errorMiddlewares.js");
 // const { faker } = require("@faker-js/faker");
 // const MongoClient = require("mongodb").MongoClient;
 dotenv.config();
@@ -14,6 +15,7 @@ const port = process.env.EXPRESS_APP_PORT;
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(errorHandler);
 
 //loại bỏ lỗi cors
 const cors = require("cors");

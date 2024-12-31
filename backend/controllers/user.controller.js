@@ -1,6 +1,8 @@
 const User = require("../models/user.model");
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { registerValidator } = require('../validations/auth');
+const { authenticateToken } = require('../middlewares/verifyToken');
 
 /**
  * Hàm login dùng cho việc đăng nhập
@@ -10,11 +12,20 @@ const { registerValidator } = require('../validations/auth');
  */
 const login = async (req, res) => {
     try {
+        // check userId
         const user = await User.findOne({userId: req.body.userId});
         if (!user) return res.status(422).send('Tên đăng nhập hoặc mật khẩu không đúng');
+
+        // check password
         const checkPassword = await bcrypt.compare(req.body.password, user.password);
         if (!checkPassword) return res.status(422).send('Tên đăng nhập hoặc mật khẩu không đúng');
-        return res.send(`User ${user.userName} has logged in`);
+
+        // đăng ký token và gửi nó vào header
+        const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET, { expiresIn: 60 * 60 * 24 });
+        res.header('auth-token', token).send(token);
+        console.log(`User ${user.userName} has logged in`);
+        return;
+        // return res.send(`User ${user.userName} has logged in`);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -42,11 +53,16 @@ const logout = async (req, res) => {
 const register = async (req, res) => {
     const { error } = registerValidator(req.body);
     if (error) return res.status(422).send( error.details[0].message );
+
+    //check email đã tồn tại hay chưa
     const checkEmailExist = await User.findOne({ email: req.body.email });
     if (checkEmailExist) return res.status(422).send('Email already exists');
-
+    
+    // mã hóa mật khẩu trước khi lưu vào db
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+    // object user mới gửi lên db
     const user = new User({
         userId: req.body.userId,
         userName: req.body.userName,
@@ -67,8 +83,11 @@ const register = async (req, res) => {
  */
 const getUserList = async (req, res) => {
     try {
-        const userList = await User.find({});
-        res.status(200).json(userList);
+        await User.find({}).then((err, user_list) => {
+            res.status(200).json(user_list);
+        }).catch ((error) =>{
+            res.status(500).json({ message: error.message });
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

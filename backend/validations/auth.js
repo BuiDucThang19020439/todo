@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const jwt = require('jsonwebtoken');
 
 const registerValidator = (data) => {
     const rule = Joi.object({
@@ -11,7 +10,5 @@ const registerValidator = (data) => {
     });
     return rule.validate(data);
 }
-
-
 
 module.exports.registerValidator = registerValidator;
