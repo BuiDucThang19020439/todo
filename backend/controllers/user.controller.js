@@ -1,8 +1,14 @@
 const User = require("../models/user.model");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const asyncHandler = require("express-async-handler");
 const { registerValidator } = require('../validations/auth');
 const { authenticateToken } = require('../middlewares/verifyToken');
+
+// đăng ký token và gửi nó vào header
+const generateToken = (id) => {
+    return jwt.sign({id}, process.env.TOKEN_SECRET, { expiresIn: 60 * 60 * 24 });
+}
 
 /**
  * Hàm login dùng cho việc đăng nhập
@@ -10,7 +16,7 @@ const { authenticateToken } = require('../middlewares/verifyToken');
  * @param res thông điệp trả về
  * @returns thông điệp trả về xác nhận việc đăng nhập thành công hay thất bại
  */
-const login = async (req, res) => {
+const login = asyncHandler( async (req, res) => {
     try {
         // check userId
         const user = await User.findOne({userId: req.body.userId});
@@ -21,15 +27,15 @@ const login = async (req, res) => {
         if (!checkPassword) return res.status(422).send('Tên đăng nhập hoặc mật khẩu không đúng');
 
         // đăng ký token và gửi nó vào header
-        const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET, { expiresIn: 60 * 60 * 24 });
+        const token = generateToken(user._id);
         res.header('auth-token', token).send(token);
-        console.log(`User ${user.userName} has logged in`);
+        console.log(`Người dùng ${user.userName} đã đăng nhập`);
         return;
         // return res.send(`User ${user.userName} has logged in`);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+});
 
 /**
  * Hàm logout dùng cho việc đăng xuất
@@ -50,13 +56,13 @@ const logout = async (req, res) => {
  * @param res trả về client thông điệp đăng ký thành công hoặc thất bại
  * @returns gửi obj hợp lệ lên server hoặc báo lỗi nếu obj không hợp lệ
  */
-const register = async (req, res) => {
+const register = asyncHandler( async (req, res) => {
     const { error } = registerValidator(req.body);
     if (error) return res.status(422).send( error.details[0].message );
 
     //check email đã tồn tại hay chưa
-    const checkEmailExist = await User.findOne({ email: req.body.email });
-    if (checkEmailExist) return res.status(422).send('Email already exists');
+    const checkUserExist = await User.findOne({ userId: req.body.userId });
+    if (checkUserExist) return res.status(422).send('Id đăng nhập đã tồn tại');
     
     // mã hóa mật khẩu trước khi lưu vào db
     const salt = await bcrypt.genSalt(10);
@@ -70,13 +76,13 @@ const register = async (req, res) => {
         phone: req.body.phone,
         email: req.body.email
     });
-    try {
+    if (user) {
         const newUser = await user.save();
         await res.send(newUser);
-    } catch (err) {
-        res.status(400).send(err);
+    } else {
+        res.status(400).send("Dữ liệu người dùng không hợp lệ");
     }
-}
+});
 
 /**
  * Hàm getUserList lấy danh sách tất cả người dùng

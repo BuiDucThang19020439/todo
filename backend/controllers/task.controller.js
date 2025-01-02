@@ -52,7 +52,7 @@ const deleteTask = asyncHanlder( async (req, res) => {
 /**
  * hàm filterList sẽ lọc ra các task thỏa mãn filterWord và filterOption
  */
-const filterList = async (req, res) => {
+const filterList = asyncHanlder( async (req, res) => {
   try {
     // lấy từ params
     const id = parseInt(req.params.userId);
@@ -110,7 +110,7 @@ const filterList = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Lỗi bên server" });
   }
-};
+});
 
 module.exports = {
   getTaskList,
