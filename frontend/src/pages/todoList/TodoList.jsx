@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import TableRow from "./TableRow";
 import Pagination from "react-bootstrap/Pagination";
-import { filterPaginationList } from "api/api";
+import { filterPaginationList } from "api/taskApi";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";

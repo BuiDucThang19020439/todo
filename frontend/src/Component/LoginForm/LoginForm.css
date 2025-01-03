@@ -54,8 +54,8 @@ a {
 
 .button-icon.btn.btn-primary.button-icon-close-form.close-login-form {
 	position: absolute;
-	top: 14%;
-	right: 19%;
+	top: 15vh;
+	right: 20vw;
 	z-index: 6;
 }
 
@@ -258,4 +258,13 @@ input:focus-visible {
 	margin: 0 5px;
 	height: 40px;
 	width: 40px;
+}
+
+@media screen and (max-width: 1107px) {
+	.button-icon.btn.btn-primary.button-icon-close-form.close-login-form {
+		position: absolute;
+		top: 15vh;
+		right: 15vw;
+		z-index: 6;
+	}
 }

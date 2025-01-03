@@ -17,24 +17,19 @@ const generateToken = (id) => {
  * @returns thông điệp trả về xác nhận việc đăng nhập thành công hay thất bại
  */
 const login = asyncHandler( async (req, res) => {
-    try {
-        // check userId
-        const user = await User.findOne({userId: req.body.userId});
-        if (!user) return res.status(422).send('Tên đăng nhập hoặc mật khẩu không đúng');
+    // check userId
+    const user = await User.findOne({userId: req.body.userId});
+    if (!user) return res.status(422).send('Tên đăng nhập hoặc mật khẩu không đúng');
 
-        // check password
-        const checkPassword = await bcrypt.compare(req.body.password, user.password);
-        if (!checkPassword) return res.status(422).send('Tên đăng nhập hoặc mật khẩu không đúng');
+    // check password
+    const checkPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!checkPassword) return res.status(422).send('Tên đăng nhập hoặc mật khẩu không đúng');
 
-        // đăng ký token và gửi nó vào header
-        const token = generateToken(user._id);
-        res.header('auth-token', token).send(token);
-        console.log(`Người dùng ${user.userName} đã đăng nhập`);
-        return;
-        // return res.send(`User ${user.userName} has logged in`);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+    // đăng ký token và gửi nó vào header
+    const token = generateToken(user._id);
+    res.header('auth-token', token).send(token);
+    console.log(`Người dùng ${user.userName} đã đăng nhập`);
+    return;
 });
 
 /**
@@ -60,7 +55,7 @@ const register = asyncHandler( async (req, res) => {
     const { error } = registerValidator(req.body);
     if (error) return res.status(422).send( error.details[0].message );
 
-    //check email đã tồn tại hay chưa
+    //check userId đã tồn tại hay chưa
     const checkUserExist = await User.findOne({ userId: req.body.userId });
     if (checkUserExist) return res.status(422).send('Id đăng nhập đã tồn tại');
     
@@ -76,6 +71,7 @@ const register = asyncHandler( async (req, res) => {
         phone: req.body.phone,
         email: req.body.email
     });
+    console.log(user);
     if (user) {
         const newUser = await user.save();
         await res.send(newUser);
@@ -89,13 +85,20 @@ const register = asyncHandler( async (req, res) => {
  */
 const getUserList = async (req, res) => {
     try {
-        await User.find({}).then((err, user_list) => {
-            res.status(200).json(user_list);
-        }).catch ((error) =>{
-            res.status(500).json({ message: error.message });
-        });
+        let list = await User.find({});
+        console.log(list);            
+        res.status(200).json(list);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
-module.exports = {login, logout, register, getUserList};
+
+// lấy thông tin người dùng đang đăng nhập hiện tại
+const getLoggedInUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.body.id);
+    console.log("user controller");
+    console.log(user);
+    res.status(200).json(user);
+});
+
+module.exports = {login, logout, register, getUserList, getLoggedInUser};

@@ -8,7 +8,6 @@ const authenticateToken = (req, res, next) => {
             if (err) return res.status(403).send('Invalid Token');
             req.user = user;
         next();
-
         });
     } catch (err) {
         return res.status(400).send('Invalid Token');

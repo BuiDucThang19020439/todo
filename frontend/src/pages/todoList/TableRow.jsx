@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import { useDispatch } from "react-redux";
 import { showToastMessage } from "reducer/toastSlice";
-import { deleteTask, toggleCheckBox, modifyTask } from "api/api";
+import { deleteTask, toggleCheckBox, modifyTask } from "api/taskApi";
 import moment from "moment";
 
 export default function TableRow({ task, order, getTodoItem }) {

@@ -1,10 +1,11 @@
 import "./LoginForm.css";
 import "css/icon.css";
+import { logIn, signUp } from "api/authenticateApi";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showToastMessage } from "reducer/toastSlice";
-import { userLogin, addUser } from "reducer/loginSlice";
+import { userLogin } from "reducer/loginSlice";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -68,22 +69,17 @@ function LoginForm({ toggleLoginForm }) {
                 "Số điện thoại không hợp lệ"
               ),
             })}
-            /**
-             * Hàm submit form cho form thêm một tài khoản mới
-             */
-            onSubmit={(values, { setSubmitting }) => {
-              let arrLength = userList.length;
-              let newId = arrLength !== 0 ? userList[arrLength - 1].id + 1 : 1;
-              dispatch(
-                addUser({
-                  id: newId,
-                  userId: values.newAccId,
-                  username: values.newAccName,
-                  password: values.newAccPassword,
-                  phone: values.newAccPhone,
-                  email: values.newAccEmail,
-                })
-              );
+
+            // Hàm submit form cho chức năng thêm một tài khoản mới
+            onSubmit={async (values, { setSubmitting }) => {
+              let newUser = {
+                userId: values.newAccId,
+                userName: values.newAccName,
+                password: values.newAccPassword,
+                phone: values.newAccPhone,
+                email: values.newAccEmail,
+              };
+              await signUp(newUser);
               dispatch(
                 showToastMessage({
                   show: true,
@@ -142,12 +138,8 @@ function LoginForm({ toggleLoginForm }) {
               accountPassword: "",
             }}
             validationSchema={Yup.object({
-              accountId: Yup.string().required(
-                "ID của tài khoản không được để trống"
-              ),
-              accountPassword: Yup.string().required(
-                "Mật khẩu không được để trống"
-              ),
+              accountId: Yup.string().required("ID của tài khoản không được để trống"),
+              accountPassword: Yup.string().required("Mật khẩu không được để trống"),
             })}
             /**
              * hàm submit form cho chức năng đăng nhập
@@ -157,16 +149,14 @@ function LoginForm({ toggleLoginForm }) {
                 userLogin({
                   id: values.accountId,
                   password: values.accountPassword,
-                })
-              );
+              }));
               dispatch(
                 showToastMessage({
                   show: true,
                   title: "Đăng nhập thành công",
                   message: "Chào mừng",
                   variant: "success",
-                })
-              );
+              }));
               toggleLoginForm();
               setSubmitting(false);
               navigate("/");

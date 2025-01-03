@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "http://localhost:3001/api/";
+const baseURL = "http://localhost:3001/api/taskList/";
 
 /**
  * Hàm getTaskList get api trả về toàn bộ task trong db
@@ -8,7 +8,7 @@ const baseURL = "http://localhost:3001/api/";
 export const getTaskList = async () => {
   let response;
   try {
-    response = await axios.get(baseURL + "taskList");
+    response = await axios.get(baseURL);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -22,7 +22,7 @@ export const getTaskList = async () => {
  */
 export const getATask = async (id) => {
   try {
-    let response = await axios.get(baseURL + "taskList" + id);
+    let response = await axios.get(baseURL + id);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -35,7 +35,7 @@ export const getATask = async (id) => {
  */
 export const deleteTask = async (id) => {
   try {
-    await axios.delete(`${baseURL}taskList/${id}`);
+    await axios.delete(baseURL + id);
   } catch (error) {
     console.log(error);
   }
@@ -47,7 +47,7 @@ export const deleteTask = async (id) => {
  */
 export const addTask = async (task) => {
   try {
-    await axios.post(baseURL + "taskList", {
+    await axios.post(baseURL, {
       id: task.id,
       userId: task.userId,
       title: task.title,
@@ -70,7 +70,7 @@ export const addTask = async (task) => {
  */
 export const toggleCheckBox = async (id, isChecked) => {
   try {
-    await axios.patch(baseURL + "taskList/" + id, { completed: !isChecked });
+    await axios.patch(baseURL + id, { completed: !isChecked });
   } catch (error) {
     console.log(error);
   }
@@ -81,7 +81,7 @@ export const toggleCheckBox = async (id, isChecked) => {
  */
 export const modifyTask = async (id, data) => {
   try {
-    await axios.patch(baseURL + "taskList/" + id, data);
+    await axios.patch(baseURL + id, data);
   } catch (error) {
     console.log(error);
   }
@@ -111,7 +111,7 @@ export const filterPaginationList = async (
   }
   try {
     const response = await axios.get(
-      `${baseURL}taskList/userId/${id}/page/${page}/limit/${limit}/option/${filterOption}/word/${filterWord}`
+      `${baseURL}userId/${id}/page/${page}/limit/${limit}/option/${filterOption}/word/${filterWord}`
     );
     return response.data;
   } catch (error) {
