@@ -55,7 +55,7 @@ const deleteTask = asyncHanlder( async (req, res) => {
 const filterList = asyncHanlder( async (req, res) => {
   try {
     // lấy từ params
-    const id = parseInt(req.params.userId);
+    const id = String(req.params.userId);
     const currentPage = parseInt(req.params.currentPage) || 1;
     const numberItemAPage = parseInt(req.params.numberItemAPage) || 5;
     const filterWord = String(req.params.filterWord);

@@ -110,9 +110,7 @@ export const filterPaginationList = async (
     filterWord = ":filterWord";
   }
   try {
-    const response = await axios.get(
-      `${baseURL}userId/${id}/page/${page}/limit/${limit}/option/${filterOption}/word/${filterWord}`
-    );
+    const response = await axios.get(`${baseURL}userId/${id}/page/${page}/limit/${limit}/option/${filterOption}/word/${filterWord}`);
     return response.data;
   } catch (error) {
     console.log(error)

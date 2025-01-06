@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 const _ = require("lodash");
 const { errorHandler } = require("./middlewares/errorMiddlewares.js");
 // const { faker } = require("@faker-js/faker");
-// const MongoClient = require("mongodb").MongoClient;
+const MongoClient = require("mongodb").MongoClient;
 dotenv.config();
 
 const app = express();
@@ -55,21 +55,21 @@ mongoose
 //     const contentList = ["Mua quả", "Trồng cây", "Tặng quả"];
 //     const priortyList = ["Khẩn cấp", "Quan trọng", "Không quan trọng"];
 //     let newList = [];
-//     for (let i = 0; i < 50; i++) {
-//       const newTask = {
-//         userId: faker.number.int({ min: 1, max: 3 }),
-//         title: "Hoa quả",
-//         content: _.sample(contentList) + " " + faker.food.fruit(),
-//         deadline: faker.date.between({
-//           from: "2025-01-01T00:00:00.000Z",
-//           to: "2030-01-01T00:00:00.000Z",
-//         }),
-//         important: _.sample(priortyList),
-//         completed: faker.datatype.boolean(),
-//       };
-//       newList.push(newTask);
-//     }
-//     await collection.insertMany(newList);
+    // for (let i = 0; i < 50; i++) {
+    //   const newTask = {
+    //     userId: faker.number.int({ min: 1, max: 3 }),
+    //     title: "Hoa quả",
+    //     content: _.sample(contentList) + " " + faker.food.fruit(),
+    //     deadline: faker.date.between({
+    //       from: "2025-01-01T00:00:00.000Z",
+    //       to: "2030-01-01T00:00:00.000Z",
+    //     }),
+    //     important: _.sample(priortyList),
+    //     completed: faker.datatype.boolean(),
+    //   };
+    //   newList.push(newTask);
+    // }
+//     await collection.updateMany({userId: 1}, {$set: {userId: "root1admin"}});
 //   } catch (error) {
 //     console.log(error);
 //   }

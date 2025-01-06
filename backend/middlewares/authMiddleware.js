@@ -4,9 +4,6 @@ const User = require("../models/user.model");
 
 const protect = asyncHandler(async (req, res, next) => {
   let token;
-  console.log("request header: ");
-  console.log(req.headers);
-
   if (req.headers.authorization) {
     try {
       // lấy token từ header
@@ -17,7 +14,6 @@ const protect = asyncHandler(async (req, res, next) => {
 
       // lấy thông tin user từ token
       req.user = await User.findById(decode.id).select("-password");
-      console.log(decode);
       next();
     } catch (error) {
       console.log(error);

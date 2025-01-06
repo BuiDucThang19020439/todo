@@ -8,29 +8,29 @@ import { useNavigate } from "react-router-dom";
 export default function Header({ toggleLoginForm }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.handleLogin.loggedUserInfo);
+  const token = localStorage.getItem('token');
 
   /**
    * Hàm handleLogout xử lý việc đăng xuất tài khoản,
    * nó sẽ gọi userLogout trong loginSlice đồng thời set isLogged thành false
    */
   const handleLogout = () => {
-    dispatch(userLogout(user.id));
+    dispatch(userLogout(token));
     navigate("/");
   };
 
   return (
     <div className="header">
-      {user.loginStatus === false && (
+      {!!token === false && (
         <div className="button-list">
           <Button onClick={toggleLoginForm}>Đăng Nhập / Đăng Ký</Button>
         </div>
       )}
-      {user.loginStatus === true && (
+      {!!token === true && (
         <div className="button-list login">
           <Dropdown>
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
-              {user.username}
+              {JSON.parse(localStorage.getItem("currentUser")).userName}
             </Dropdown.Toggle>
             <Dropdown.Menu className="user-action-list">
               <Dropdown.Item

@@ -95,9 +95,7 @@ const getUserList = async (req, res) => {
 
 // lấy thông tin người dùng đang đăng nhập hiện tại
 const getLoggedInUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.body.id);
-    console.log("user controller");
-    console.log(user);
+    const user = await User.findById(req.user.id);
     res.status(200).json(user);
 });
 

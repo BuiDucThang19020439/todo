@@ -14,7 +14,7 @@ import { showToastMessage } from "reducer/toastSlice";
 
 function TodoList({ toggleAddItemForm }) {
   // Lấy thông tin người đăng nhập hiện tại
-  const token = Cookies.get("id");
+  const userId = JSON.parse(localStorage.getItem("currentUser")).userId;
   let order = 0; // order là số thứ tự hàng hiện trên bảng
   const dispatch = useDispatch();
 
@@ -65,7 +65,7 @@ function TodoList({ toggleAddItemForm }) {
    */
   const getTodoItem = async () => {
     try {
-      let response = await filterPaginationList(token, currentPage, numberItemAPage, filterOption, filterWord);
+      let response = await filterPaginationList(userId, currentPage, numberItemAPage, filterOption, filterWord);
       handleTaskList(response.taskList);
       setNumberOfPage(response.totalPage);
     } catch (error) {
@@ -174,7 +174,7 @@ function TodoList({ toggleAddItemForm }) {
   };
   return (
     <>
-      {token > 0 && (
+      {userId && (
         <div className="todo-list">
           <Button className="button-add-todo-item" onClick={toggleAddItemForm}>Thêm</Button>
           <InputGroup className="mb-3 filter-input">

@@ -1,11 +1,10 @@
 import "./LoginForm.css";
 import "css/icon.css";
-import { logIn, signUp } from "api/authenticateApi";
+import { logIn, signUp, getLoggedInUser } from "api/authenticateApi";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { showToastMessage } from "reducer/toastSlice";
-import { userLogin } from "reducer/loginSlice";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -15,10 +14,11 @@ import { useNavigate } from "react-router-dom";
 function LoginForm({ toggleLoginForm }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let userList = useSelector((state) => state.handleLogin.userList);
   // dùng để thêm class cho right panel
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
 
+  // user đã đăng nhập 
+  let loggedUser;
   return (
     <div className="background">
       <Button
@@ -27,15 +27,9 @@ function LoginForm({ toggleLoginForm }) {
           isRightPanelActive ? "close-change-color" : ""
         }`}
         onClick={toggleLoginForm}
-      >
-        <ion-icon name="close-sharp" size="large"></ion-icon>
+      ><ion-icon name="close-sharp" size="large"></ion-icon>
       </Button>
-      <div
-        className={`container ${
-          isRightPanelActive ? "right-panel-active" : ""
-        }`}
-        id="container"
-      >
+      <div className={`container ${isRightPanelActive ? "right-panel-active" : ""}`} id="container">
         {/*-------------------------------form đăng ký--------------------------------------------------------------------- */}
         <div className="form-container sign-up-container">
           <Formik
@@ -71,7 +65,7 @@ function LoginForm({ toggleLoginForm }) {
             })}
 
             // Hàm submit form cho chức năng thêm một tài khoản mới
-            onSubmit={async (values, { setSubmitting }) => {
+            onSubmit={(values, { setSubmitting }) => {
               let newUser = {
                 userId: values.newAccId,
                 userName: values.newAccName,
@@ -79,7 +73,7 @@ function LoginForm({ toggleLoginForm }) {
                 phone: values.newAccPhone,
                 email: values.newAccEmail,
               };
-              await signUp(newUser);
+              signUp(newUser);
               dispatch(
                 showToastMessage({
                   show: true,
@@ -144,12 +138,10 @@ function LoginForm({ toggleLoginForm }) {
             /**
              * hàm submit form cho chức năng đăng nhập
              */
-            onSubmit={(values, { setSubmitting }) => {
-              dispatch(
-                userLogin({
-                  id: values.accountId,
-                  password: values.accountPassword,
-              }));
+            onSubmit={async (values, { setSubmitting }) => {
+              await logIn(values.accountId, values.accountPassword);
+              
+              await getLoggedInUser(localStorage.getItem("token"));
               dispatch(
                 showToastMessage({
                   show: true,
