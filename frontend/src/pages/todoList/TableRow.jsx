@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import { useDispatch } from "react-redux";
 import { showToastMessage } from "reducer/toastSlice";
-import { deleteTask, toggleCheckBox, modifyTask } from "api/taskApi";
+import { deleteTask, modifyTask } from "api/taskApi";
 import moment from "moment";
 
 export default function TableRow({ task, order, getTodoItem }) {
@@ -25,15 +25,35 @@ export default function TableRow({ task, order, getTodoItem }) {
   const handleContent = (text) => {
     setContent(text);
   };
-  const [deadline, setDeadline] = useState(task.deadline);
+  const dl = new Date(task.deadline);
+  const [deadline, setDeadline] = useState(dl);
   const handleDeadline = (text) => {
     setDeadline(text);
+    handleTaskCompletedView();
   };
   const [important, setImportant] = useState(task.important);
   const handleImportant = (text) => {
     setImportant(text);
   };
+  const [completed, setCompleted] = useState(task.completed);
+  const handleCompleted = async () => {
+    setCompleted((prev) => !prev);
+    await modifyTask(task._id, { completed: !completed });
+    getTodoItem();
+  };  
 
+  const [taskCompletedView, setTaskCompletedView] = useState("");
+  const handleTaskCompletedView = () => {
+    const currentDate = new Date();
+    if (completed) {
+      setTaskCompletedView("task-completed");
+    } else if (deadline < currentDate) {
+      setTaskCompletedView("task-late");
+    } else {
+      setTaskCompletedView("");
+    }
+  }
+  console.log(taskCompletedView);
   /**
    * hàm handleSubmit là hàm cập nhật một nhiệm vụ (một hàng)
    * nếu một ô có thay đổi, thì lưu thay đổi đó vào object newPatch, chỉ update những ô thay đổi
@@ -71,30 +91,23 @@ export default function TableRow({ task, order, getTodoItem }) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    handleTaskCompletedView();
+  }, [completed, deadline]);
 
-  /**
-   * hàm handleCheckbox phụ trách việc set key completed cho nhiệm vụ
-   * param là task cần thay đổi
-   * cần async await để đồng bộ dữ liệu lưu trên db và dự liệu hiển thị trên màn hình,
-   * nếu không màn hình hiển thị sẽ bị chậm mật một bước
-   */
-  const handleCheckbox = async (task) => {
-    await toggleCheckBox(task._id, task.completed);
-    getTodoItem();
-  };
   return (
     <tr>
-      <td className={`table-checkbox ${task.completed ? "task-completed" : ""}`}>
+      <td className={`table-checkbox ${taskCompletedView}`}>
         <input
           className="task-checkbox"
           type="checkbox"
           value={task._id}
           defaultChecked={task.completed}
-          onChange={() => handleCheckbox(task)}
+          onChange={() => handleCompleted()}
         ></input>
       </td>
-      <td className={`table-order ${task.completed ? "task-completed" : ""}`}>{order}</td>
-      <td className={`table-title ${task.completed ? "task-completed" : ""}`}>
+      <td className={`table-order ${taskCompletedView}`}>{order}</td>
+      <td className={`table-title ${taskCompletedView}`}>
         {isEditRow ? (
           <input
             type="text"
@@ -103,7 +116,7 @@ export default function TableRow({ task, order, getTodoItem }) {
           ></input>
         ) : (task.title)}
       </td>
-      <td className={`table-content ${task.completed ? "task-completed" : ""}`}>
+      <td className={`table-content ${taskCompletedView}`}>
         {isEditRow ? (
           <input
             type="text"
@@ -112,7 +125,7 @@ export default function TableRow({ task, order, getTodoItem }) {
           ></input>
         ) : (task.content)}
       </td>
-      <td className={`table-deadline ${task.completed ? "task-completed" : ""}`}>
+      <td className={`table-deadline ${taskCompletedView}`}>
         {isEditRow ? (
           <input
             type="date"
@@ -124,7 +137,7 @@ export default function TableRow({ task, order, getTodoItem }) {
         ) : ("")}
       </td>
       <td
-        className={`table-importance ${task.completed ? "task-completed" : ""}`}
+        className={`table-importance ${taskCompletedView}`}
       >
         {isEditRow ? (
           <select
@@ -137,7 +150,7 @@ export default function TableRow({ task, order, getTodoItem }) {
           </select>
         ) : (task.important)}
       </td>
-      <td className={`table-modify ${task.completed ? "task-completed" : ""}`}>
+      <td className={`table-modify ${taskCompletedView}`}>
         {isEditRow ? (
           <div>
             <Button

@@ -62,22 +62,9 @@ export const addTask = async (task) => {
 };
 
 /**
- * hàm toggleCheckBox bật tắt trạng thái hoàn thành (completed) của task
+ * hàm modifyTask sửa nội dung của 1 task
  * khi sử dụng patch thì chỉ thay đổi trường được chỉ định
  * nếu dùng put thì sẽ thay thế toàn bộ task, trường nào ko được chỉ định sẽ bị xóa
- * @param {*} id : id của task được chọn
- * @param {*} isChecked : trạng thái được check hay chưa của ô checkbox
- */
-export const toggleCheckBox = async (id, isChecked) => {
-  try {
-    await axios.patch(baseURL + id, { completed: !isChecked });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-/**
- * hàm modifyTask sửa nội dung của 1 task
  */
 export const modifyTask = async (id, data) => {
   try {

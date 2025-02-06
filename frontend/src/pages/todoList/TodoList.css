@@ -110,6 +110,10 @@ td.table-modify div {
   background-color: chartreuse !important;
 }
 
+.task-late {
+  background-color: orange !important;
+}
+
 tfoot {
   width: calc(100vw - var(--sidebar-width));
   height: fit-content;
